@@ -1,0 +1,8 @@
+{
+    "require": {
+        "josantonius/file": "^1.1" ,
+        "acide/core" : "*"
+    } ,
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
