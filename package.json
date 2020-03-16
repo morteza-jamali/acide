@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.1",
     "angular": "^1.7.9",
     "metro4": "^4.3.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "laravel-mix": "^5.0.2"
+  },
   "scripts": {
-    "webpackCompile" : "node_modules/.bin/webpack --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "webpackWatch" : "npm run webpackCompile -- --watch"
+    "webpackCompile": "node_modules/.bin/webpack --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "webpackWatch": "npm run webpackCompile -- --watch"
   },
   "repository": {
     "type": "git",

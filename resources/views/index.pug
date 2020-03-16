@@ -1,0 +1,20 @@
+- use ACIDECore\App\View
+- $scripts = View::getScripts(['app'])
+- $styles = View::getStyles(['app' , 'fontawesome' , 'metro4'])
+
+doctype html
+html(lang="fa")
+    head
+        meta(charset="UTF-8")
+        meta(name="description" content="Free Web tutorials")
+        meta(name="keywords" content="HTML,CSS,XML,JavaScript")
+        meta(name="author" content="My name")
+        meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+        title ACIDE
+        each $style in $styles
+            != $style
+    body(ng-app="ideApp" ng-controller="ideCtrl")
+        main
+            h1 This is for test
+        each $script in $scripts
+            != $script
