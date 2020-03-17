@@ -1,5 +1,5 @@
 - use ACIDECore\App\View
-- $scripts = View::getScripts(['app'])
+- $scripts = View::getScripts(['app' , 'ace'])
 - $styles = View::getStyles(['app' , 'fontawesome' , 'metro4'])
 
 doctype html
@@ -15,6 +15,26 @@ html(lang="fa")
             != $style
     body(ng-app="ideApp" ng-controller="ideCtrl")
         main
-            h1 This is for test
+            .container-fluid.p-0
+                div.thin-menu.fg-white.top-menu(data-role="appbar" data-expand-point="md")
+                    .app-bar-menu
+                        li: a(href="#!") Home
+                        li: a(href="#!") File
+                        li: a(href="#!") View
+                .grid.ide-content
+                    .row.no-gap.h-100
+                        .cell-md-3.directory-structure This is sidebar
+                        .cell-md-9.code-editor
+                            #editor function foo(items) { var x = "All this is syntax highlighted"; return x; }
+                div.thin-menu.fg-white.bottom-menu(data-role="appbar" data-expand-point="md")
+                    .app-bar-menu
+                        li: a(href="#!") Home
+                        li: a(href="#!") File
+                        li: a(href="#!") View
+                div.thin-menu.fg-white(data-role="appbar" data-expand-point="md")
+                    .app-bar-menu
+                        li: a(href="#!") Home
+                        li: a(href="#!") File
+                        li: a(href="#!") View
         each $script in $scripts
             != $script

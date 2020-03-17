@@ -1,0 +1,65 @@
+main,
+.container-fluid,
+body,
+html {
+  height: 100%;
+}
+
+.app-bar.thin-menu {
+  min-height: 30px !important;
+  position: relative !important;
+  background-color: #1c2731;
+}
+
+.app-bar.thin-menu .app-bar-menu li {
+  line-height: 29px !important;
+}
+
+.app-bar.thin-menu .app-bar-menu li a {
+  font-size: 12px !important;
+  padding: 0 6px !important;
+  line-height: 29px !important;
+}
+
+.ide-content {
+  height: calc(100% - 90px);
+  background-color: #172028;
+}
+
+.directory-structure {
+  background-color: #1c2731;
+}
+
+.thin-menu.top-menu {
+  border-bottom: 1px solid #172028;
+}
+
+.thin-menu.bottom-menu {
+  border-top: 1px solid #172028;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-editor #editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ace-monokai {
+  background-color: #131a20 !important;
+}
+
+.ace-monokai .ace_gutter {
+  background-color: #172028 !important;
+}
+
+.ace-monokai .ace_marker-layer .ace_active-line {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.ace-monokai .ace_gutter-active-line {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+

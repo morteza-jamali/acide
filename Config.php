@@ -11,7 +11,8 @@
                     'views' => __DIR__ . '/resources/views/'
                 ] ,
                 'scripts' => [
-                    'app' => URL::getAbsolutePath() . 'assets/js/app.js'
+                    'app' => URL::getAbsolutePath() . 'assets/js/app.js' ,
+                    'ace' => URL::getAbsolutePath() . 'resources/js/ace-builds/src/ace.js'
                 ] ,
                 'styles' => [
                     'app' => URL::getAbsolutePath() . 'assets/css/app.css' ,
