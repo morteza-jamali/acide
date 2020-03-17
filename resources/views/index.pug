@@ -18,8 +18,13 @@ html(lang="fa")
             .container-fluid.p-0
                 div.thin-menu.fg-white.top-menu(data-role="appbar" data-expand-point="md")
                     .app-bar-menu
-                        li: a(href="#!") Home
-                        li: a(href="#!") File
+                        li
+                            a.dropdown-toggle(href="#!") File
+                            ul.d-menu.fg-white(data-role="dropdown")
+                                li: a(href="#!newproject") New Project
+                                li: a(href="#!") New Project
+                                li: a(href="#!") New Project
+                                li: a(href="#!") New Project
                         li: a(href="#!") View
                 .grid.ide-content
                     .row.no-gap.h-100
@@ -36,5 +41,17 @@ html(lang="fa")
                         li: a(href="#!") Home
                         li: a(href="#!") File
                         li: a(href="#!") View
+                script.
+                    var customButtons = [
+                        {
+                            html: "<span class='mif-cross'></span>",
+                            cls: "btn-close fg-white",
+                            onclick: "$('.window').addClass('d-none')"
+                        }
+                    ];
+                .p-2(data-role="window" data-place="center"
+                    data-width="500" data-height="300" data-btn-min="no"
+                    data-btn-max="no" data-shadow="true" data-btn-close="no" data-custom-buttons="customButtons")
+                    .ng-view
         each $script in $scripts
             != $script

@@ -4,7 +4,8 @@
         "acide/core" : "*",
         "phug/phug": "^1.6",
         "hassankhan/config": "^2.1",
-        "league/url": "^3.3"
+        "league/url": "^3.3",
+        "phug/js-transformer-filter": "^1.2"
     } ,
     "autoload": {
         "psr-4": {
