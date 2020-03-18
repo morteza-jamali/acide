@@ -16,12 +16,25 @@ var IDE = angular.module('ideApp' , ['ngRoute']);
 IDE.config(function($routeProvider) {
     $routeProvider
         .when("/newproject", {
-            templateUrl : ACIDE.getTemplateURL('html/new_project') ,
+            templateUrl : ACIDE.getTemplateURL('windows/html/new_project') ,
             controller : 'newProjectCtrl'
         });
 });
 
-IDE.controller('ideCtrl' , function ($scope) {
+IDE.service('window' , function () {
+    this.show = function () {
+        $('.window').removeClass('size-0');
+    };
+    this.hide = function () {
+        $('.window').addClass('size-0');
+    };
+    this.title = function (title) {
+        $('.window .window-caption .title').html(title);
+    };
+});
+
+IDE.controller('ideCtrl' , function ($scope , $location) {
+    $location.path('');
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/javascript");

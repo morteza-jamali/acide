@@ -4,8 +4,17 @@
   -o-box-shadow: $property
   -webkit-box-shadow: $property
 
+=transform($property)
+  transform: $property
+  -moz-transform: $property
+  -ms-transform: $property
+  -o-transform: $property
+  -webkit-transform: $property
+
 .z-i-9
   z-index: 9 !important
+.size-0
+  +transform(scale(0))
 main , .container-fluid , body , html
   height: 100%
 .app-bar.thin-menu
@@ -59,7 +68,11 @@ main , .container-fluid , body , html
   background-color: #1c2731 !important
 .window-caption
   background-color: #1c2731 !important
-.button
-  background-color: transparent !important
 .btn-close:hover
   background-color: #d22424 !important
+.ng-view
+  height: 100% !important
+/* New Project SASS
+.new_project
+  input
+    color: #ffffff !important

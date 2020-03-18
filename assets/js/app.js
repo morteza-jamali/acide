@@ -11634,11 +11634,25 @@ var ACIDE = {
 var IDE = angular.module('ideApp', ['ngRoute']);
 IDE.config(function ($routeProvider) {
   $routeProvider.when("/newproject", {
-    templateUrl: ACIDE.getTemplateURL('html/new_project'),
+    templateUrl: ACIDE.getTemplateURL('windows/html/new_project'),
     controller: 'newProjectCtrl'
   });
 });
-IDE.controller('ideCtrl', function ($scope) {
+IDE.service('window', function () {
+  this.show = function () {
+    $('.window').removeClass('size-0');
+  };
+
+  this.hide = function () {
+    $('.window').addClass('size-0');
+  };
+
+  this.title = function (title) {
+    $('.window .window-caption .title').html(title);
+  };
+});
+IDE.controller('ideCtrl', function ($scope, $location) {
+  $location.path('');
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/monokai");
   editor.session.setMode("ace/mode/javascript");
@@ -11658,8 +11672,9 @@ IDE.controller('ideCtrl', function ($scope) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function ($scope) {
-  console.log('This is new project controller !');
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function ($scope, window) {
+  window.title('New Project');
+  window.show();
 });
 
 /***/ }),

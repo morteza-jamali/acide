@@ -45,13 +45,14 @@ html(lang="fa")
                     var customButtons = [
                         {
                             html: "<span class='mif-cross'></span>",
-                            cls: "btn-close fg-white",
-                            onclick: "$('.window').addClass('d-none')"
+                            cls: "btn-close fg-white inherit-background",
+                            onclick: "$('.window').addClass('size-0');location.hash = '/'"
                         }
                     ];
-                .p-2(data-role="window" data-place="center"
-                    data-width="500" data-height="300" data-btn-min="no"
-                    data-btn-max="no" data-shadow="true" data-btn-close="no" data-custom-buttons="customButtons")
+                .h-100(data-role="window" data-place="center"
+                    data-width="700" data-height="500" data-btn-min="no"
+                    data-btn-max="no" data-shadow="true" data-btn-close="no"
+                    data-custom-buttons="customButtons" data-cls-window="size-0")
                     .ng-view
         each $script in $scripts
             != $script

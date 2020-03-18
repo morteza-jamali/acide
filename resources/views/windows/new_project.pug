@@ -1,0 +1,9 @@
+.row.no-gap.h-100.new_project
+    .col-md-5(style="background-color:#131a20") This is sidebar
+    .col-md-7.px-5
+        input.fg-white(type="text" data-role="materialinput" placeholder="Enter your Project Name")
+        label.mt-5.fg-white Based on
+        select.mt-2(data-role="select")
+            option(value="1" data-template="<span class='mif-database icon'></span> $1") Database
+            option(value="1" data-template="<span class='mif-insert-drive-file icon'></span> $1") File
+        button.button.primary.mt-5.float-right Create

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3727a6d4d840c8e852772dba1fad9595",
+    "content-hash": "5b189b106a6479a8fd2ca738d897d0a6",
     "packages": [
         {
             "name": "acide/core",
@@ -45,6 +45,57 @@
                 "core"
             ],
             "time": "2020-03-16T14:05:01+00:00"
+        },
+        {
+            "name": "altorouter/altorouter",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dannyvankooten/AltoRouter.git",
+                "reference": "09d9d946c546bae6d22a7654cdb3b825ffda54b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dannyvankooten/AltoRouter/zipball/09d9d946c546bae6d22a7654cdb3b825ffda54b4",
+                "reference": "09d9d946c546bae6d22a7654cdb3b825ffda54b4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "AltoRouter.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Danny van Kooten",
+                    "email": "dannyvankooten@gmail.com",
+                    "homepage": "http://dannyvankooten.com/"
+                },
+                {
+                    "name": "Koen Punt",
+                    "homepage": "https://github.com/koenpunt"
+                },
+                {
+                    "name": "niahoo",
+                    "homepage": "https://github.com/niahoo"
+                }
+            ],
+            "description": "A lightning fast router for PHP",
+            "homepage": "https://github.com/dannyvankooten/AltoRouter",
+            "keywords": [
+                "lightweight",
+                "router",
+                "routing"
+            ],
+            "time": "2014-04-16T09:44:40+00:00"
         },
         {
             "name": "hassankhan/config",
@@ -162,48 +213,6 @@
             "time": "2018-01-06T10:00:15+00:00"
         },
         {
-            "name": "js-transformer/js-transformer",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kylekatarnls/js-transformer-php-wrap.git",
-                "reference": "81730d3ae67824d664615ebb7f721cfa7d77179f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kylekatarnls/js-transformer-php-wrap/zipball/81730d3ae67824d664615ebb7f721cfa7d77179f",
-                "reference": "81730d3ae67824d664615ebb7f721cfa7d77179f",
-                "shasum": ""
-            },
-            "require": {
-                "nodejs-php-fallback/nodejs-php-fallback": "^1.2"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": ">=0.3",
-                "phpunit/phpunit": ">=4.8 <6.0"
-            },
-            "type": "library",
-            "extra": {
-                "npm": {
-                    "jstransformer": "^1.0.0"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "homepage": "https://github.com/kylekatarnls/js-transformer-php-wrap",
-            "keywords": [
-                "js-transformer"
-            ],
-            "time": "2017-10-27T21:27:00+00:00"
-        },
-        {
             "name": "league/url",
             "version": "3.3.5",
             "source": {
@@ -257,95 +266,6 @@
             ],
             "abandoned": "league/uri",
             "time": "2015-07-15T08:24:12+00:00"
-        },
-        {
-            "name": "nodejs-php-fallback/nodejs-php-fallback",
-            "version": "1.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kylekatarnls/nodejs-php-fallback.git",
-                "reference": "24963d8833905356cfdcb197fb575f3eade8750e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kylekatarnls/nodejs-php-fallback/zipball/24963d8833905356cfdcb197fb575f3eade8750e",
-                "reference": "24963d8833905356cfdcb197fb575f3eade8750e",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": "dev-master",
-                "composer/composer": "^1.2",
-                "phpunit/phpunit": ">=4.8.35 <6.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "NodejsPhpFallback\\ComposerPlugin"
-            },
-            "autoload": {
-                "psr-0": {
-                    "NodejsPhpFallback\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kyle",
-                    "email": "kylekatarnls@gmail.com"
-                }
-            ],
-            "description": "Allow you to call node.js module or scripts throught PHP and call a fallback function if node.js is not available",
-            "time": "2020-01-09T23:51:08+00:00"
-        },
-        {
-            "name": "phug/js-transformer-filter",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phug-php/js-transformer-filter.git",
-                "reference": "dbadf07950ee552471905001266cdae7793868a8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/js-transformer-filter/zipball/dbadf07950ee552471905001266cdae7793868a8",
-                "reference": "dbadf07950ee552471905001266cdae7793868a8",
-                "shasum": ""
-            },
-            "require": {
-                "js-transformer/js-transformer": "^1.0",
-                "phug/phug": "^0.1.8 || ^0.2.0 || ^0.3.0 || ^1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4 || ^5",
-                "phug/dev-tool": "^0.1.11"
-            },
-            "type": "library",
-            "extra": {
-                "npm-confirm": {
-                    "jstransformer": "It allows you to use any jstransformer npm package as filter by adding it in your extra.npm section of composer.json."
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Phug\\": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Allow to use any js-transformer as filter in Phug",
-            "homepage": "https://phug-lang.com",
-            "keywords": [
-                "js-transformer"
-            ],
-            "time": "2019-10-05T16:02:15+00:00"
         },
         {
             "name": "phug/phug",
