@@ -5,7 +5,7 @@
         "phug/phug": "^1.6",
         "hassankhan/config": "^2.1",
         "league/url": "^3.3",
-        "altorouter/altorouter": "1.1.0"
+        "klein/klein": "^2.1"
     } ,
     "autoload": {
         "psr-4": {
