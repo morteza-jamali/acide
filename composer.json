@@ -5,7 +5,10 @@
         "phug/phug": "^1.6",
         "hassankhan/config": "^2.1",
         "league/url": "^3.3",
-        "klein/klein": "^2.1"
+        "robmorgan/phinx": "^0.11.4",
+        "illuminate/database": "^7.2",
+        "illuminate/events": "^7.2",
+        "rakit/validation": "^1.2"
     } ,
     "autoload": {
         "psr-4": {

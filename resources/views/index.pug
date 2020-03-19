@@ -28,7 +28,12 @@ html(lang="fa")
                         li: a(href="#!") View
                 .grid.ide-content
                     .row.no-gap.h-100
-                        .cell-md-3.directory-structure This is sidebar
+                        .cell-md-3.directory-structure.fg-white
+                            ul.list-style-none
+                                li
+                                    - $img = View::getImage('db.png')
+                                    img.mr-1(src="$img")
+                                    = 'AngularJS'
                         .cell-md-9.code-editor
                             #editor function foo(items) { var x = "All this is syntax highlighted"; return x; }
                 div.thin-menu.fg-white.bottom-menu(data-role="appbar" data-expand-point="md")

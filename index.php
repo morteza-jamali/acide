@@ -1,15 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 
-use ACIDECore\App\View;
+use ACIDE\Routes\Route;
 
-$klein = new \Klein\Klein();
-
-$klein->respond('GET', '/', function () {
-    return 'Hello World!';
-});
-
-$klein->dispatch();
-
-//View::display('index');
+Route::init();
 ?>

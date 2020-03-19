@@ -11629,6 +11629,9 @@ var ACIDE = {
   },
   getTemplateURL: function getTemplateURL(name) {
     return this.getWebsiteUrl() + '/resources/views/' + name + '.html';
+  },
+  getFullRoute: function getFullRoute(controller) {
+    return this.getWebsiteUrl() + '/controller/' + controller;
   }
 };
 var IDE = angular.module('ideApp', ['ngRoute']);
@@ -11636,6 +11639,11 @@ IDE.config(function ($routeProvider) {
   $routeProvider.when("/newproject", {
     templateUrl: ACIDE.getTemplateURL('windows/html/new_project'),
     controller: 'newProjectCtrl'
+  });
+});
+IDE.run(function ($rootScope, $templateCache) {
+  $rootScope.$on('$viewContentLoaded', function () {
+    $templateCache.removeAll();
   });
 });
 IDE.service('window', function () {
@@ -11672,9 +11680,29 @@ IDE.controller('ideCtrl', function ($scope, $location) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function ($scope, window) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function ($scope, $http, window) {
   window.title('New Project');
   window.show();
+  $scope.project_duplicated = true;
+
+  $scope.createProject = function () {
+    if ($scope.project_type == 1) {
+      $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createDatabaseProject'), {
+        'name': $scope.project_name,
+        'slug': $scope.project_slug
+      }).then(function (response) {
+        if (response.data.message.project !== undefined && response.data.type === 'error') {
+          $scope.project_duplicated = false;
+        }
+
+        if (response.data.type === 'success') {
+          window.hide();
+        }
+      }, function (response) {
+        console.log('New Project AJAX Error !');
+      });
+    }
+  };
 });
 
 /***/ }),

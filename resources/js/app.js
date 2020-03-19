@@ -8,6 +8,9 @@ var ACIDE = {
     } ,
     getTemplateURL : function (name) {
         return this.getWebsiteUrl() + '/resources/views/' + name + '.html';
+    } ,
+    getFullRoute : function (controller) {
+        return this.getWebsiteUrl() + '/controller/' + controller;
     }
 };
 
@@ -19,6 +22,12 @@ IDE.config(function($routeProvider) {
             templateUrl : ACIDE.getTemplateURL('windows/html/new_project') ,
             controller : 'newProjectCtrl'
         });
+});
+
+IDE.run(function($rootScope, $templateCache) {
+    $rootScope.$on('$viewContentLoaded', function() {
+        $templateCache.removeAll();
+    });
 });
 
 IDE.service('window' , function () {
