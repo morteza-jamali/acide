@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 .z-i-9 {
   z-index: 9 !important;
 }
@@ -38,10 +40,6 @@ html {
   background-color: #172028;
 }
 
-.directory-structure {
-  background-color: #1c2731;
-}
-
 .thin-menu.top-menu {
   border-bottom: 1px solid #172028;
 }
@@ -51,7 +49,7 @@ html {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.code-editor #editor {
+.code-editor .editor {
   position: absolute;
   top: 0;
   left: 0;
@@ -120,6 +118,29 @@ html {
   list-style: none !important;
 }
 
+.directory-structure {
+  background-color: #1c2731;
+}
+
+.directory-structure li.li-selected {
+  background-color: #117ae3 !important;
+}
+
+.directory-structure .database.collapsed:before {
+  content: "\E69B" !important;
+}
+
+.directory-structure .database:before {
+  content: "\E66B";
+  font-family: "metro" !important;
+  margin-left: -7px;
+  margin-right: 5px;
+}
+
+.directory-structure ul {
+  font-size: 13px;
+}
+
 .directory-structure li img {
   width: 20px;
   margin-bottom: 3px;
@@ -144,6 +165,32 @@ html {
 
 .iw-mIcon {
   margin-left: 5px !important;
+}
+
+.editor-tabs {
+  background-color: #1c2731;
+  border-left: 1px solid #172028;
+}
+
+.editor-tabs li {
+  border-bottom: 2px solid transparent;
+}
+
+.editor-tabs li img {
+  width: 20px;
+  height: 20px;
+}
+
+.editor-tabs li.active {
+  border-bottom: 2px solid #2f82ff !important;
+}
+
+.close-tab {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.close-tab:hover {
+  color: #f24848 !important;
 }
 
 /* New Project SASS */

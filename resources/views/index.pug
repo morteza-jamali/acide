@@ -29,13 +29,10 @@ html(lang="fa")
                 .grid.ide-content
                     .row.no-gap.h-100
                         .cell-md-3.directory-structure.fg-white
-                            ul.list-style-none
-                                li.c-default.database
-                                    - $img = View::getImage('icons/file_type_db.svg')
-                                    img.mr-1(src="$img")
-                                    = 'AngularJS'
-                        .cell-md-9.code-editor
-                            #editor function foo(items) { var x = "All this is syntax highlighted"; return x; }
+                        .cell-md-9
+                            .editor-tabs.fg-white
+                                ul.list-style-none.m-0.d-flex
+                            .code-editor.h-100.w-100: .editor
                 div.thin-menu.fg-white.bottom-menu(data-role="appbar" data-expand-point="md")
                     .app-bar-menu
                         li: a(href="#!") Home

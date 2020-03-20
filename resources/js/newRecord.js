@@ -1,6 +1,6 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('newRecordCtrl' , function ($scope , $http , window) {
+IDE.controller('newRecordCtrl' , function ($scope , $http , window , directoryStructure , selectionHover) {
     window.title('New Record');
     window.show();
     window.changeSize({width : 400 , height : 300});
@@ -15,6 +15,8 @@ IDE.controller('newRecordCtrl' , function ($scope , $http , window) {
         ).then(function (response) {
                 if(response.data.type === 'success') {
                     window.hide();
+                    directoryStructure.refresh();
+                    selectionHover.init();
                 }
             } ,
             function (response) {

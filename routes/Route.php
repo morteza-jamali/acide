@@ -20,7 +20,7 @@
                 if(empty($_POST)) {
                     $body = json_decode(file_get_contents('php://input'), true);
                 }
-                $response = (new $class($body))->$function();
+                $response = (new $class(($body === null) ? [] : $body))->$function();
                 header("Content-Type: application/json; charset=UTF-8");
                 http_response_code($response['code']);
                 echo json_encode($response['body']);

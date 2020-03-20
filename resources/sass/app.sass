@@ -31,19 +31,18 @@ main , .container-fluid , body , html
 .ide-content
   height: calc(100% - 90px)
   background-color: #172028
-.directory-structure
-  background-color: #1c2731
 .thin-menu.top-menu
   border-bottom: 1px solid #172028
 .thin-menu.bottom-menu
   border-top: 1px solid #172028
   border-bottom: 1px solid rgba(255,255,255,0.1)
-.code-editor #editor
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  bottom: 0
+.code-editor
+  .editor
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
 .ace-monokai
   background-color: #131a20 !important
   .ace_gutter
@@ -79,6 +78,18 @@ main , .container-fluid , body , html
 .list-style-none
   list-style: none !important
 .directory-structure
+  background-color: #1c2731
+  li.li-selected
+    background-color: #117ae3 !important
+  .database.collapsed:before
+    content: "\e69b" !important
+  .database:before
+    content: "\e66b"
+    font-family: 'metro' !important
+    margin-left: -7px
+    margin-right: 5px
+  ul
+    font-size: 13px
   li
     img
       width: 20px
@@ -96,6 +107,20 @@ main , .container-fluid , body , html
   cursor: default !important
 .iw-mIcon
   margin-left: 5px !important
+.editor-tabs
+  background-color: #1c2731
+  border-left: 1px solid #172028
+  li
+    border-bottom: 2px solid transparent
+    img
+      width: 20px
+      height: 20px
+  li.active
+    border-bottom: 2px solid #2f82ff !important
+.close-tab
+  color: rgba(255,255,255,0.4) !important
+  &:hover
+    color: #f24848 !important
 /* New Project SASS
 .new_project
   input

@@ -8,9 +8,10 @@
     "angular": "^1.7.9",
     "angular-route": "^1.6.9",
     "jquery": "^3.4.1",
-    "metro4": "^4.3.6",
     "laravel-mix": "^5.0.2",
-    "laravel-mix-pug": "^0.3.0"
+    "laravel-mix-pug": "^0.3.0",
+    "metro4": "^4.3.6",
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
     "pug": "^2.0.4",

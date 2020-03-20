@@ -53,7 +53,7 @@
         public function createRecord() {
             $validator = new Validator();
             $validation = $validator->validate($this->request , [
-                'name' => 'required|regex:/^[A-Za-z0-9\.]+$/'
+                'name' => 'required|regex:/^[A-Za-z0-9.]+\.[A-Za-z0-9]+$/'
             ]);
 
             if($validation->fails()) {
