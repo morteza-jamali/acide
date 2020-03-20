@@ -19,6 +19,7 @@
                 ] ,
                 'styles' => [
                     'app' => URL::getAbsolutePath() . 'assets/css/app.css' ,
+                    'context-menu' => URL::getAbsolutePath() . 'assets/css/contextMenu.min.css' ,
                     'fontawesome' => URL::getAbsolutePath() . 'node_modules/@fortawesome/fontawesome-free/css/all.min.css' ,
                     'metro4' => URL::getAbsolutePath() . 'node_modules/metro4/build/css/metro-all.min.css'
                 ] ,

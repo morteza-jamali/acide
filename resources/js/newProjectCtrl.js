@@ -3,6 +3,7 @@ import {IDE , ACIDE} from "./app";
 IDE.controller('newProjectCtrl' , function ($scope , $http , window) {
     window.title('New Project');
     window.show();
+    window.changeSize({width : 700 , height: 500});
     $scope.project_duplicated = true;
 
     $scope.createProject = function () {

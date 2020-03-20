@@ -1,0 +1,10 @@
+.p-5
+    form(name="newRecordForm" novalidate)
+        input.fg-white(type="text" data-role="materialinput"
+            placeholder="Enter Your Record Name" ng-model="record_name"
+            name="name" required record-validation)
+        small.fg-red(ng-show="newRecordForm.name.$dirty && newRecordForm.name.$error.required") Name can not be empty
+        br
+        small.fg-red(ng-show="newRecordForm.name.$dirty && newRecordForm.name.$invalid") Name is invalid
+    button.button.primary.mt-5.float-right(ng-click="createRecord()"
+        ng-disabled="newRecordForm.name.$invalid") Create

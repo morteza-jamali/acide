@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+require 'vendor/autoload.php';
+
+use Illuminate\Container\Container;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Console\Application;
+use ACIDE\App\Commands\HelloWorld;
+
+$container = new Container;
+$events = new Dispatcher($container);
+
+$artisan = new Application($container, $events, 'Version 1');
+$artisan->setName('ACID-E Console Application');
+
+// Bind a command
+$artisan->resolve(HelloWorld::class);
+
+$artisan->run();

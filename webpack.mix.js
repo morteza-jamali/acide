@@ -7,6 +7,9 @@ mix.js([
         'node_modules/angular-route/angular-route.min.js' ,
         'node_modules/metro4/build/js/metro.min.js' ,
         'resources/js/newProjectCtrl.js' ,
+        'resources/js/newRecord.js' ,
+        'resources/js/contextMenu.min.js' ,
+        'resources/js/validation.js',
         'resources/js/app.js'
     ], 'assets/js/app.js')
     .sass('resources/sass/app.sass', 'assets/css/app.css')

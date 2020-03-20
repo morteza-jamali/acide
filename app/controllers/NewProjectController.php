@@ -5,6 +5,8 @@
     use ACIDECore\App\Database;
     use ACIDE\App\Models\DatabaseProject;
     use Rakit\Validation\Validator;
+    use ACIDECore\App\StringFactory;
+    use ACIDE\App\Models\Record;
 
     class NewProjectController {
         private $request = null;
@@ -18,7 +20,7 @@
             $validator = new Validator();
             $validation = $validator->validate($this->request , [
                 'name' => 'required' ,
-                'slug' => 'required'
+                'slug' => 'required|regex:/^[A-Za-z0-9]+$/'
             ]);
 
             if($validation->fails()) {
@@ -46,6 +48,49 @@
             ]);
 
             return (new Response())->success(['project' => 'created'])->returnMsg();
+        }
+
+        public function createRecord() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'name' => 'required|regex:/^[A-Za-z0-9\.]+$/'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            $name = StringFactory::getStringBeforeToken($this->request['name'] , '.');
+            $ext = StringFactory::getStringAfterToken($this->request['name'] , '.');
+            if($ext !== false && !empty($this->request['ext'])) {
+                $ext .= '.' . $this->request['ext'];
+            } elseif ($ext === false && !empty($this->request['ext'])) {
+                $ext = $this->request['ext'];
+            }
+
+            if($ext === false) {
+                return (new Response())->error(['extension' => 'is invalid'])->returnMsg();
+            }
+
+            $project = DatabaseProject::where('name' , '_active_project_')
+                                       ->where('type' , 'label')->value('slug');
+
+            Record::updateOrCreate([
+                'project' => $project ,
+                'name' => $name ,
+                'ext' => $ext
+            ]);
+
+            Record::updateOrCreate([
+                'project' => $project ,
+                'type' => 'label'
+            ] , [
+                'name' => $name ,
+                'ext' => $ext
+            ]);
+
+            return (new Response())->success(['Record' => 'created'])->returnMsg();
         }
     }
 ?>

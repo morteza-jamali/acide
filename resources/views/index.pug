@@ -1,6 +1,6 @@
 - use ACIDECore\App\View
 - $scripts = View::getScripts(['app' , 'ace'])
-- $styles = View::getStyles(['app' , 'fontawesome' , 'metro4'])
+- $styles = View::getStyles(['app' , 'fontawesome' , 'metro4' , 'context-menu'])
 
 doctype html
 html(lang="fa")
@@ -30,8 +30,8 @@ html(lang="fa")
                     .row.no-gap.h-100
                         .cell-md-3.directory-structure.fg-white
                             ul.list-style-none
-                                li
-                                    - $img = View::getImage('db.png')
+                                li.c-default.database
+                                    - $img = View::getImage('icons/file_type_db.svg')
                                     img.mr-1(src="$img")
                                     = 'AngularJS'
                         .cell-md-9.code-editor
@@ -57,7 +57,8 @@ html(lang="fa")
                 .h-100(data-role="window" data-place="center"
                     data-width="700" data-height="500" data-btn-min="no"
                     data-btn-max="no" data-shadow="true" data-btn-close="no"
-                    data-custom-buttons="customButtons" data-cls-window="size-0")
+                    data-custom-buttons="customButtons" data-cls-window="size-0"
+                    data-draggable="false")
                     .ng-view
         each $script in $scripts
             != $script
