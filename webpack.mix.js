@@ -6,6 +6,7 @@ mix.js([
         'node_modules/angular/angular.min.js' ,
         'node_modules/angular-route/angular-route.min.js' ,
         'node_modules/metro4/build/js/metro.min.js' ,
+        'node_modules/he/he.js' ,
         'resources/js/newProjectCtrl.js' ,
         'resources/js/newRecord.js' ,
         'resources/js/contextMenu.min.js' ,

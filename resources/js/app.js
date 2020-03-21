@@ -1,6 +1,7 @@
 import * as $ from '../../node_modules/jquery/src/jquery';
 import extensions from "./extensions";
 import { v4 as uuidv4 } from 'uuid';
+import he from '../../node_modules/he/he';
 
 var ACIDE = {
     getWebsiteUrl : function () {
@@ -124,7 +125,7 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                             }
                             html += '<li class="c-default pt-1" data-name="' +
                                 value.name + '.' + value.ext + '" data-slug="' +
-                                uuidv4() + '"><img src="assets/img/icons/' + _icon + '.svg" class="mr-1">'
+                                uuidv4() + '" data-ext="' + value.ext + '"><img src="assets/img/icons/' + _icon + '.svg" class="mr-1">'
                                 + value.name + '.' + value.ext + '</li>';
                         });
                     }
@@ -134,9 +135,14 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                     response.data.message.records.forEach(function (value) {
                         if(value.name === response.data.message.active_record &&
                             value.project === response.data.message.project.slug) {
-                            var _slug = uuidv4();
+                            _icon = 'assets/img/icons/' + value.ext + '.svg';
+                            if(extensions[value.ext] === undefined) {
+                                _icon = 'assets/img/icons/record.svg';
+                            }
+                            var _slug = $('.directory-structure .records li[data-name="' +
+                                value.name + '.' + value.ext  + '"]').attr('data-slug');
                             editorTabs.append(value.name + '.' + value.ext , _icon , _slug);
-                            editorContent.append(_slug , value.content);
+                            editorContent.append(_slug , value.content , value.ext);
                         }
                     });
                 }
@@ -154,24 +160,83 @@ IDE.service('contextMenu' , function () {
 });
 
 IDE.service('editorContent' , function () {
-    this.append = function (slug , content) {
-        $('.code-editor .editor').append('<div id="' + slug + '" class="w-100 h-100 active">' + content + '</div>');
-        var editor = ace.edit(slug);
-        editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/javascript");
+    this.activate = function (slug) {
+        $('.code-editor .editor .child').each(function () {
+            $(this).removeClass('active');
+        });
+
+        $('.code-editor .editor .child[id="' + slug + '"]').addClass('active');
+    };
+
+    this.append = function (slug , content , ext) {
+        var _founded = false;
+        $('.code-editor .editor .child').each(function () {
+            if($(this).attr('id') === slug) {
+                _founded = true;
+            }
+        });
+        if(!_founded) {
+            $('.code-editor .editor .child').each(function () {
+                $(this).removeClass('active');
+            });
+            if(extensions[ext].encode) {
+                content = he.encode(content);
+            }
+            $('.code-editor .editor').append('<div id="' + slug + '" class="w-100 h-100 active child">' + content + '</div>');
+            var editor = ace.edit(slug);
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("ace/mode/" + extensions[ext].mode);
+        } else {
+            this.activate(slug);
+        }
     };
 });
 
 IDE.service('editorTabs' , function () {
+    this.activate = function (slug) {
+        $('.editor-tabs ul li').each(function () {
+            $(this).removeClass('active');
+        });
+        $('.editor-tabs ul li[data-slug="' + slug + '"]').addClass('active');
+    };
+
     this.append = function (name , icon , slug) {
-        var _html = '<li class="c-default px-2 py-1 active" data-slug="' +
-            slug + '"><img src="assets/img/icons/' + icon + '.svg" class="mr-1"><span>' + name + '</span>' +
-            '<span class="close-tab ml-2">x</span></li>';
-        $('.editor-tabs ul').append(_html);
+        var _founded = false;
+        $('.editor-tabs ul li').each(function () {
+            if($(this).attr('data-slug') === slug) {
+                _founded = true;
+            }
+        });
+        if(!_founded) {
+            $('.editor-tabs ul li').each(function () {
+                $(this).removeClass('active');
+            });
+            var _html = '<li class="c-default px-2 py-1 active" data-slug="' +
+                slug + '"><img src="' + icon + '" class="mr-1"><span>' + name + '</span>' +
+                '<span class="close-tab ml-2">x</span></li>';
+            $('.editor-tabs ul').append(_html);
+        } else {
+            this.activate(slug);
+        }
     };
 });
 
-IDE.service('directoryHandler' , function ($http , editorTabs) {
+IDE.service('editorTabsHandler' , function (editorContent , editorTabs) {
+    this.init = function () {
+        $(document).on('click' , '.editor-tabs li .close-tab' , function() {
+            $('#' + $(this).parent().attr('data-slug')).remove();
+            $(this).parent().remove();
+            $('.editor-tabs ul li').last().addClass('active');
+            editorContent.activate($('.editor-tabs ul li').last().attr('data-slug'));
+        });
+        $(document).on('click' , '.editor-tabs ul li' , function () {
+            editorTabs.activate($(this).attr('data-slug'));
+            editorContent.activate($(this).attr('data-slug'));
+        });
+    };
+});
+
+IDE.service('directoryHandler' , function ($http , editorTabs , editorContent) {
     this.init = function () {
         $(document).on('click , contextmenu' , '.directory-structure li' , function () {
             $('.directory-structure li').each(function () {
@@ -190,14 +255,15 @@ IDE.service('directoryHandler' , function ($http , editorTabs) {
             }
         });
         $(document).on('dblclick' , '.directory-structure .records li' , function () {
+            var _elm = $(this);
             $http.post(
                 ACIDE.getFullRoute('EditorController@getRecordContent') ,
                 {
                     name : $(this).attr('data-name')
                 }
             ).then(function (response) {
-                console.log(response.data);
-                editorTabs.append($(this).attr('data-name') , $(this).find('img').attr('src') , $(this).attr('data-slug'));
+                editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));
+                editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-ext'));
             } , function (response) {
                 console.log('Record AJAX error !');
             });
@@ -205,14 +271,11 @@ IDE.service('directoryHandler' , function ($http , editorTabs) {
     };
 });
 
-IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure , directoryHandler) {
+IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure , directoryHandler , editorTabsHandler) {
     $location.path('');
     directoryStructure.refresh();
     directoryHandler.init();
-    $(document).on('click' , '.editor-tabs li .close-tab' , function() {
-        $('#' + $(this).parent().attr('data-slug')).remove();
-        $(this).parent().remove();
-    });
+    editorTabsHandler.init();
 });
 
 export {ACIDE , IDE};

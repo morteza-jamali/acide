@@ -43,6 +43,14 @@ main , .container-fluid , body , html
     left: 0
     right: 0
     bottom: 0
+    .child
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      &.active
+        z-index: 999999 !important
 .ace-monokai
   background-color: #131a20 !important
   .ace_gutter
