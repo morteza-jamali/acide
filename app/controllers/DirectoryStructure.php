@@ -26,7 +26,9 @@
             $records = Record::where('project' , $slug)
                              ->where('type' , 'record')->get()->toArray();
             $active_record = Record::where('project' , $slug)
-                                   ->where('type' , 'label')->value('name');
+                                   ->where('type' , 'label')->get()->toArray();
+            $active_record = $active_record[0]['name'] . '.' . $active_record[0]['ext'];
+
             if(empty($records)) {
                 $records = [];
             }

@@ -39,5 +39,29 @@
 
             return (new Response())->success(['content' => $content])->returnMsg();
         }
+
+        public function saveRecordContent() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'name' => 'required|regex:/^[A-Za-z0-9.]+\.[A-Za-z0-9]+$/' ,
+                'project' => 'required' ,
+                'content' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            $name = StringFactory::getStringBeforeToken($this->request['name'] , '.');
+            $ext = StringFactory::getStringAfterToken($this->request['name'] , '.');
+
+            Record::where('project' , $this->request['project'])->where('name' , $name)
+                    ->where('ext' , $ext)->where('type' , 'record')->update([
+                    'content' => $this->request['content']
+                ]);
+
+            return (new Response())->success(['content' => 'saved'])->returnMsg();
+        }
     }
 ?>

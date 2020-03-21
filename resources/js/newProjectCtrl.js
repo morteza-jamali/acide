@@ -1,6 +1,6 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('newProjectCtrl' , function ($scope , $http , window , selectionHover , directoryStructure) {
+IDE.controller('newProjectCtrl' , function ($scope , $http , window , directoryStructure) {
     window.title('New Project');
     window.show();
     window.changeSize({width : 700 , height: 500});
@@ -22,7 +22,6 @@ IDE.controller('newProjectCtrl' , function ($scope , $http , window , selectionH
                 if(response.data.type === 'success') {
                     window.hide();
                     directoryStructure.refresh();
-                    selectionHover.init();
                 }
                 } ,
                 function (response) {

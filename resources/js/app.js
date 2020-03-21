@@ -113,7 +113,7 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
         ).then(function (response) {
                 if(response.data.type === 'success') {
                     var _icon = null;
-                    var html = '<ul class="list-style-none mx-0"><li class="c-default database pl-4 pt-1" data-slug="' +
+                    var html = '<ul class="list-style-none mx-0"><li class="database pl-4 pt-1" data-slug="' +
                         response.data.message.project.slug + '">' +
                         '<img src="assets/img/icons/database.svg" class="mr-1">' + response.data.message.project.name + '</li>' +
                         '<ul class="list-style-none pl-7 mr-0 records">';
@@ -123,7 +123,7 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                             if(extensions[value.ext] === undefined) {
                                 _icon = 'record';
                             }
-                            html += '<li class="c-default pt-1" data-name="' +
+                            html += '<li class="pt-1" data-name="' +
                                 value.name + '.' + value.ext + '" data-slug="' +
                                 uuidv4() + '" data-ext="' + value.ext + '"><img src="assets/img/icons/' + _icon + '.svg" class="mr-1">'
                                 + value.name + '.' + value.ext + '</li>';
@@ -133,7 +133,7 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                     $('.directory-structure').html(html);
                     contextMenu.init();
                     response.data.message.records.forEach(function (value) {
-                        if(value.name === response.data.message.active_record &&
+                        if(value.name + '.' + value.ext === response.data.message.active_record &&
                             value.project === response.data.message.project.slug) {
                             _icon = 'assets/img/icons/' + value.ext + '.svg';
                             if(extensions[value.ext] === undefined) {
@@ -159,7 +159,7 @@ IDE.service('contextMenu' , function () {
     };
 });
 
-IDE.service('editorContent' , function () {
+IDE.service('editorContent' , function (editorHandler) {
     this.activate = function (slug) {
         $('.code-editor .editor .child').each(function () {
             $(this).removeClass('active');
@@ -179,13 +179,11 @@ IDE.service('editorContent' , function () {
             $('.code-editor .editor .child').each(function () {
                 $(this).removeClass('active');
             });
-            if(extensions[ext].encode) {
+            if(extensions[ext] !== undefined && extensions[ext].encode) {
                 content = he.encode(content);
             }
             $('.code-editor .editor').append('<div id="' + slug + '" class="w-100 h-100 active child">' + content + '</div>');
-            var editor = ace.edit(slug);
-            editor.setTheme("ace/theme/monokai");
-            editor.session.setMode("ace/mode/" + extensions[ext].mode);
+            editorHandler.init(slug , (extensions[ext] !== undefined && extensions[ext].mode !== '' ? extensions[ext].mode : 'plain_text'));
         } else {
             this.activate(slug);
         }
@@ -197,7 +195,11 @@ IDE.service('editorTabs' , function () {
         $('.editor-tabs ul li').each(function () {
             $(this).removeClass('active');
         });
-        $('.editor-tabs ul li[data-slug="' + slug + '"]').addClass('active');
+        if($('.editor-tabs ul li[data-slug="' + slug + '"]').length) {
+            $('.editor-tabs ul li[data-slug="' + slug + '"]').addClass('active');
+        } else {
+            $('.editor-tabs ul li').last().addClass('active');
+        }
     };
 
     this.append = function (name , icon , slug) {
@@ -211,8 +213,8 @@ IDE.service('editorTabs' , function () {
             $('.editor-tabs ul li').each(function () {
                 $(this).removeClass('active');
             });
-            var _html = '<li class="c-default px-2 py-1 active" data-slug="' +
-                slug + '"><img src="' + icon + '" class="mr-1"><span>' + name + '</span>' +
+            var _html = '<li class="px-2 py-1 active" data-slug="' +
+                slug + '"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' +
                 '<span class="close-tab ml-2">x</span></li>';
             $('.editor-tabs ul').append(_html);
         } else {
@@ -221,13 +223,57 @@ IDE.service('editorTabs' , function () {
     };
 });
 
+IDE.service('editorHandler' , function ($rootScope , $http) {
+    this.init = function (slug , mode) {
+        var editor = ace.edit(slug);
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/" + mode);
+        var _cursor_ = editor.selection.getCursor();
+        $rootScope.cursor_row = _cursor_.row;
+        $rootScope.cursor_col = _cursor_.column;
+        editor.session.on('change', function(delta) {
+            $('.editor-tabs ul li.active').addClass('font-italic');
+            $('.editor-tabs ul li.active span.name').addClass('font-bold');
+        });
+        editor.session.selection.on('changeCursor', function(e) {
+            var _cursor = editor.selection.getCursor();
+            $rootScope.cursor_row = _cursor.row;
+            $rootScope.cursor_col = _cursor.column;
+            $rootScope.$apply();
+        });
+        editor.commands.addCommand({
+            name: 'myCommand',
+            bindKey: {win: 'Ctrl-S',  mac: 'Command-M'},
+            exec: function(editor) {
+                $http.post(
+                    ACIDE.getFullRoute('EditorController@saveRecordContent') ,
+                    {
+                        name : $('.editor-tabs ul li.active span.name').html() ,
+                        content : editor.getValue() ,
+                        project : $('.directory-structure ul li.database').attr('data-slug')
+                    }
+                ).then(function (response) {
+                    if(response.data.type === 'success') {
+                        $('.editor-tabs ul li.active').removeClass('font-italic');
+                        $('.editor-tabs ul li.active span.name').removeClass('font-bold');
+                    }
+                } , function (response) {
+                    console.log('Editor saving AJAX error !');
+                });
+            },
+            readOnly: true
+        });
+    };
+});
+
 IDE.service('editorTabsHandler' , function (editorContent , editorTabs) {
     this.init = function () {
         $(document).on('click' , '.editor-tabs li .close-tab' , function() {
             $('#' + $(this).parent().attr('data-slug')).remove();
             $(this).parent().remove();
-            $('.editor-tabs ul li').last().addClass('active');
-            editorContent.activate($('.editor-tabs ul li').last().attr('data-slug'));
+            var _elm = $('.editor-tabs ul li').last();
+            _elm.addClass('active');
+            editorContent.activate(_elm.attr('data-slug'));
         });
         $(document).on('click' , '.editor-tabs ul li' , function () {
             editorTabs.activate($(this).attr('data-slug'));
@@ -271,11 +317,22 @@ IDE.service('directoryHandler' , function ($http , editorTabs , editorContent) {
     };
 });
 
-IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure , directoryHandler , editorTabsHandler) {
+IDE.service('keyBinds' , function () {
+    this.init = function() {
+        Mousetrap.bind('ctrl+s', function(e) {
+            return false;
+        });
+    };
+});
+
+IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure
+                                     , directoryHandler , editorTabsHandler
+                                     , keyBinds) {
     $location.path('');
     directoryStructure.refresh();
     directoryHandler.init();
     editorTabsHandler.init();
+    keyBinds.init();
 });
 
 export {ACIDE , IDE};

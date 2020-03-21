@@ -32,15 +32,15 @@ html(lang="fa")
                         .cell-md-9
                             .editor-tabs.fg-white
                                 ul.list-style-none.m-0.d-flex
-                            .code-editor.h-100.w-100: .editor
+                            .code-editor.w-100: .editor
                 div.thin-menu.fg-white.bottom-menu(data-role="appbar" data-expand-point="md")
                     .app-bar-menu
                         li: a(href="#!") Home
                         li: a(href="#!") File
                         li: a(href="#!") View
                 div.thin-menu.fg-white(data-role="appbar" data-expand-point="md")
-                    .app-bar-menu
-                        li: a(href="#!") Home
+                    .app-bar-menu.w-100
+                        li.ml-auto: a {{cursor_row}}:{{cursor_col}}
                         li: a(href="#!") File
                         li: a(href="#!") View
                 script.
