@@ -5,6 +5,7 @@
     use ACIDE\App\Models\DatabaseProject;
     use ACIDECore\App\Response;
     use ACIDE\App\Models\Record;
+    use ACFile\Src\File;
 
     class DirectoryStructure {
         private $request = null;
@@ -41,6 +42,17 @@
                 'records' => $records ,
                 'active_record' => $active_record
             ])->returnMsg();
+        }
+
+        public function getFileTree() {
+            return (new Response())->success(File::getDirectoryTree(
+                dirname(dirname(__DIR__)) . '/work'
+            ))->returnMsg();
+        }
+
+        public function getAllDatabaseProjects() {
+            $projects = DatabaseProject::where('type' , 'project')->get()->toArray();
+            return (new Response())->success($projects)->returnMsg();
         }
     }
 ?>

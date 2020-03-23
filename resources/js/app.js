@@ -73,6 +73,10 @@ IDE.config(function($routeProvider) {
         .when('/newrecord' , {
             templateUrl : ACIDE.getTemplateURL('windows/html/new_record') ,
             controller : 'newRecordCtrl'
+        })
+        .when('/closeproject' , {
+            templateUrl : ACIDE.getTemplateURL('windows/html/close_project') ,
+            controller : 'closeProjectCtrl'
         });
 });
 

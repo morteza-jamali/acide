@@ -1,0 +1,19 @@
+.row.no-gap.h-100.close_project
+    .col-md-4.fg-white(style="background:#131a20;border-right:1px solid rgba(255, 255, 255, 0.1)")
+        h6
+            img.mr-1.ml-3(src="assets/img/icons/folder-app.svg")
+            = 'File Projects'
+    .col-md-4.fg-white(style="background:#131a20")
+        h6
+            img.mr-1.ml-3(src="assets/img/icons/database.svg")
+            = 'Database Projects'
+        ul.list-style-none.database_list
+            li.p-2.mb-1(ng-repeat="d in database_projects" data-slug="{{d.slug}}") {{d.name}}
+    .col-md-4.d-flex.flex-justify-center
+        ul.list-style-none
+            li.mb-2: a.fg-white(href="#!newproject")
+                i.mif-plus.mr-2
+                = 'Create New Project'
+            li.mb-2: a.fg-white
+                i.mif-folder-open2.mr-2
+                = 'Open Project'

@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/morteza-jamali/acfile.git",
-                "reference": "b58580760464570fa8d01090cbb1b29e4b086dee"
+                "reference": "7776914c1409e4c50fbd7bedced62d77c6b92b79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/morteza-jamali/acfile/zipball/b58580760464570fa8d01090cbb1b29e4b086dee",
-                "reference": "b58580760464570fa8d01090cbb1b29e4b086dee",
+                "url": "https://api.github.com/repos/morteza-jamali/acfile/zipball/7776914c1409e4c50fbd7bedced62d77c6b92b79",
+                "reference": "7776914c1409e4c50fbd7bedced62d77c6b92b79",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "acide",
                 "file manager"
             ],
-            "time": "2020-03-17T08:42:26+00:00"
+            "time": "2020-03-22T14:55:48+00:00"
         },
         {
             "name": "acide/core",
@@ -550,7 +550,7 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v7.2.1",
+            "version": "v7.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
@@ -604,7 +604,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v7.2.1",
+            "version": "v7.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -648,7 +648,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v7.2.1",
+            "version": "v7.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -692,7 +692,7 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v7.2.1",
+            "version": "v7.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
@@ -753,7 +753,7 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v7.2.1",
+            "version": "v7.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
@@ -798,7 +798,7 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v7.2.1",
+            "version": "v7.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
