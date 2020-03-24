@@ -25517,8 +25517,10 @@ IDE.service('window', function () {
 });
 IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent) {
   this.refresh = function () {
-    $http.post(ACIDE.getFullRoute('DirectoryStructure@getDatabaseTree')).then(function (response) {
-      if (response.data.type === 'success') {
+    $http.post(ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')).then(function (response) {
+      console.log(response.data);
+
+      if (response.data.type === 'success' && response.data.message.length !== 0) {
         var _icon = null;
         var html = '<ul class="list-style-none mx-0"><li class="database pl-4 pt-1" data-slug="' + response.data.message.project.slug + '">' + '<img src="assets/img/icons/database.svg" class="mr-1">' + response.data.message.project.name + '</li>' + '<ul class="list-style-none pl-7 mr-0 records">';
 
@@ -25753,8 +25755,19 @@ IDE.controller('ideCtrl', function ($scope, $location, directoryStructure, direc
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function ($scope, window, $http) {
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].service('closeProjectHandler', function () {
+  this.init = function () {
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(document).on('click', '.close_project .database_list li , .close_project .files_list li', function () {
+      _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.close_project .database_list li , .close_project .files_list li').removeClass('active');
+      _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(this).addClass('active');
+    });
+  };
+});
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function ($scope, window, $http, closeProjectHandler) {
   window.title('Open a Project');
   window.show();
   window.changeSize({
@@ -25763,12 +25776,25 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
   });
   $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllDatabaseProjects')).then(function (response) {
     if (response.data.type === 'success') {
-      console.log(response.data.message);
       $scope.database_projects = response.data.message;
     }
   }, function (response) {
     console.log('Close Project AJAX Error !');
   });
+  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllFileProjects')).then(function (response) {
+    if (response.data.type === 'success') {
+      $scope.files_projects = [];
+      Object.keys(response.data.message).forEach(function (value) {
+        $scope.files_projects.push({
+          name: value,
+          path: response.data.message[value]
+        });
+      });
+    }
+  }, function (response) {
+    console.log('Close Project AJAX Error !');
+  });
+  closeProjectHandler.init();
 });
 
 /***/ }),

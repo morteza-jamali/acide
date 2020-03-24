@@ -113,9 +113,10 @@ IDE.service('window' , function () {
 IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , editorContent) {
     this.refresh = function () {
         $http.post(
-            ACIDE.getFullRoute('DirectoryStructure@getDatabaseTree')
+            ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')
         ).then(function (response) {
-                if(response.data.type === 'success') {
+            console.log(response.data);
+                if(response.data.type === 'success' && response.data.message.length !== 0) {
                     var _icon = null;
                     var html = '<ul class="list-style-none mx-0"><li class="database pl-4 pt-1" data-slug="' +
                         response.data.message.project.slug + '">' +

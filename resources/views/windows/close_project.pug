@@ -3,13 +3,15 @@
         h6
             img.mr-1.ml-3(src="assets/img/icons/folder-app.svg")
             = 'File Projects'
+        ul.list-style-none.files_list
+            li.p-2.mb-1(ng-repeat="f in files_projects" data-path="{{f.path}}") {{f.name}}
     .col-md-4.fg-white(style="background:#131a20")
         h6
             img.mr-1.ml-3(src="assets/img/icons/database.svg")
             = 'Database Projects'
         ul.list-style-none.database_list
             li.p-2.mb-1(ng-repeat="d in database_projects" data-slug="{{d.slug}}") {{d.name}}
-    .col-md-4.d-flex.flex-justify-center
+    .col-md-4.d-flex.flex-justify-center.flex-align-center
         ul.list-style-none
             li.mb-2: a.fg-white(href="#!newproject")
                 i.mif-plus.mr-2
@@ -17,3 +19,6 @@
             li.mb-2: a.fg-white
                 i.mif-folder-open2.mr-2
                 = 'Open Project'
+            li.mb-2: a.fg-white
+                i.mif-layers-clear.mr-2
+                = 'Remove Project'

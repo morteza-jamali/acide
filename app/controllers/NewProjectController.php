@@ -92,5 +92,9 @@
 
             return (new Response())->success(['Record' => 'created'])->returnMsg();
         }
+
+        public function openProject() {
+            
+        }
     }
 ?>

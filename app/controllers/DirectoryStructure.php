@@ -5,7 +5,10 @@
     use ACIDE\App\Models\DatabaseProject;
     use ACIDECore\App\Response;
     use ACIDE\App\Models\Record;
-    use ACFile\Src\File;
+    use ACFile\Src\File as FileManager;
+    use ACIDE\App\Models\Setting;
+    use ACIDE\App\Models\FileProject;
+    use ACIDE\App\Models\File;
 
     class DirectoryStructure {
         private $request = null;
@@ -15,11 +18,11 @@
             (new Database())->init();
         }
 
-        public function getDatabaseTree() {
+        private function getDatabaseTree() {
             $slug = DatabaseProject::where('name' , '_active_project_')
                                       ->where('type' , 'label')->value('slug');
             if(empty($slug)) {
-                return (new Response())->error(['Project' => 'does not exist'])->returnMsg();
+                return [];
             }
 
             $project = DatabaseProject::where('slug' , $slug)
@@ -37,21 +40,74 @@
                 $active_record = [];
             }
 
-            return (new Response())->success([
+            return [
+                'default' => 'Database' ,
                 'project' => $project[0] ,
                 'records' => $records ,
                 'active_record' => $active_record
-            ])->returnMsg();
+            ];
         }
 
-        public function getFileTree() {
-            return (new Response())->success(File::getDirectoryTree(
-                dirname(dirname(__DIR__)) . '/work'
-            ))->returnMsg();
+        public function getDirectoryStructure() {
+            $default = Setting::where('key' , '_default_project_')->value('value');
+
+            if(empty($default)) {
+                $default = 'File';
+            }
+
+            if($default === 'File') {
+                return (new Response())->success($this->getFileTree())->returnMsg();
+            }
+
+            return (new Response())->success($this->getDatabaseTree())->returnMsg();
+        }
+
+        private function getFileTree() {
+            $path = FileProject::where('name' , '_active_project_')
+                ->where('type' , 'label')->value('path');
+
+            if(empty($slug)) {
+                return [];
+            }
+
+            $files = FileManager::getDirectoryTree($path);
+
+            $project = FileProject::where('path' , $slug)
+                ->where('type' , 'project')->get()->toArray();
+
+            $active_file = File::where('project' , $path)
+                ->where('type' , 'label')->get()->toArray();
+
+            if(empty($active_file)) {
+                $active_file = [];
+            }
+
+            return [
+                'default' => 'File' ,
+                'project' => $project[0] ,
+                'records' => $files ,
+                'active_record' => $active_file
+            ];
         }
 
         public function getAllDatabaseProjects() {
             $projects = DatabaseProject::where('type' , 'project')->get()->toArray();
+            return (new Response())->success($projects)->returnMsg();
+        }
+
+        public function getAllFileProjects() {
+            $files = FileManager::getDirectoryTree(dirname(dirname(__DIR__)) . '/work');
+            $projects = [];
+
+            foreach ($files as $file) {
+                foreach ($file as $f => $type) {
+                    if($type === 'directory') {
+                        $projects[FileManager::getBaseName($f)] = $f;
+                    }
+                }
+                break;
+            }
+
             return (new Response())->success($projects)->returnMsg();
         }
     }
