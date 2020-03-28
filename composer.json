@@ -9,7 +9,7 @@
         "illuminate/events": "^7.2",
         "rakit/validation": "^1.2",
         "illuminate/console": "*",
-        "acide/acfile" : "*"
+        "acide/acfilemanager" : "*"
     } ,
     "autoload": {
         "psr-4": {

@@ -31,7 +31,9 @@
                              ->where('type' , 'record')->get()->toArray();
             $active_record = Record::where('project' , $slug)
                                    ->where('type' , 'label')->get()->toArray();
-            $active_record = $active_record[0]['name'] . '.' . $active_record[0]['ext'];
+            if(!empty($active_record)) {
+                $active_record = $active_record[0]['name'] . '.' . $active_record[0]['ext'];
+            }
 
             if(empty($records)) {
                 $records = [];
@@ -66,13 +68,13 @@
             $path = FileProject::where('name' , '_active_project_')
                 ->where('type' , 'label')->value('path');
 
-            if(empty($slug)) {
+            if(empty($path)) {
                 return [];
             }
 
             $files = FileManager::getDirectoryTree($path);
 
-            $project = FileProject::where('path' , $slug)
+            $project = FileProject::where('path' , $path)
                 ->where('type' , 'project')->get()->toArray();
 
             $active_file = File::where('project' , $path)
@@ -85,8 +87,8 @@
             return [
                 'default' => 'File' ,
                 'project' => $project[0] ,
-                'records' => $files ,
-                'active_record' => $active_file
+                'files' => $files ,
+                'active_file' => $active_file
             ];
         }
 

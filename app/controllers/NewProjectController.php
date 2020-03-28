@@ -7,6 +7,8 @@
     use Rakit\Validation\Validator;
     use ACIDECore\App\StringFactory;
     use ACIDE\App\Models\Record;
+    use ACIDE\App\Models\Setting;
+    use ACIDE\App\Models\FileProject;
 
     class NewProjectController {
         private $request = null;
@@ -29,7 +31,7 @@
             }
 
             $result = DatabaseProject::where('name' , $this->request['name'])
-                                     ->where('slug' , $this->request['slug'])
+                                     ->orWhere('slug' , $this->request['slug'])
                                      ->where('type' , 'project')->get()->toArray();
             if(!empty($result)) {
                 return (new Response())->error(['project' => 'is duplicated'])->returnMsg();
@@ -94,7 +96,46 @@
         }
 
         public function openProject() {
-            
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'type' => 'required' ,
+                'slug' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            if($this->request['type'] !== 'File' && $this->request['type'] !== 'Database') {
+                return (new Response())->error(['type' => 'is invalid'])->returnMsg();
+            }
+
+            Setting::updateOrCreate([
+                'key' => '_default_project_'
+            ], [
+                'value' => $this->request['type']
+            ]);
+
+            if($this->request['type'] === 'File') {
+                FileProject::updateOrCreate([
+                    'name' => '_active_project_' ,
+                    'type' => 'label'
+                ] , [
+                    'path' => $this->request['slug']
+                ]);
+            }
+
+            if($this->request['type'] === 'Database') {
+                DatabaseProject::updateOrCreate([
+                    'name' => '_active_project_' ,
+                    'type' => 'label'
+                ] , [
+                    'slug' => $this->request['slug']
+                ]);
+            }
+
+            return (new Response())->success(['project' , 'opened'])->returnMsg();
         }
     }
 ?>

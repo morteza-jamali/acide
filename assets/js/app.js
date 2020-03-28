@@ -25521,38 +25521,43 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
       console.log(response.data);
 
       if (response.data.type === 'success' && response.data.message.length !== 0) {
-        var _icon = null;
-        var html = '<ul class="list-style-none mx-0"><li class="database pl-4 pt-1" data-slug="' + response.data.message.project.slug + '">' + '<img src="assets/img/icons/database.svg" class="mr-1">' + response.data.message.project.name + '</li>' + '<ul class="list-style-none pl-7 mr-0 records">';
+        if (response.data.message["default"] === 'Database') {
+          var _icon = null;
+          var html = '<ul class="list-style-none mx-0"><li class="database pl-4 pt-1" data-slug="' + response.data.message.project.slug + '">' + '<img src="assets/img/icons/database.svg" class="mr-1">' + response.data.message.project.name + '</li>' + '<ul class="list-style-none pl-7 mr-0 records">';
 
-        if (response.data.message.records.length > 0) {
+          if (response.data.message.records.length > 0) {
+            response.data.message.records.forEach(function (value) {
+              _icon = value.ext;
+
+              if (_extensions__WEBPACK_IMPORTED_MODULE_1__["default"][value.ext] === undefined) {
+                _icon = 'record';
+              }
+
+              html += '<li class="pt-1" data-name="' + value.name + '.' + value.ext + '" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '" data-ext="' + value.ext + '"><img src="assets/img/icons/' + _icon + '.svg" class="mr-1">' + value.name + '.' + value.ext + '</li>';
+            });
+          }
+
+          html += '</ul></ul>';
+          _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure').html(html);
+          contextMenu.init();
           response.data.message.records.forEach(function (value) {
-            _icon = value.ext;
+            if (value.name + '.' + value.ext === response.data.message.active_record && value.project === response.data.message.project.slug) {
+              _icon = 'assets/img/icons/' + value.ext + '.svg';
 
-            if (_extensions__WEBPACK_IMPORTED_MODULE_1__["default"][value.ext] === undefined) {
-              _icon = 'record';
+              if (_extensions__WEBPACK_IMPORTED_MODULE_1__["default"][value.ext] === undefined) {
+                _icon = 'assets/img/icons/record.svg';
+              }
+
+              var _slug = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .records li[data-name="' + value.name + '.' + value.ext + '"]').attr('data-slug');
+
+              editorTabs.clean();
+              editorTabs.append(value.name + '.' + value.ext, _icon, _slug);
+              editorContent.append(_slug, value.content, value.ext);
             }
-
-            html += '<li class="pt-1" data-name="' + value.name + '.' + value.ext + '" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '" data-ext="' + value.ext + '"><img src="assets/img/icons/' + _icon + '.svg" class="mr-1">' + value.name + '.' + value.ext + '</li>';
           });
         }
 
-        html += '</ul></ul>';
-        _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure').html(html);
-        contextMenu.init();
-        response.data.message.records.forEach(function (value) {
-          if (value.name + '.' + value.ext === response.data.message.active_record && value.project === response.data.message.project.slug) {
-            _icon = 'assets/img/icons/' + value.ext + '.svg';
-
-            if (_extensions__WEBPACK_IMPORTED_MODULE_1__["default"][value.ext] === undefined) {
-              _icon = 'assets/img/icons/record.svg';
-            }
-
-            var _slug = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .records li[data-name="' + value.name + '.' + value.ext + '"]').attr('data-slug');
-
-            editorTabs.append(value.name + '.' + value.ext, _icon, _slug);
-            editorContent.append(_slug, value.content, value.ext);
-          }
-        });
+        if (response.data.message["default"] === 'File') {}
       }
     }, function (response) {
       console.log('Directory structure AJAX Error !');
@@ -25599,6 +25604,12 @@ IDE.service('editorContent', function (editorHandler) {
   };
 });
 IDE.service('editorTabs', function () {
+  this.clean = function () {
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li').each(function () {
+      _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).remove();
+    });
+  };
+
   this.activate = function (slug) {
     _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li').each(function () {
       _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
@@ -25767,13 +25778,41 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].service('closeProjectHandler', function
     });
   };
 });
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function ($scope, window, $http, closeProjectHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function ($scope, window, $http, closeProjectHandler, directoryStructure, directoryHandler, editorTabsHandler, keyBinds) {
   window.title('Open a Project');
   window.show();
   window.changeSize({
     width: 700,
     height: 500
   });
+
+  $scope.openProject = function () {
+    $scope.error = '';
+
+    var _elm = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.close_project .database_list li.active , .close_project .files_list li.active');
+
+    if (!_elm.length) {
+      $scope.error = 'selection';
+    }
+
+    if (_elm.length) {
+      $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@openProject'), {
+        type: _elm.parent().hasClass('database_list') ? 'Database' : 'File',
+        slug: _elm.attr('data-slug')
+      }).then(function (response) {
+        if (response.data.type === 'success') {
+          window.hide();
+          directoryStructure.refresh();
+          directoryHandler.init();
+          editorTabsHandler.init();
+          keyBinds.init();
+        }
+      }, function (response) {
+        console.log('Close Project AJAX Error !');
+      });
+    }
+  };
+
   $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllDatabaseProjects')).then(function (response) {
     if (response.data.type === 'success') {
       $scope.database_projects = response.data.message;

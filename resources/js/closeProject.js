@@ -10,10 +10,40 @@ IDE.service('closeProjectHandler' , function () {
     };
 });
 
-IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closeProjectHandler) {
+IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closeProjectHandler , directoryStructure ,
+                                                directoryHandler , editorTabsHandler , keyBinds) {
     window.title('Open a Project');
     window.show();
     window.changeSize({width : 700 , height : 500});
+
+    $scope.openProject = function() {
+        $scope.error = '';
+        var _elm = $('.close_project .database_list li.active , .close_project .files_list li.active');
+        if(!_elm.length) {
+            $scope.error = 'selection';
+        }
+
+        if(_elm.length) {
+            $http.post(
+                ACIDE.getFullRoute('NewProjectController@openProject') ,
+                {
+                    type : _elm.parent().hasClass('database_list') ? 'Database' : 'File' ,
+                    slug : _elm.attr('data-slug')
+                }
+            ).then(function (response) {
+                    if(response.data.type === 'success') {
+                        window.hide();
+                        directoryStructure.refresh();
+                        directoryHandler.init();
+                        editorTabsHandler.init();
+                        keyBinds.init();
+                    }
+                } ,
+                function (response) {
+                    console.log('Close Project AJAX Error !');
+                });
+        }
+    };
 
     $http.post(
         ACIDE.getFullRoute('DirectoryStructure@getAllDatabaseProjects')

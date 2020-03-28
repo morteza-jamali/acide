@@ -257,6 +257,7 @@ li[data-text=""] {
 
 .close_project .database_list li {
   background-color: rgba(255, 255, 255, 0.1);
+  cursor: default !important;
 }
 
 .close_project .database_list li.active {
@@ -265,6 +266,7 @@ li[data-text=""] {
 
 .close_project .files_list li {
   background-color: rgba(255, 255, 255, 0.1);
+  cursor: default !important;
 }
 
 .close_project .files_list li.active {
