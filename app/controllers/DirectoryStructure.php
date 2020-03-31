@@ -5,10 +5,10 @@
     use ACIDE\App\Models\DatabaseProject;
     use ACIDECore\App\Response;
     use ACIDE\App\Models\Record;
-    use ACFile\Src\File as FileManager;
     use ACIDE\App\Models\Setting;
     use ACIDE\App\Models\FileProject;
     use ACIDE\App\Models\File;
+    use ACFileManager\Src\File as FileManager;
 
     class DirectoryStructure {
         private $request = null;
@@ -74,6 +74,13 @@
 
             $files = FileManager::getDirectoryTree($path);
 
+            FileProject::updateOrCreate([
+                'path' => $path ,
+                'type' => 'project'
+            ] , [
+                'name' => FileManager::getBaseName($path)
+            ]);
+
             $project = FileProject::where('path' , $path)
                 ->where('type' , 'project')->get()->toArray();
 
@@ -101,10 +108,10 @@
             $files = FileManager::getDirectoryTree(dirname(dirname(__DIR__)) . '/work');
             $projects = [];
 
-            foreach ($files as $file) {
+            foreach ($files as $dir => $file) {
                 foreach ($file as $f => $type) {
                     if($type === 'directory') {
-                        $projects[FileManager::getBaseName($f)] = $f;
+                        $projects[$f] = $dir . DIRECTORY_SEPARATOR . $f;
                     }
                 }
                 break;

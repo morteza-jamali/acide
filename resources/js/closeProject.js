@@ -60,6 +60,7 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
         ACIDE.getFullRoute('DirectoryStructure@getAllFileProjects')
     ).then(function (response) {
             if(response.data.type === 'success') {
+                console.log(response.data);
                 $scope.files_projects = [];
                 Object.keys(response.data.message).forEach(function (value) {
                     $scope.files_projects.push({

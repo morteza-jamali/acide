@@ -25518,12 +25518,10 @@ IDE.service('window', function () {
 IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent) {
   this.refresh = function () {
     $http.post(ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')).then(function (response) {
-      console.log(response.data);
-
       if (response.data.type === 'success' && response.data.message.length !== 0) {
         if (response.data.message["default"] === 'Database') {
           var _icon = null;
-          var html = '<ul class="list-style-none mx-0"><li class="database pl-4 pt-1" data-slug="' + response.data.message.project.slug + '">' + '<img src="assets/img/icons/database.svg" class="mr-1">' + response.data.message.project.name + '</li>' + '<ul class="list-style-none pl-7 mr-0 records">';
+          var html = '<ul class="list-style-none m-0 h-100" style="overflow-y: auto"><li class="database pl-4 pt-1" data-slug="' + response.data.message.project.slug + '">' + '<img src="assets/img/icons/database.svg" class="mr-1">' + response.data.message.project.name + '</li>' + '<ul class="list-style-none pl-7 mr-0 records">';
 
           if (response.data.message.records.length > 0) {
             response.data.message.records.forEach(function (value) {
@@ -25539,7 +25537,6 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
 
           html += '</ul></ul>';
           _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure').html(html);
-          contextMenu.init();
           response.data.message.records.forEach(function (value) {
             if (value.name + '.' + value.ext === response.data.message.active_record && value.project === response.data.message.project.slug) {
               _icon = 'assets/img/icons/' + value.ext + '.svg';
@@ -25557,7 +25554,42 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
           });
         }
 
-        if (response.data.message["default"] === 'File') {}
+        if (response.data.message["default"] === 'File') {
+          console.log(response.data);
+          var _icon_ = null;
+
+          var _html = '<ul class="list-style-none m-0 h-100" style="overflow-y: auto"><li class="Directory pl-4 pt-1" data-slug="' + response.data.message.project.path + '">' + '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name + '<span class="fg-darkGray ml-2">sources root ,' + response.data.message.project.path + '</span>' + '</li><ul class="list-style-none pl-7 mr-0 files" data-path="' + response.data.message.project.path + '"></ul></ul>';
+
+          _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure').html(_html);
+
+          if (Object.keys(response.data.message.files).length > 0) {
+            Object.keys(response.data.message.files).forEach(function (value) {
+              var _content = '';
+              Object.keys(response.data.message.files[value]).forEach(function (val) {
+                if (response.data.message.files[value][val] === 'file') {
+                  var _icon = val.split('.').pop();
+
+                  if (_extensions__WEBPACK_IMPORTED_MODULE_1__["default"][_icon] === undefined) {
+                    _icon = 'file';
+                  }
+
+                  _content += '<li class="pt-1" data-name="' + val + '" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '" data-ext="' + val.split('.').pop() + '">' + '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1">' + val + '</li>';
+                }
+
+                if (response.data.message.files[value][val] === 'directory') {
+                  _content += '<li class="pt-1" data-name="' + val + '" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '" data-ext="' + val.split('.').pop() + '">' + '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1">' + val + '</li>';
+                }
+              });
+              _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure ul.files').each(function () {
+                if (_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).attr('data-path') === value) {
+                  _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).html(_content);
+                }
+              });
+            });
+          }
+        }
+
+        contextMenu.init();
       }
     }, function (response) {
       console.log('Directory structure AJAX Error !');
@@ -25566,7 +25598,7 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
 });
 IDE.service('contextMenu', function () {
   this.init = function () {
-    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .database').contextMenu(ContextMenus.database_structure, {
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .database , .directory-structure .Directory').contextMenu(ContextMenus.database_structure, {
       triggerOn: 'contextmenu'
     });
   };
@@ -25714,11 +25746,11 @@ IDE.service('directoryHandler', function ($http, editorTabs, editorContent) {
       });
       _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).addClass('li-selected');
     });
-    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('dblclick', '.directory-structure .database', function () {
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('dblclick', '.directory-structure .database , .directory-structure .Directory', function () {
       _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).toggleClass('collapsed');
       _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .records').toggleClass('d-none');
     });
-    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', '.directory-structure .database', function (e) {
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', '.directory-structure .database , .directory-structure .Directory', function (e) {
       if (e.clientX > 3 && e.clientX < 33) {
         _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).toggleClass('collapsed');
         _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .records').toggleClass('d-none');
@@ -25822,6 +25854,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
   });
   $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllFileProjects')).then(function (response) {
     if (response.data.type === 'success') {
+      console.log(response.data);
       $scope.files_projects = [];
       Object.keys(response.data.message).forEach(function (value) {
         $scope.files_projects.push({

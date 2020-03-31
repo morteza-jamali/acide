@@ -162,11 +162,13 @@ html {
   background-color: #117ae3 !important;
 }
 
-.directory-structure .database.collapsed:before {
+.directory-structure .database.collapsed:before,
+.directory-structure .Directory.collapsed:before {
   content: "\E69B" !important;
 }
 
-.directory-structure .database:before {
+.directory-structure .database:before,
+.directory-structure .Directory:before {
   content: "\E66B";
   font-family: "metro" !important;
   margin-left: -7px;

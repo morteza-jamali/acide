@@ -115,11 +115,10 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
         $http.post(
             ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')
         ).then(function (response) {
-            console.log(response.data);
                 if(response.data.type === 'success' && response.data.message.length !== 0) {
                     if (response.data.message.default === 'Database') {
                         var _icon = null;
-                        var html = '<ul class="list-style-none mx-0"><li class="database pl-4 pt-1" data-slug="' +
+                        var html = '<ul class="list-style-none m-0 h-100" style="overflow-y: auto"><li class="database pl-4 pt-1" data-slug="' +
                             response.data.message.project.slug + '">' +
                             '<img src="assets/img/icons/database.svg" class="mr-1">' + response.data.message.project.name + '</li>' +
                             '<ul class="list-style-none pl-7 mr-0 records">';
@@ -137,7 +136,6 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                         }
                         html += '</ul></ul>';
                         $('.directory-structure').html(html);
-                        contextMenu.init();
                         response.data.message.records.forEach(function (value) {
                             if (value.name + '.' + value.ext === response.data.message.active_record &&
                                 value.project === response.data.message.project.slug) {
@@ -155,8 +153,45 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                     }
 
                     if(response.data.message.default === 'File') {
-
+                        console.log(response.data);
+                        var _icon_ = null;
+                        var _html = '<ul class="list-style-none m-0 h-100" style="overflow-y: auto"><li class="Directory pl-4 pt-1" data-slug="' +
+                            response.data.message.project.path + '">' +
+                            '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name +
+                            '<span class="fg-darkGray ml-2">sources root ,' + response.data.message.project.path + '</span>' +
+                            '</li><ul class="list-style-none pl-7 mr-0 files" data-path="' + response.data.message.project.path
+                            + '"></ul></ul>';
+                        $('.directory-structure').html(_html);
+                        if (Object.keys(response.data.message.files).length > 0) {
+                            Object.keys(response.data.message.files).forEach(function (value) {
+                                var _content = '';
+                                Object.keys(response.data.message.files[value]).forEach(function (val) {
+                                    if(response.data.message.files[value][val] === 'file') {
+                                        var _icon = val.split('.').pop();
+                                        if (extensions[_icon] === undefined) {
+                                            _icon = 'file';
+                                        }
+                                        _content += '<li class="pt-1" data-name="' + val + '" data-slug="' +
+                                            uuidv4() + '" data-ext="' + val.split('.').pop() + '">' +
+                                            '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1">'
+                                            + val + '</li>';
+                                    }
+                                    if(response.data.message.files[value][val] === 'directory') {
+                                        _content += '<li class="pt-1" data-name="' + val + '" data-slug="' +
+                                            uuidv4() + '" data-ext="' + val.split('.').pop() + '">' +
+                                            '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1">'
+                                            + val + '</li>';
+                                    }
+                                });
+                                $('.directory-structure ul.files').each(function () {
+                                    if($(this).attr('data-path') === value) {
+                                        $(this).html(_content);
+                                    }
+                                });
+                            });
+                        }
                     }
+                    contextMenu.init();
                 }
             } ,
             function (response) {
@@ -167,7 +202,7 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
 
 IDE.service('contextMenu' , function () {
     this.init = function () {
-        $('.directory-structure .database').contextMenu(ContextMenus.database_structure,{triggerOn:'contextmenu'});
+        $('.directory-structure .database , .directory-structure .Directory').contextMenu(ContextMenus.database_structure,{triggerOn:'contextmenu'});
     };
 });
 
@@ -308,11 +343,11 @@ IDE.service('directoryHandler' , function ($http , editorTabs , editorContent) {
             });
             $(this).addClass('li-selected');
         });
-        $(document).on('dblclick' , '.directory-structure .database' , function () {
+        $(document).on('dblclick' , '.directory-structure .database , .directory-structure .Directory' , function () {
             $(this).toggleClass('collapsed');
             $('.directory-structure .records').toggleClass('d-none');
         });
-        $(document).on('click' , '.directory-structure .database' , function (e) {
+        $(document).on('click' , '.directory-structure .database , .directory-structure .Directory' , function (e) {
             if(e.clientX > 3 && e.clientX < 33) {
                 $(this).toggleClass('collapsed');
                 $('.directory-structure .records').toggleClass('d-none');
