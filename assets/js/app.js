@@ -25577,7 +25577,7 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
                 }
 
                 if (response.data.message.files[value][val] === 'directory') {
-                  _content += '<li class="pt-1" data-name="' + val + '" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '" data-ext="' + val.split('.').pop() + '">' + '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1">' + val + '</li>';
+                  _content += '<li class="pt-1" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '">' + '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + val + '</li><ul class="list-style-none pl-0 mr-0 files" data-path="' + value + '\\' + val + '"></ul>';
                 }
               });
               _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure ul.files').each(function () {
