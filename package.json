@@ -12,6 +12,7 @@
     "laravel-mix": "^5.0.2",
     "laravel-mix-pug": "^0.3.0",
     "metro4": "^4.3.6",
+    "simplebar": "^5.1.0",
     "uuid": "^7.0.2"
   },
   "devDependencies": {

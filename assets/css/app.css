@@ -158,6 +158,18 @@ html {
   background-color: #1c2731;
 }
 
+.directory-structure li.dir i.mif-chevron-thin-down {
+  display: none;
+}
+
+.directory-structure li.dir.collapsed i.mif-chevron-thin-right {
+  display: none;
+}
+
+.directory-structure li.dir.collapsed i.mif-chevron-thin-down {
+  display: inline-block !important;
+}
+
 .directory-structure li.li-selected {
   background-color: #117ae3 !important;
 }
@@ -179,7 +191,7 @@ html {
   font-size: 13px;
 }
 
-.directory-structure li img {
+.directory-structure ul img {
   width: 20px;
   margin-bottom: 3px;
 }

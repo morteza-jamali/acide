@@ -2,6 +2,7 @@ import * as $ from '../../node_modules/jquery/src/jquery';
 import extensions from "./extensions";
 import { v4 as uuidv4 } from 'uuid';
 import he from '../../node_modules/he/he';
+import SimpleBar from 'simplebar';
 
 var ACIDE = {
     getWebsiteUrl : function () {
@@ -110,7 +111,7 @@ IDE.service('window' , function () {
     };
 });
 
-IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , editorContent) {
+IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , editorContent , simpleBar) {
     this.refresh = function () {
         $http.post(
             ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')
@@ -153,9 +154,8 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                     }
 
                     if(response.data.message.default === 'File') {
-                        console.log(response.data);
                         var _icon_ = null;
-                        var _html = '<ul class="list-style-none m-0 h-100" style="overflow-y: auto"><li class="Directory pl-4 pt-1" data-slug="' +
+                        var _html = '<ul class="list-style-none m-0 h-100 simpleBar" style="overflow: auto"><li class="Directory pl-4 pt-1" data-slug="' +
                             response.data.message.project.path + '">' +
                             '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name +
                             '<span class="fg-darkGray ml-2">sources root ,' + response.data.message.project.path + '</span>' +
@@ -173,13 +173,14 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                                         }
                                         _content += '<li class="pt-1" data-name="' + val + '" data-slug="' +
                                             uuidv4() + '" data-ext="' + val.split('.').pop() + '">' +
-                                            '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1">'
-                                            + val + '</li>';
+                                            '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1"><span>'
+                                            + val + '</span></li>';
                                     }
                                     if(response.data.message.files[value][val] === 'directory') {
-                                        _content += '<li class="pt-1" data-slug="' + uuidv4() + '">' +
+                                        _content += '<li class="pt-1 dir" data-slug="' + uuidv4() + '">' +
+                                            '<i class="mif-chevron-thin-right mr-1"></i><i class="mif-chevron-thin-down mr-1"></i>' +
                                             '<img src="assets/img/icons/folder-custom.svg" class="mr-1">'
-                                            + val + '</li><ul class="list-style-none pl-0 mr-0 files" data-path="'
+                                            + val + '</li><ul class="list-style-none mr-0 files d-none" data-path="'
                                             + value + '\\' + val + '"></ul>';
                                     }
                                 });
@@ -192,6 +193,7 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                         }
                     }
                     contextMenu.init();
+                    simpleBar.init();
                 }
             } ,
             function (response) {
@@ -203,6 +205,12 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
 IDE.service('contextMenu' , function () {
     this.init = function () {
         $('.directory-structure .database , .directory-structure .Directory').contextMenu(ContextMenus.database_structure,{triggerOn:'contextmenu'});
+    };
+});
+
+IDE.service('simpleBar' , function () {
+    this.init = function () {
+        new SimpleBar($('.simpleBar')[0]);
     };
 });
 
@@ -346,11 +354,21 @@ IDE.service('directoryHandler' , function ($http , editorTabs , editorContent) {
         $(document).on('dblclick' , '.directory-structure .database , .directory-structure .Directory' , function () {
             $(this).toggleClass('collapsed');
             $('.directory-structure .records').toggleClass('d-none');
+            $('.directory-structure .files').first().toggleClass('d-none');
+        });
+        $(document).on('dblclick' , '.directory-structure li.dir' , function () {
+            $(this).toggleClass('collapsed');
+            $(this).next().toggleClass('d-none');
+        });
+        $(document).on('click' , '.directory-structure li i' , function () {
+            $(this).parent().toggleClass('collapsed');
+            $(this).parent().next().toggleClass('d-none');
         });
         $(document).on('click' , '.directory-structure .database , .directory-structure .Directory' , function (e) {
             if(e.clientX > 3 && e.clientX < 33) {
                 $(this).toggleClass('collapsed');
                 $('.directory-structure .records').toggleClass('d-none');
+                $('.directory-structure .files').first().toggleClass('d-none');
             }
         });
         $(document).on('dblclick' , '.directory-structure .records li' , function () {
