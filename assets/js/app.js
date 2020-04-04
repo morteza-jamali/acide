@@ -32949,7 +32949,7 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
         if (response.data.message["default"] === 'File') {
           var _icon_ = null;
 
-          var _html = '<ul class="list-style-none m-0 h-100 simpleBar" style="overflow: auto"><li class="Directory pl-4 pt-1" data-slug="' + response.data.message.project.path + '">' + '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name + '<span class="fg-darkGray ml-2">sources root ,' + response.data.message.project.path + '</span>' + '</li><ul class="list-style-none pl-7 mr-0 files" data-path="' + response.data.message.project.path + '"></ul></ul>';
+          var _html = '<ul class="list-style-none m-0 h-100 simpleBar" style="overflow: auto"><li class="Directory pl-4 pt-1 d-flex" data-slug="' + response.data.message.project.path + '">' + '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name + '<span class="fg-darkGray ml-2">sources root ,' + response.data.message.project.path + '</span>' + '</li><ul class="list-style-none pl-7 mr-0 files" data-path="' + response.data.message.project.path + '"></ul></ul>';
 
           _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure').html(_html);
 
@@ -32964,11 +32964,11 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
                     _icon = 'file';
                   }
 
-                  _content += '<li class="pt-1" data-name="' + val + '" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '" data-ext="' + val.split('.').pop() + '">' + '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1"><span>' + val + '</span></li>';
+                  _content += '<li class="pt-1 d-flex" data-name="' + val + '" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '" data-ext="' + val.split('.').pop() + '">' + '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1"><span>' + val + '</span></li>';
                 }
 
                 if (response.data.message.files[value][val] === 'directory') {
-                  _content += '<li class="pt-1 dir" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '">' + '<i class="mif-chevron-thin-right mr-1"></i><i class="mif-chevron-thin-down mr-1"></i>' + '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + val + '</li><ul class="list-style-none mr-0 files d-none" data-path="' + value + '\\' + val + '"></ul>';
+                  _content += '<li class="pt-1 dir d-flex" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])() + '">' + '<i class="mif-chevron-thin-right mr-1"></i><i class="mif-chevron-thin-down mr-1"></i>' + '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + val + '</li><ul class="list-style-none mr-0 files d-none" data-path="' + value + '\\' + val + '"></ul>';
                 }
               });
               _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure ul.files').each(function () {

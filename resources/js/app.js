@@ -155,7 +155,7 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
 
                     if(response.data.message.default === 'File') {
                         var _icon_ = null;
-                        var _html = '<ul class="list-style-none m-0 h-100 simpleBar" style="overflow: auto"><li class="Directory pl-4 pt-1" data-slug="' +
+                        var _html = '<ul class="list-style-none m-0 h-100 simpleBar" style="overflow: auto"><li class="Directory pl-4 pt-1 d-flex" data-slug="' +
                             response.data.message.project.path + '">' +
                             '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name +
                             '<span class="fg-darkGray ml-2">sources root ,' + response.data.message.project.path + '</span>' +
@@ -171,13 +171,13 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                                         if (extensions[_icon] === undefined) {
                                             _icon = 'file';
                                         }
-                                        _content += '<li class="pt-1" data-name="' + val + '" data-slug="' +
+                                        _content += '<li class="pt-1 d-flex" data-name="' + val + '" data-slug="' +
                                             uuidv4() + '" data-ext="' + val.split('.').pop() + '">' +
                                             '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1"><span>'
                                             + val + '</span></li>';
                                     }
                                     if(response.data.message.files[value][val] === 'directory') {
-                                        _content += '<li class="pt-1 dir" data-slug="' + uuidv4() + '">' +
+                                        _content += '<li class="pt-1 dir d-flex" data-slug="' + uuidv4() + '">' +
                                             '<i class="mif-chevron-thin-right mr-1"></i><i class="mif-chevron-thin-down mr-1"></i>' +
                                             '<img src="assets/img/icons/folder-custom.svg" class="mr-1">'
                                             + val + '</li><ul class="list-style-none mr-0 files d-none" data-path="'

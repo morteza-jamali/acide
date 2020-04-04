@@ -158,6 +158,10 @@ html {
   background-color: #1c2731;
 }
 
+.directory-structure li {
+  min-width: 300px;
+}
+
 .directory-structure li.dir i.mif-chevron-thin-down {
   display: none;
 }
@@ -194,6 +198,7 @@ html {
 .directory-structure ul img {
   width: 20px;
   margin-bottom: 3px;
+  height: 20px;
 }
 
 .iw-cm-menu {
