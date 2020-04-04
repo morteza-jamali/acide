@@ -306,21 +306,41 @@ IDE.service('editorHandler' , function ($rootScope , $http) {
             name: 'myCommand',
             bindKey: {win: 'Ctrl-S',  mac: 'Command-M'},
             exec: function(editor) {
-                $http.post(
-                    ACIDE.getFullRoute('EditorController@saveRecordContent') ,
-                    {
-                        name : $('.editor-tabs ul li.active span.name').html() ,
-                        content : editor.getValue() ,
-                        project : $('.directory-structure ul li.database').attr('data-slug')
-                    }
-                ).then(function (response) {
-                    if(response.data.type === 'success') {
-                        $('.editor-tabs ul li.active').removeClass('font-italic');
-                        $('.editor-tabs ul li.active span.name').removeClass('font-bold');
-                    }
-                } , function (response) {
-                    console.log('Editor saving AJAX error !');
-                });
+                if($('.directory-structure ul.files').length) {
+                    var _elm = $('.directory-structure ul li[data-slug="' +
+                        $('.editor-tabs ul li.active').attr('data-slug')
+                        + '"]');
+                    $http.post(
+                        ACIDE.getFullRoute('EditorController@saveFileContent') ,
+                        {
+                            path : _elm.parent().attr('data-path') + '\\' + _elm.attr('data-name') ,
+                            content : editor.getValue()
+                        }
+                    ).then(function (response) {
+                        if(response.data.type === 'success') {
+                            $('.editor-tabs ul li.active').removeClass('font-italic');
+                            $('.editor-tabs ul li.active span.name').removeClass('font-bold');
+                        }
+                    } , function (response) {
+                        console.log('Editor saving AJAX error !');
+                    });
+                } else {
+                    $http.post(
+                        ACIDE.getFullRoute('EditorController@saveRecordContent') ,
+                        {
+                            name : $('.editor-tabs ul li.active span.name').html() ,
+                            content : editor.getValue() ,
+                            project : $('.directory-structure ul li.database').attr('data-slug')
+                        }
+                    ).then(function (response) {
+                        if(response.data.type === 'success') {
+                            $('.editor-tabs ul li.active').removeClass('font-italic');
+                            $('.editor-tabs ul li.active span.name').removeClass('font-bold');
+                        }
+                    } , function (response) {
+                        console.log('Editor saving AJAX error !');
+                    });
+                }
             },
             readOnly: true
         });
@@ -384,6 +404,22 @@ IDE.service('directoryHandler' , function ($http , editorTabs , editorContent) {
             } , function (response) {
                 console.log('Record AJAX error !');
             });
+        });
+        $(document).on('dblclick' , '.directory-structure .files li' , function () {
+            if(!$(this).hasClass('dir')) {
+                var _elm = $(this);
+                $http.post(
+                    ACIDE.getFullRoute('EditorController@getFileContent') ,
+                    {
+                        path : _elm.parent().attr('data-path') + '\\' + _elm.attr('data-name')
+                    }
+                ).then(function (response) {
+                    editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));
+                    editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-ext'));
+                } , function (response) {
+                    console.log('File AJAX error !');
+                });
+            }
         });
     };
 });

@@ -7,6 +7,7 @@
     use ACIDECore\App\StringFactory;
     use Rakit\Validation\Validator;
     use ACIDE\App\Models\Record;
+    use ACFileManager\Src\File;
 
     class EditorController {
         private $request = null;
@@ -62,6 +63,46 @@
                 ]);
 
             return (new Response())->success(['content' => 'saved'])->returnMsg();
+        }
+
+        public function getFileContent() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'path' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            if(!File::exists($this->request['path'])) {
+                return (new Response())->error(['file' => 'does not exist'])->returnMsg();
+            }
+
+            return (new Response())->success(
+                ['content' => File::getFileContent($this->request['path'])]
+            )->returnMsg();
+        }
+
+        public function saveFileContent() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'path' => 'required' ,
+                'content' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            if(!File::exists($this->request['path'])) {
+                return (new Response())->error(['file' => 'does not exist'])->returnMsg();
+            }
+
+            File::addFileContent($this->request['path'] , $this->request['content']);
+            return (new Response())->success(['file content' => 'saved'])->returnMsg();
         }
     }
 ?>

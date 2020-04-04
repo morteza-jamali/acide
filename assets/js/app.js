@@ -33100,18 +33100,34 @@ IDE.service('editorHandler', function ($rootScope, $http) {
         mac: 'Command-M'
       },
       exec: function exec(editor) {
-        $http.post(ACIDE.getFullRoute('EditorController@saveRecordContent'), {
-          name: _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active span.name').html(),
-          content: editor.getValue(),
-          project: _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure ul li.database').attr('data-slug')
-        }).then(function (response) {
-          if (response.data.type === 'success') {
-            _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active').removeClass('font-italic');
-            _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active span.name').removeClass('font-bold');
-          }
-        }, function (response) {
-          console.log('Editor saving AJAX error !');
-        });
+        if (_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure ul.files').length) {
+          var _elm = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure ul li[data-slug="' + _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active').attr('data-slug') + '"]');
+
+          $http.post(ACIDE.getFullRoute('EditorController@saveFileContent'), {
+            path: _elm.parent().attr('data-path') + '\\' + _elm.attr('data-name'),
+            content: editor.getValue()
+          }).then(function (response) {
+            if (response.data.type === 'success') {
+              _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active').removeClass('font-italic');
+              _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active span.name').removeClass('font-bold');
+            }
+          }, function (response) {
+            console.log('Editor saving AJAX error !');
+          });
+        } else {
+          $http.post(ACIDE.getFullRoute('EditorController@saveRecordContent'), {
+            name: _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active span.name').html(),
+            content: editor.getValue(),
+            project: _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure ul li.database').attr('data-slug')
+          }).then(function (response) {
+            if (response.data.type === 'success') {
+              _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active').removeClass('font-italic');
+              _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active span.name').removeClass('font-bold');
+            }
+          }, function (response) {
+            console.log('Editor saving AJAX error !');
+          });
+        }
       },
       readOnly: true
     });
@@ -33174,6 +33190,20 @@ IDE.service('directoryHandler', function ($http, editorTabs, editorContent) {
       }, function (response) {
         console.log('Record AJAX error !');
       });
+    });
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('dblclick', '.directory-structure .files li', function () {
+      if (!_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).hasClass('dir')) {
+        var _elm = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this);
+
+        $http.post(ACIDE.getFullRoute('EditorController@getFileContent'), {
+          path: _elm.parent().attr('data-path') + '\\' + _elm.attr('data-name')
+        }).then(function (response) {
+          editorTabs.append(_elm.attr('data-name'), _elm.find('img').attr('src'), _elm.attr('data-slug'));
+          editorContent.append(_elm.attr('data-slug'), response.data.message.content, _elm.attr('data-ext'));
+        }, function (response) {
+          console.log('File AJAX error !');
+        });
+      }
     });
   };
 });
