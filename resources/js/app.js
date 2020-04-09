@@ -60,6 +60,46 @@ var ContextMenus = {
                 img : 'assets/img/icons/coffee.svg'
             }
         ]
+    }] ,
+    file_structure : [{
+        name: 'New',
+        subMenu : [
+            {
+                name : 'File' ,
+                img : 'assets/img/icons/file.svg' ,
+                fun : function () {
+                    location.hash = '#!newfile';
+                }
+            } ,
+            {
+                name: 'PHP File' ,
+                img : 'assets/img/icons/php_elephant.svg'
+            } ,
+            {
+                name : 'HTML File' ,
+                img : 'assets/img/icons/html.svg'
+            } ,
+            {
+                name : 'Stylesheet',
+                img : 'assets/img/icons/css.svg'
+            } ,
+            {
+                name : 'Javascript File' ,
+                img : 'assets/img/icons/js.svg'
+            } ,
+            {
+                name : 'Typescript File' ,
+                img : 'assets/img/icons/typescript.svg'
+            } ,
+            {
+                name : 'Pug/Jade File' ,
+                img : 'assets/img/icons/pug.svg'
+            } ,
+            {
+                name : 'Coffeescript File' ,
+                img : 'assets/img/icons/coffee.svg'
+            }
+        ]
     }]
 };
 
@@ -204,7 +244,8 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
 
 IDE.service('contextMenu' , function () {
     this.init = function () {
-        $('.directory-structure .database , .directory-structure .Directory').contextMenu(ContextMenus.database_structure,{triggerOn:'contextmenu'});
+        $('.directory-structure .database').contextMenu(ContextMenus.database_structure,{triggerOn:'contextmenu'});
+        $('.directory-structure .Directory').contextMenu(ContextMenus.file_structure,{triggerOn:'contextmenu'});
     };
 });
 

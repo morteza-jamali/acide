@@ -32861,6 +32861,37 @@ var ContextMenus = {
       name: 'Coffeescript Record',
       img: 'assets/img/icons/coffee.svg'
     }]
+  }],
+  file_structure: [{
+    name: 'New',
+    subMenu: [{
+      name: 'File',
+      img: 'assets/img/icons/file.svg',
+      fun: function fun() {
+        location.hash = '#!newfile';
+      }
+    }, {
+      name: 'PHP File',
+      img: 'assets/img/icons/php_elephant.svg'
+    }, {
+      name: 'HTML File',
+      img: 'assets/img/icons/html.svg'
+    }, {
+      name: 'Stylesheet',
+      img: 'assets/img/icons/css.svg'
+    }, {
+      name: 'Javascript File',
+      img: 'assets/img/icons/js.svg'
+    }, {
+      name: 'Typescript File',
+      img: 'assets/img/icons/typescript.svg'
+    }, {
+      name: 'Pug/Jade File',
+      img: 'assets/img/icons/pug.svg'
+    }, {
+      name: 'Coffeescript File',
+      img: 'assets/img/icons/coffee.svg'
+    }]
   }]
 };
 var IDE = angular.module('ideApp', ['ngRoute']);
@@ -32990,7 +33021,10 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
 });
 IDE.service('contextMenu', function () {
   this.init = function () {
-    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .database , .directory-structure .Directory').contextMenu(ContextMenus.database_structure, {
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .database').contextMenu(ContextMenus.database_structure, {
+      triggerOn: 'contextmenu'
+    });
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .Directory').contextMenu(ContextMenus.file_structure, {
       triggerOn: 'contextmenu'
     });
   };
