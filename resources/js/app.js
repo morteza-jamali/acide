@@ -100,6 +100,16 @@ var ContextMenus = {
                 img : 'assets/img/icons/coffee.svg'
             }
         ]
+    } , {
+        name: 'Cut'
+    } , {
+        name: 'Copy'
+    } , {
+        name: 'Paste'
+    } , {
+        name: 'Rename'
+    } , {
+        name: 'Delete'
     }]
 };
 
@@ -118,6 +128,10 @@ IDE.config(function($routeProvider) {
         .when('/closeproject' , {
             templateUrl : ACIDE.getTemplateURL('windows/html/close_project') ,
             controller : 'closeProjectCtrl'
+        })
+        .when('/newfile' , {
+            templateUrl : ACIDE.getTemplateURL('windows/html/new_file') ,
+            controller : 'newFileCtrl'
         });
 });
 
@@ -245,7 +259,7 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
 IDE.service('contextMenu' , function () {
     this.init = function () {
         $('.directory-structure .database').contextMenu(ContextMenus.database_structure,{triggerOn:'contextmenu'});
-        $('.directory-structure .Directory').contextMenu(ContextMenus.file_structure,{triggerOn:'contextmenu'});
+        $('.directory-structure .Directory , .directory-structure li.dir').contextMenu(ContextMenus.file_structure,{triggerOn:'contextmenu'});
     };
 });
 

@@ -11,6 +11,7 @@ mix.js([
         'resources/js/mousetrap.min.js' ,
         'resources/js/newProjectCtrl.js' ,
         'resources/js/newRecord.js' ,
+        'resources/js/newFile.js' ,
         'resources/js/closeProject.js' ,
         'resources/js/contextMenu.min.js' ,
         'resources/js/validation.js',

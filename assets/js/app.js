@@ -32892,6 +32892,16 @@ var ContextMenus = {
       name: 'Coffeescript File',
       img: 'assets/img/icons/coffee.svg'
     }]
+  }, {
+    name: 'Cut'
+  }, {
+    name: 'Copy'
+  }, {
+    name: 'Paste'
+  }, {
+    name: 'Rename'
+  }, {
+    name: 'Delete'
   }]
 };
 var IDE = angular.module('ideApp', ['ngRoute']);
@@ -32905,6 +32915,9 @@ IDE.config(function ($routeProvider) {
   }).when('/closeproject', {
     templateUrl: ACIDE.getTemplateURL('windows/html/close_project'),
     controller: 'closeProjectCtrl'
+  }).when('/newfile', {
+    templateUrl: ACIDE.getTemplateURL('windows/html/new_file'),
+    controller: 'newFileCtrl'
   });
 });
 IDE.run(function ($rootScope, $templateCache) {
@@ -33024,7 +33037,7 @@ IDE.service('contextMenu', function () {
     _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .database').contextMenu(ContextMenus.database_structure, {
       triggerOn: 'contextmenu'
     });
-    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .Directory').contextMenu(ContextMenus.file_structure, {
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .Directory , .directory-structure li.dir').contextMenu(ContextMenus.file_structure, {
       triggerOn: 'contextmenu'
     });
   };
@@ -34123,6 +34136,28 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* mousetrap v1.6.5 craig.is/killing/mice */
 
 /***/ }),
 
+/***/ "./resources/js/newFile.js":
+/*!*********************************!*\
+  !*** ./resources/js/newFile.js ***!
+  \*********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($scope, $http, window, directoryStructure) {
+  window.title('New File');
+  window.show();
+  window.changeSize({
+    width: 400,
+    height: 300
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/js/newProjectCtrl.js":
 /*!****************************************!*\
   !*** ./resources/js/newProjectCtrl.js ***!
@@ -34265,9 +34300,9 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('recordValidation', function 
 /***/ }),
 
 /***/ 0:
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./resources/js/mousetrap.min.js ./resources/js/newProjectCtrl.js ./resources/js/newRecord.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/app.js ./resources/sass/app.sass ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./resources/js/mousetrap.min.js ./resources/js/newProjectCtrl.js ./resources/js/newRecord.js ./resources/js/newFile.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/app.js ./resources/sass/app.sass ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -34280,6 +34315,7 @@ __webpack_require__(/*! C:\wamp64\www\acide\node_modules\he\he.js */"./node_modu
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\mousetrap.min.js */"./resources/js/mousetrap.min.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newProjectCtrl.js */"./resources/js/newProjectCtrl.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newRecord.js */"./resources/js/newRecord.js");
+__webpack_require__(/*! C:\wamp64\www\acide\resources\js\newFile.js */"./resources/js/newFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\closeProject.js */"./resources/js/closeProject.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\contextMenu.min.js */"./resources/js/contextMenu.min.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\validation.js */"./resources/js/validation.js");
