@@ -9,6 +9,8 @@
     use ACIDE\App\Models\Record;
     use ACIDE\App\Models\Setting;
     use ACIDE\App\Models\FileProject;
+    use ACIDE\App\Models\File;
+    use ACFileManager\Src\File as FileManager;
 
     class NewProjectController {
         private $request = null;
@@ -93,6 +95,48 @@
             ]);
 
             return (new Response())->success(['Record' => 'created'])->returnMsg();
+        }
+
+        public function createFile() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'name' => 'required|regex:/^[A-Za-z0-9.]+\.[A-Za-z0-9]+$/' ,
+                'path' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            $name = StringFactory::getStringBeforeToken($this->request['name'] , '.');
+            $ext = StringFactory::getStringAfterToken($this->request['name'] , '.');
+            if($ext !== false && !empty($this->request['ext'])) {
+                $ext .= '.' . $this->request['ext'];
+            } elseif ($ext === false && !empty($this->request['ext'])) {
+                $ext = $this->request['ext'];
+            }
+
+            if($ext === false) {
+                return (new Response())->error(['extension' => 'is invalid'])->returnMsg();
+            }
+
+            $file_path = $this->request['path'] . DIRECTORY_SEPARATOR . "{$name}.{$ext}";
+
+            FileManager::addFileContent($file_path , '' , 'a');
+
+            $path = FileProject::where('name' , '_active_project_')
+                ->where('type' , 'label')->value('path');
+
+            File::updateOrCreate([
+                'project' => $path ,
+                'type' => 'label'
+            ] , [
+                'name' => FileManager::getBaseName($file_path) ,
+                'path' => $file_path
+            ]);
+
+            return (new Response())->success(['File' => 'created'])->returnMsg();
         }
 
         public function openProject() {

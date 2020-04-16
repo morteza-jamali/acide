@@ -32841,7 +32841,7 @@ var ContextMenus = {
       }
     }, {
       name: 'PHP Record',
-      img: 'assets/img/icons/php_elephant.svg'
+      img: 'assets/img/icons/php.svg'
     }, {
       name: 'HTML Record',
       img: 'assets/img/icons/html.svg'
@@ -32872,7 +32872,7 @@ var ContextMenus = {
       }
     }, {
       name: 'PHP File',
-      img: 'assets/img/icons/php_elephant.svg'
+      img: 'assets/img/icons/php.svg'
     }, {
       name: 'HTML File',
       img: 'assets/img/icons/html.svg'
@@ -33777,6 +33777,10 @@ var extensions = {
   html: {
     mode: 'html',
     encode: true
+  },
+  php: {
+    mode: 'php',
+    encode: false
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (extensions);
@@ -34146,6 +34150,9 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* mousetrap v1.6.5 craig.is/killing/mice */
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
+
 
 _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($scope, $http, window, directoryStructure) {
   window.title('New File');
@@ -34154,6 +34161,23 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($sc
     width: 400,
     height: 300
   });
+  var path = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li.li-selected').next().attr('data-path');
+
+  $scope.createFile = function () {
+    var ext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
+      'name': $scope.file_name,
+      'path': path,
+      'ext': ext
+    }).then(function (response) {
+      if (response.data.type === 'success') {
+        window.hide();
+        directoryStructure.refresh();
+      }
+    }, function (response) {
+      console.log('New File AJAX Error !');
+    });
+  };
 });
 
 /***/ }),
@@ -34231,7 +34255,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newRecordCtrl', function ($
         directoryStructure.refresh();
       }
     }, function (response) {
-      console.log('New Project AJAX Error !');
+      console.log('New Record AJAX Error !');
     });
   };
 });

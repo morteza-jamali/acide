@@ -19,7 +19,7 @@ IDE.controller('newRecordCtrl' , function ($scope , $http , window , directorySt
                 }
             } ,
             function (response) {
-                console.log('New Project AJAX Error !');
+                console.log('New Record AJAX Error !');
             });
     };
 });

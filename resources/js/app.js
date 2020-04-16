@@ -33,7 +33,7 @@ var ContextMenus = {
             } ,
             {
                 name: 'PHP Record' ,
-                img : 'assets/img/icons/php_elephant.svg'
+                img : 'assets/img/icons/php.svg'
             } ,
             {
                 name : 'HTML Record' ,
@@ -73,7 +73,7 @@ var ContextMenus = {
             } ,
             {
                 name: 'PHP File' ,
-                img : 'assets/img/icons/php_elephant.svg'
+                img : 'assets/img/icons/php.svg'
             } ,
             {
                 name : 'HTML File' ,

@@ -10,6 +10,10 @@ var extensions = {
     html : {
         mode : 'html' ,
         encode : true
+    } ,
+    php : {
+        mode : 'php' ,
+        encode : false
     }
 };
 
