@@ -13,7 +13,7 @@ var extensions = {
     } ,
     php : {
         mode : 'php' ,
-        encode : false
+        encode : true
     }
 };
 

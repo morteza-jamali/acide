@@ -33020,6 +33020,23 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
                   _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).html(_content);
                 }
               });
+              Object.keys(response.data.message.files[value]).forEach(function (val) {
+                if (response.data.message.files[value][val] === 'file') {
+                  var _icon = val.split('.').pop();
+
+                  if (_extensions__WEBPACK_IMPORTED_MODULE_1__["default"][_icon] === undefined) {
+                    _icon = 'file';
+                  }
+
+                  if (value + '\\' + val === response.data.message.active_file[0].path && response.data.message.active_file[0].project === response.data.message.project.path) {
+                    var _slug = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .files li[data-name="' + val + '"]').attr('data-slug');
+
+                    editorTabs.clean();
+                    editorTabs.append(val, 'assets/img/icons/' + _icon + '.svg', _slug);
+                    editorContent.append(_slug, response.data.message.active_file[0].content, val.split('.').pop());
+                  }
+                }
+              });
             });
           }
         }
@@ -33780,7 +33797,7 @@ var extensions = {
   },
   php: {
     mode: 'php',
-    encode: false
+    encode: true
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (extensions);

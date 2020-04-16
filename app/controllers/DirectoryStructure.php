@@ -89,6 +89,8 @@
 
             if(empty($active_file)) {
                 $active_file = [];
+            } else {
+                $active_file[0]['content'] = FileManager::getFileContent($active_file[0]['path']);
             }
 
             return [
