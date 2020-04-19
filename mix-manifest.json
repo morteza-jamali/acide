@@ -2,6 +2,7 @@
     "/assets/js/app.js": "/assets/js/app.js",
     "/assets/css/app.css": "/assets/css/app.css",
     "/resources/views/windows/html/close_project.html": "/resources/views/windows/html/close_project.html",
+    "/resources/views/windows/html/new_exe_file.html": "/resources/views/windows/html/new_exe_file.html",
     "/resources/views/windows/html/new_file.html": "/resources/views/windows/html/new_file.html",
     "/resources/views/windows/html/new_project.html": "/resources/views/windows/html/new_project.html",
     "/resources/views/windows/html/new_record.html": "/resources/views/windows/html/new_record.html"

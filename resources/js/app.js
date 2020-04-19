@@ -28,7 +28,7 @@ var ContextMenus = {
                 name : 'Record' ,
                 img : 'assets/img/icons/credits.svg' ,
                 fun : function () {
-                    location.hash = '#!newrecord';
+                    window.location.hash = '#!newrecord';
                 }
             } ,
             {
@@ -68,12 +68,15 @@ var ContextMenus = {
                 name : 'File' ,
                 img : 'assets/img/icons/file.svg' ,
                 fun : function () {
-                    location.hash = '#!newfile';
+                    window.location.hash = '#!newfile';
                 }
             } ,
             {
                 name: 'PHP File' ,
-                img : 'assets/img/icons/php.svg'
+                img : 'assets/img/icons/php.svg' ,
+                fun : function () {
+                    window.location.hash = '#!newexefile';
+                }
             } ,
             {
                 name : 'HTML File' ,
@@ -132,6 +135,10 @@ IDE.config(function($routeProvider) {
         .when('/newfile' , {
             templateUrl : ACIDE.getTemplateURL('windows/html/new_file') ,
             controller : 'newFileCtrl'
+        })
+        .when('/newexefile' , {
+            templateUrl : ACIDE.getTemplateURL('windows/html/new_exe_file') ,
+            controller : 'newExeFileCtrl'
         });
 });
 
@@ -147,7 +154,7 @@ IDE.service('window' , function () {
     };
     this.hide = function () {
         $('.window').addClass('size-0');
-        location.hash = '/';
+        window.location.hash = '/';
     };
     this.title = function (title) {
         $('.window .window-caption .title').html(title);

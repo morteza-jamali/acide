@@ -32837,7 +32837,7 @@ var ContextMenus = {
       name: 'Record',
       img: 'assets/img/icons/credits.svg',
       fun: function fun() {
-        location.hash = '#!newrecord';
+        window.location.hash = '#!newrecord';
       }
     }, {
       name: 'PHP Record',
@@ -32868,11 +32868,14 @@ var ContextMenus = {
       name: 'File',
       img: 'assets/img/icons/file.svg',
       fun: function fun() {
-        location.hash = '#!newfile';
+        window.location.hash = '#!newfile';
       }
     }, {
       name: 'PHP File',
-      img: 'assets/img/icons/php.svg'
+      img: 'assets/img/icons/php.svg',
+      fun: function fun() {
+        window.location.hash = '#!newexefile';
+      }
     }, {
       name: 'HTML File',
       img: 'assets/img/icons/html.svg'
@@ -32918,6 +32921,9 @@ IDE.config(function ($routeProvider) {
   }).when('/newfile', {
     templateUrl: ACIDE.getTemplateURL('windows/html/new_file'),
     controller: 'newFileCtrl'
+  }).when('/newexefile', {
+    templateUrl: ACIDE.getTemplateURL('windows/html/new_exe_file'),
+    controller: 'newExeFileCtrl'
   });
 });
 IDE.run(function ($rootScope, $templateCache) {
@@ -32932,7 +32938,7 @@ IDE.service('window', function () {
 
   this.hide = function () {
     _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window').addClass('size-0');
-    location.hash = '/';
+    window.location.hash = '/';
   };
 
   this.title = function (title) {
@@ -34157,6 +34163,28 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* mousetrap v1.6.5 craig.is/killing/mice */
 
 /***/ }),
 
+/***/ "./resources/js/newExeFile.js":
+/*!************************************!*\
+  !*** ./resources/js/newExeFile.js ***!
+  \************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function ($scope, $http, window, directoryStructure) {
+  window.title('New File');
+  window.show();
+  window.changeSize({
+    width: 400,
+    height: 300
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/js/newFile.js":
 /*!*********************************!*\
   !*** ./resources/js/newFile.js ***!
@@ -34341,9 +34369,9 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('recordValidation', function 
 /***/ }),
 
 /***/ 0:
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./resources/js/mousetrap.min.js ./resources/js/newProjectCtrl.js ./resources/js/newRecord.js ./resources/js/newFile.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/app.js ./resources/sass/app.sass ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./resources/js/mousetrap.min.js ./resources/js/newProjectCtrl.js ./resources/js/newRecord.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/app.js ./resources/sass/app.sass ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -34357,6 +34385,7 @@ __webpack_require__(/*! C:\wamp64\www\acide\resources\js\mousetrap.min.js */"./r
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newProjectCtrl.js */"./resources/js/newProjectCtrl.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newRecord.js */"./resources/js/newRecord.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newFile.js */"./resources/js/newFile.js");
+__webpack_require__(/*! C:\wamp64\www\acide\resources\js\newExeFile.js */"./resources/js/newExeFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\closeProject.js */"./resources/js/closeProject.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\contextMenu.min.js */"./resources/js/contextMenu.min.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\validation.js */"./resources/js/validation.js");

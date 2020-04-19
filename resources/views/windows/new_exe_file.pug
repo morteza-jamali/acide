@@ -1,0 +1,10 @@
+.p-5
+    form(name="newFileForm" novalidate)
+        input.fg-white(type="text" data-role="materialinput"
+            placeholder="Enter Your File Name" ng-model="file_name"
+            name="name" required record-validation)
+        small.fg-red(ng-show="newFileForm.name.$dirty && newFileForm.name.$error.required") Name can not be empty
+        br
+        small.fg-red(ng-show="newFileForm.name.$dirty && newFileForm.name.$invalid") Name is invalid
+    button.button.primary.mt-5.float-right(ng-click="createFile()"
+        ng-disabled="newFileForm.name.$invalid") Create
