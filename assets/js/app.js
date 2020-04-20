@@ -32939,7 +32939,8 @@ var ContextMenus = {
   }, {
     name: 'Rename'
   }, {
-    name: 'Delete'
+    name: 'Delete',
+    fun: function fun() {}
   }]
 };
 var IDE = angular.module('ideApp', ['ngRoute']);

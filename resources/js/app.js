@@ -147,7 +147,9 @@ var ContextMenus = {
     } , {
         name: 'Rename'
     } , {
-        name: 'Delete'
+        name: 'Delete' ,
+        fun : function () {
+        }
     }]
 };
 
