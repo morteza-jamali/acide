@@ -75,40 +75,75 @@ var ContextMenus = {
                 name: 'PHP File' ,
                 img : 'assets/img/icons/php.svg' ,
                 fun : function () {
+                    Metro.storage.setItem('new_file_type' , 'php');
+                    Metro.storage.setItem('new_file_name' , 'PHP');
                     window.location.hash = '#!newexefile';
                 }
             } ,
             {
                 name : 'HTML File' ,
-                img : 'assets/img/icons/html.svg'
+                img : 'assets/img/icons/html.svg' ,
+                fun : function () {
+                    Metro.storage.setItem('new_file_type' , 'html');
+                    Metro.storage.setItem('new_file_name' , 'HTML');
+                    window.location.hash = '#!newexefile';
+                }
             } ,
             {
                 name : 'Stylesheet',
-                img : 'assets/img/icons/css.svg'
+                img : 'assets/img/icons/css.svg' ,
+                fun : function () {
+                    Metro.storage.setItem('new_file_type' , 'css');
+                    Metro.storage.setItem('new_file_name' , 'CSS');
+                    window.location.hash = '#!newexefile';
+                }
             } ,
             {
-                name : 'Javascript File' ,
-                img : 'assets/img/icons/js.svg'
+                name : 'JavaScript File' ,
+                img : 'assets/img/icons/js.svg' ,
+                fun : function () {
+                    Metro.storage.setItem('new_file_type' , 'js');
+                    Metro.storage.setItem('new_file_name' , 'JavaScript');
+                    window.location.hash = '#!newexefile';
+                }
             } ,
             {
-                name : 'Typescript File' ,
-                img : 'assets/img/icons/typescript.svg'
+                name : 'TypeScript File' ,
+                img : 'assets/img/icons/typescript.svg' ,
+                fun : function () {
+                    Metro.storage.setItem('new_file_type' , 'ts');
+                    Metro.storage.setItem('new_file_name' , 'TypeScript');
+                    window.location.hash = '#!newexefile';
+                }
             } ,
             {
                 name : 'Pug/Jade File' ,
-                img : 'assets/img/icons/pug.svg'
+                img : 'assets/img/icons/pug.svg' ,
+                fun : function () {
+                    Metro.storage.setItem('new_file_type' , 'pug');
+                    Metro.storage.setItem('new_file_name' , 'PUG/Jade');
+                    window.location.hash = '#!newexefile';
+                }
             } ,
             {
-                name : 'Coffeescript File' ,
-                img : 'assets/img/icons/coffee.svg'
+                name : 'CoffeeScript File' ,
+                img : 'assets/img/icons/coffee.svg' ,
+                fun : function () {
+                    Metro.storage.setItem('new_file_type' , 'coffee');
+                    Metro.storage.setItem('new_file_name' , 'CoffeeScript');
+                    window.location.hash = '#!newexefile';
+                }
             }
         ]
     } , {
-        name: 'Cut'
+        name: 'Cut' ,
+        img : 'assets/img/tabler-icons/scissors.png'
     } , {
-        name: 'Copy'
+        name: 'Copy' ,
+        img : 'assets/img/tabler-icons/copy.png'
     } , {
-        name: 'Paste'
+        name: 'Paste' ,
+        img : 'assets/img/tabler-icons/paste.png'
     } , {
         name: 'Rename'
     } , {
@@ -510,9 +545,40 @@ IDE.service('keyBinds' , function () {
     };
 });
 
+IDE.service('storageHandler' , function () {
+    this.init = function () {
+        Metro.storage.setKey('ACIDE');
+    };
+
+    this.set = function (key , data) {
+        Metro.storage.setItem(key , data);
+    };
+
+    this.get = function (key) {
+        return Metro.storage.getItem(key);
+    };
+
+    this.reset = function (key = undefined) {
+        if(key !== undefined) {
+            Metro.storage.delItem(key);
+        } else {
+            var _keys = [
+                'new_file_type' ,
+                'new_file_name'
+            ];
+
+            _keys.forEach(function (value) {
+                Metro.storage.delItem(value);
+            });
+        }
+    };
+});
+
 IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure
                                      , directoryHandler , editorTabsHandler
-                                     , keyBinds) {
+                                     , keyBinds , storageHandler) {
+    storageHandler.init();
+    storageHandler.reset();
     $location.path('');
     directoryStructure.refresh();
     directoryHandler.init();

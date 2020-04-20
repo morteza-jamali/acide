@@ -32874,33 +32874,68 @@ var ContextMenus = {
       name: 'PHP File',
       img: 'assets/img/icons/php.svg',
       fun: function fun() {
+        Metro.storage.setItem('new_file_type', 'php');
+        Metro.storage.setItem('new_file_name', 'PHP');
         window.location.hash = '#!newexefile';
       }
     }, {
       name: 'HTML File',
-      img: 'assets/img/icons/html.svg'
+      img: 'assets/img/icons/html.svg',
+      fun: function fun() {
+        Metro.storage.setItem('new_file_type', 'html');
+        Metro.storage.setItem('new_file_name', 'HTML');
+        window.location.hash = '#!newexefile';
+      }
     }, {
       name: 'Stylesheet',
-      img: 'assets/img/icons/css.svg'
+      img: 'assets/img/icons/css.svg',
+      fun: function fun() {
+        Metro.storage.setItem('new_file_type', 'css');
+        Metro.storage.setItem('new_file_name', 'CSS');
+        window.location.hash = '#!newexefile';
+      }
     }, {
-      name: 'Javascript File',
-      img: 'assets/img/icons/js.svg'
+      name: 'JavaScript File',
+      img: 'assets/img/icons/js.svg',
+      fun: function fun() {
+        Metro.storage.setItem('new_file_type', 'js');
+        Metro.storage.setItem('new_file_name', 'JavaScript');
+        window.location.hash = '#!newexefile';
+      }
     }, {
-      name: 'Typescript File',
-      img: 'assets/img/icons/typescript.svg'
+      name: 'TypeScript File',
+      img: 'assets/img/icons/typescript.svg',
+      fun: function fun() {
+        Metro.storage.setItem('new_file_type', 'ts');
+        Metro.storage.setItem('new_file_name', 'TypeScript');
+        window.location.hash = '#!newexefile';
+      }
     }, {
       name: 'Pug/Jade File',
-      img: 'assets/img/icons/pug.svg'
+      img: 'assets/img/icons/pug.svg',
+      fun: function fun() {
+        Metro.storage.setItem('new_file_type', 'pug');
+        Metro.storage.setItem('new_file_name', 'PUG/Jade');
+        window.location.hash = '#!newexefile';
+      }
     }, {
-      name: 'Coffeescript File',
-      img: 'assets/img/icons/coffee.svg'
+      name: 'CoffeeScript File',
+      img: 'assets/img/icons/coffee.svg',
+      fun: function fun() {
+        Metro.storage.setItem('new_file_type', 'coffee');
+        Metro.storage.setItem('new_file_name', 'CoffeeScript');
+        window.location.hash = '#!newexefile';
+      }
     }]
   }, {
-    name: 'Cut'
+    name: 'Cut',
+    img: 'assets/img/tabler-icons/scissors.png'
   }, {
-    name: 'Copy'
+    name: 'Copy',
+    img: 'assets/img/tabler-icons/copy.png'
   }, {
-    name: 'Paste'
+    name: 'Paste',
+    img: 'assets/img/tabler-icons/paste.png'
   }, {
     name: 'Rename'
   }, {
@@ -33284,7 +33319,36 @@ IDE.service('keyBinds', function () {
     });
   };
 });
-IDE.controller('ideCtrl', function ($scope, $location, directoryStructure, directoryHandler, editorTabsHandler, keyBinds) {
+IDE.service('storageHandler', function () {
+  this.init = function () {
+    Metro.storage.setKey('ACIDE');
+  };
+
+  this.set = function (key, data) {
+    Metro.storage.setItem(key, data);
+  };
+
+  this.get = function (key) {
+    return Metro.storage.getItem(key);
+  };
+
+  this.reset = function () {
+    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+
+    if (key !== undefined) {
+      Metro.storage.delItem(key);
+    } else {
+      var _keys = ['new_file_type', 'new_file_name'];
+
+      _keys.forEach(function (value) {
+        Metro.storage.delItem(value);
+      });
+    }
+  };
+});
+IDE.controller('ideCtrl', function ($scope, $location, directoryStructure, directoryHandler, editorTabsHandler, keyBinds, storageHandler) {
+  storageHandler.init();
+  storageHandler.reset();
   $location.path('');
   directoryStructure.refresh();
   directoryHandler.init();
@@ -34173,14 +34237,33 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* mousetrap v1.6.5 craig.is/killing/mice */
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function ($scope, $http, window, directoryStructure) {
-  window.title('New File');
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function ($scope, $http, window, directoryStructure, storageHandler) {
+  window.title('New ' + storageHandler.get('new_file_name') + ' File');
   window.show();
   window.changeSize({
     width: 400,
     height: 300
   });
+  var path = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li.li-selected').next().attr('data-path');
+
+  $scope.createExeFile = function () {
+    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
+      'name': $scope.file_name,
+      'path': path,
+      'ext': storageHandler.get('new_file_type')
+    }).then(function (response) {
+      if (response.data.type === 'success') {
+        window.hide();
+        directoryStructure.refresh();
+      }
+    }, function (response) {
+      console.log('New Exe File AJAX Error !');
+    });
+  };
 });
 
 /***/ }),
@@ -34337,6 +34420,24 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('slugValidation', function ()
   };
 });
 _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('recordValidation', function () {
+  return {
+    require: 'ngModel',
+    link: function link(scope, element, attr, mCtrl) {
+      function myValidation(value) {
+        if (/^[A-Za-z0-9.]+\.[A-Za-z0-9]+$/.test(value)) {
+          mCtrl.$setValidity('charE', true);
+        } else {
+          mCtrl.$setValidity('charE', false);
+        }
+
+        return value;
+      }
+
+      mCtrl.$parsers.push(myValidation);
+    }
+  };
+});
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('fileValidation', function () {
   return {
     require: 'ngModel',
     link: function link(scope, element, attr, mCtrl) {
