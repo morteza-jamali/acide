@@ -185,6 +185,16 @@ IDE.run(function($rootScope, $templateCache) {
     });
 });
 
+IDE.service('elementHandler' , function () {
+    this.getSelectedElm = function () {
+        return $('.directory-structure li.li-selected');
+    };
+
+    this.getSelectedDir = function () {
+        return $('.directory-structure li.li-selected').next();
+    };
+});
+
 IDE.service('window' , function () {
     this.show = function () {
         $('.window').removeClass('size-0');

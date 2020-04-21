@@ -1,18 +1,17 @@
 import {IDE , ACIDE} from "./app";
-import * as $ from '../../node_modules/jquery/src/jquery';
 
-IDE.controller('newExeFileCtrl' , function ($scope , $http , window , directoryStructure , storageHandler) {
+IDE.controller('newExeFileCtrl' , function ($scope , $http , window , directoryStructure
+                                            , storageHandler , elementHandler) {
     window.title('New ' + storageHandler.get('new_file_name') + ' File');
     window.show();
     window.changeSize({width : 400 , height : 300});
-    var path = $('.directory-structure li.li-selected').next().attr('data-path');
 
     $scope.createExeFile = function () {
         $http.post(
             ACIDE.getFullRoute('NewProjectController@createFile') ,
             {
                 'name' : $scope.file_name ,
-                'path' : path ,
+                'path' : elementHandler.getSelectedDir().attr('data-path') ,
                 'ext' : storageHandler.get('new_file_type')
             }
         ).then(function (response) {

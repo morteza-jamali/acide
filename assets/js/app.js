@@ -32967,6 +32967,15 @@ IDE.run(function ($rootScope, $templateCache) {
     $templateCache.removeAll();
   });
 });
+IDE.service('elementHandler', function () {
+  this.getSelectedElm = function () {
+    return _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li.li-selected');
+  };
+
+  this.getSelectedDir = function () {
+    return _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li.li-selected').next();
+  };
+});
 IDE.service('window', function () {
   this.show = function () {
     _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window').removeClass('size-0');
@@ -34238,23 +34247,19 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* mousetrap v1.6.5 craig.is/killing/mice */
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
 
-
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function ($scope, $http, window, directoryStructure, storageHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function ($scope, $http, window, directoryStructure, storageHandler, elementHandler) {
   window.title('New ' + storageHandler.get('new_file_name') + ' File');
   window.show();
   window.changeSize({
     width: 400,
     height: 300
   });
-  var path = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li.li-selected').next().attr('data-path');
 
   $scope.createExeFile = function () {
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
       'name': $scope.file_name,
-      'path': path,
+      'path': elementHandler.getSelectedDir().attr('data-path'),
       'ext': storageHandler.get('new_file_type')
     }).then(function (response) {
       if (response.data.type === 'success') {
@@ -34279,24 +34284,20 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function (
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
 
-
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($scope, $http, window, directoryStructure) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($scope, $http, window, directoryStructure, elementHandler) {
   window.title('New File');
   window.show();
   window.changeSize({
     width: 400,
     height: 300
   });
-  var path = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li.li-selected').next().attr('data-path');
 
   $scope.createFile = function () {
     var ext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
       'name': $scope.file_name,
-      'path': path,
+      'path': elementHandler.getSelectedDir().attr('data-path'),
       'ext': ext
     }).then(function (response) {
       if (response.data.type === 'success') {
