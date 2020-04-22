@@ -4,13 +4,14 @@ IDE.controller('newFileCtrl' , function ($scope , $http , window , directoryStru
     window.title('New File');
     window.show();
     window.changeSize({width : 400 , height : 300});
+    var path = elementHandler.getSelectedDir().attr('data-path');
 
     $scope.createFile = function (ext = '') {
         $http.post(
             ACIDE.getFullRoute('NewProjectController@createFile') ,
             {
                 'name' : $scope.file_name ,
-                'path' : elementHandler.getSelectedDir().attr('data-path') ,
+                'path' : path ,
                 'ext' : ext
             }
         ).then(function (response) {

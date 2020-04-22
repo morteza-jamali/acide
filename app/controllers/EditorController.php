@@ -20,7 +20,7 @@
         public function getRecordContent() {
             $validator = new Validator();
             $validation = $validator->validate($this->request , [
-                'name' => 'required|regex:/^[A-Za-z0-9.]+\.[A-Za-z0-9]+$/'
+                'name' => 'required|regex:/^(?:[a-zA-Z0-9 ._-]*[a-zA-Z0-9])?\.[a-zA-Z0-9_-]+$/'
             ]);
 
             if($validation->fails()) {
@@ -44,7 +44,7 @@
         public function saveRecordContent() {
             $validator = new Validator();
             $validation = $validator->validate($this->request , [
-                'name' => 'required|regex:/^[A-Za-z0-9.]+\.[A-Za-z0-9]+$/' ,
+                'name' => 'required|regex:/^(?:[a-zA-Z0-9 ._-]*[a-zA-Z0-9])?\.[a-zA-Z0-9_-]+$/' ,
                 'project' => 'required' ,
                 'content' => 'required'
             ]);

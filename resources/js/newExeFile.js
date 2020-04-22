@@ -5,13 +5,14 @@ IDE.controller('newExeFileCtrl' , function ($scope , $http , window , directoryS
     window.title('New ' + storageHandler.get('new_file_name') + ' File');
     window.show();
     window.changeSize({width : 400 , height : 300});
+    var path = elementHandler.getSelectedDir().attr('data-path');
 
     $scope.createExeFile = function () {
         $http.post(
             ACIDE.getFullRoute('NewProjectController@createFile') ,
             {
                 'name' : $scope.file_name ,
-                'path' : elementHandler.getSelectedDir().attr('data-path') ,
+                'path' : path ,
                 'ext' : storageHandler.get('new_file_type')
             }
         ).then(function (response) {

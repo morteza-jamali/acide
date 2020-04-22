@@ -34255,11 +34255,12 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function (
     width: 400,
     height: 300
   });
+  var path = elementHandler.getSelectedDir().attr('data-path');
 
   $scope.createExeFile = function () {
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
       'name': $scope.file_name,
-      'path': elementHandler.getSelectedDir().attr('data-path'),
+      'path': path,
       'ext': storageHandler.get('new_file_type')
     }).then(function (response) {
       if (response.data.type === 'success') {
@@ -34292,12 +34293,13 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($sc
     width: 400,
     height: 300
   });
+  var path = elementHandler.getSelectedDir().attr('data-path');
 
   $scope.createFile = function () {
     var ext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
       'name': $scope.file_name,
-      'path': elementHandler.getSelectedDir().attr('data-path'),
+      'path': path,
       'ext': ext
     }).then(function (response) {
       if (response.data.type === 'success') {
@@ -34426,7 +34428,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('recordValidation', function 
     require: 'ngModel',
     link: function link(scope, element, attr, mCtrl) {
       function myValidation(value) {
-        if (/^[A-Za-z0-9.]+\.[A-Za-z0-9]+$/.test(value)) {
+        if (/^(?:[a-zA-Z0-9 ._-]*[a-zA-Z0-9])?\.[a-zA-Z0-9_-]+$/.test(value)) {
           mCtrl.$setValidity('charE', true);
         } else {
           mCtrl.$setValidity('charE', false);
@@ -34444,7 +34446,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('fileValidation', function ()
     require: 'ngModel',
     link: function link(scope, element, attr, mCtrl) {
       function myValidation(value) {
-        if (/^[A-Za-z0-9.]+\.[A-Za-z0-9]+$/.test(value)) {
+        if (/(^(?:[a-zA-Z0-9 ._-]*[a-zA-Z0-9])?\.[a-zA-Z0-9_-]+$)|(^[A-Za-z0-9]+$)/.test(value)) {
           mCtrl.$setValidity('charE', true);
         } else {
           mCtrl.$setValidity('charE', false);

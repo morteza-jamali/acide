@@ -2,7 +2,7 @@
     form(name="newExeFileForm" novalidate)
         input.fg-white(type="text" data-role="materialinput"
             placeholder="Enter Your File Name" ng-model="file_name"
-            name="name" required record-validation)
+            name="name" required file-validation)
         small.fg-red(ng-show="newExeFileForm.name.$dirty && newExeFileForm.name.$error.required") Name can not be empty
         br
         small.fg-red(ng-show="newExeFileForm.name.$dirty && newExeFileForm.name.$invalid") Name is invalid
