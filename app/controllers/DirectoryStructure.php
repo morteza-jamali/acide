@@ -9,6 +9,7 @@
     use ACIDE\App\Models\FileProject;
     use ACIDE\App\Models\File;
     use ACFileManager\Src\File as FileManager;
+    use Rakit\Validation\Validator;
 
     class DirectoryStructure {
         private $request = null;
@@ -120,6 +121,21 @@
             }
 
             return (new Response())->success($projects)->returnMsg();
+        }
+
+        public function deleteItem() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'path' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            $path = FileProject::where('name' , '_active_project_')
+                ->where('type' , 'label')->value('path');
         }
     }
 ?>

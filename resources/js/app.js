@@ -149,6 +149,7 @@ var ContextMenus = {
     } , {
         name: 'Delete' ,
         fun : function () {
+            window.location.hash = '#!deletefile';
         }
     }]
 };
@@ -176,6 +177,10 @@ IDE.config(function($routeProvider) {
         .when('/newexefile' , {
             templateUrl : ACIDE.getTemplateURL('windows/html/new_exe_file') ,
             controller : 'newExeFileCtrl'
+        })
+        .when('/deletefile' , {
+            template : '' ,
+            controller : 'deleteFileCtrl'
         });
 });
 
@@ -336,6 +341,7 @@ IDE.service('contextMenu' , function () {
 IDE.service('simpleBar' , function () {
     this.init = function () {
         new SimpleBar($('.simpleBar')[0]);
+        new SimpleBar($('.simpleBar')[1]);
     };
 });
 
@@ -399,7 +405,7 @@ IDE.service('editorTabs' , function () {
             $('.editor-tabs ul li').each(function () {
                 $(this).removeClass('active');
             });
-            var _html = '<li class="px-2 py-1 active" data-slug="' +
+            var _html = '<li class="px-2 py-1 d-flex active" data-slug="' +
                 slug + '"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' +
                 '<span class="close-tab ml-2">x</span></li>';
             $('.editor-tabs ul').append(_html);
