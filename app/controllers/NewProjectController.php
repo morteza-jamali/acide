@@ -129,6 +129,25 @@
             return (new Response())->success(['File' => 'created'])->returnMsg();
         }
 
+        public function createDirectory() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'name' => ['required', 'regex:/^([a-zA-Z0-9][^\*\/\>\<\?\|\:]*)$/'] ,
+                'path' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            $file_path = $this->request['path'] . DIRECTORY_SEPARATOR . $this->request['name'];
+
+            FileManager::makeDirectory($file_path);
+
+            return (new Response())->success(['Directory' => 'created'])->returnMsg();
+        }
+
         public function openProject() {
             $validator = new Validator();
             $validation = $validator->validate($this->request , [

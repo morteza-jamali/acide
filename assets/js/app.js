@@ -32852,6 +32852,9 @@ IDE.config(function ($routeProvider) {
   }).when('/deletefile', {
     template: '',
     controller: 'deleteFileCtrl'
+  }).when('/newdirectory', {
+    templateUrl: ACIDE.getTemplateURL('windows/html/new_directory'),
+    controller: 'newDirectoryCtrl'
   });
 });
 IDE.run(function ($rootScope, $templateCache) {
@@ -34316,6 +34319,43 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* mousetrap v1.6.5 craig.is/killing/mice */
 
 /***/ }),
 
+/***/ "./resources/js/newDirectory.js":
+/*!**************************************!*\
+  !*** ./resources/js/newDirectory.js ***!
+  \**************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newDirectoryCtrl', function ($scope, $http, window, directoryStructure, elementHandler) {
+  window.title('New Directory');
+  window.show();
+  window.changeSize({
+    width: 400,
+    height: 300
+  });
+  var path = elementHandler.getSelectedDir().attr('data-path');
+
+  $scope.createDirectory = function () {
+    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createDirectory'), {
+      'name': $scope.directory_name,
+      'path': path
+    }).then(function (response) {
+      if (response.data.type === 'success') {
+        window.hide();
+        directoryStructure.refresh();
+      }
+    }, function (response) {
+      console.log('New Directory AJAX Error !');
+    });
+  };
+});
+
+/***/ }),
+
 /***/ "./resources/js/newExeFile.js":
 /*!************************************!*\
   !*** ./resources/js/newExeFile.js ***!
@@ -34538,6 +34578,24 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('fileValidation', function ()
     }
   };
 });
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('directoryValidation', function () {
+  return {
+    require: 'ngModel',
+    link: function link(scope, element, attr, mCtrl) {
+      function myValidation(value) {
+        if (/^([a-zA-Z0-9][^*/><?\|:]*)$/.test(value)) {
+          mCtrl.$setValidity('charE', true);
+        } else {
+          mCtrl.$setValidity('charE', false);
+        }
+
+        return value;
+      }
+
+      mCtrl.$parsers.push(myValidation);
+    }
+  };
+});
 
 /***/ }),
 
@@ -34553,9 +34611,9 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('fileValidation', function ()
 /***/ }),
 
 /***/ 0:
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./resources/js/mousetrap.min.js ./resources/js/newProjectCtrl.js ./resources/js/newRecord.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/deleteFile.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/app.js ./resources/sass/app.sass ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./resources/js/mousetrap.min.js ./resources/js/newProjectCtrl.js ./resources/js/newRecord.js ./resources/js/newDirectory.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/deleteFile.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/app.js ./resources/sass/app.sass ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -34568,6 +34626,7 @@ __webpack_require__(/*! C:\wamp64\www\acide\node_modules\he\he.js */"./node_modu
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\mousetrap.min.js */"./resources/js/mousetrap.min.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newProjectCtrl.js */"./resources/js/newProjectCtrl.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newRecord.js */"./resources/js/newRecord.js");
+__webpack_require__(/*! C:\wamp64\www\acide\resources\js\newDirectory.js */"./resources/js/newDirectory.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newFile.js */"./resources/js/newFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newExeFile.js */"./resources/js/newExeFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\deleteFile.js */"./resources/js/deleteFile.js");
