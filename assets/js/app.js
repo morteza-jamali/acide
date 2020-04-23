@@ -32894,7 +32894,7 @@ IDE.service('window', function () {
     });
   };
 });
-IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar) {
+IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar, editorTabsHandler, keyBinds, directoryHandler) {
   this.refresh = function () {
     $http.post(ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')).then(function (response) {
       if (response.data.type === 'success' && response.data.message.length !== 0) {
@@ -32989,6 +32989,9 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
 
         contextMenu.init();
         simpleBar.init();
+        editorTabsHandler.init();
+        keyBinds.init();
+        directoryHandler.init();
       }
     }, function (response) {
       console.log('Directory structure AJAX Error !');
@@ -33164,7 +33167,26 @@ IDE.service('editorTabsHandler', function (editorContent, editorTabs) {
   };
 });
 IDE.service('directoryHandler', function ($http, editorTabs, editorContent) {
+  this.reset = function () {
+    var _selectors = {
+      dblclick: {
+        0: '.directory-structure .database , .directory-structure .Directory',
+        1: '.directory-structure li.dir'
+      },
+      click: {
+        0: '.directory-structure li i',
+        1: '.directory-structure .database , .directory-structure .Directory'
+      }
+    };
+    Object.keys(_selectors).forEach(function (value) {
+      Object.keys(_selectors[value]).forEach(function (v) {
+        _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).off(value, _selectors[value][v]);
+      });
+    });
+  };
+
   this.init = function () {
+    this.reset();
     _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click , contextmenu', '.directory-structure li', function () {
       _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li').each(function () {
         _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('li-selected');
@@ -33253,14 +33275,11 @@ IDE.service('storageHandler', function () {
     }
   };
 });
-IDE.controller('ideCtrl', function ($scope, $location, directoryStructure, directoryHandler, editorTabsHandler, keyBinds, storageHandler) {
+IDE.controller('ideCtrl', function ($scope, $location, directoryStructure, storageHandler) {
   storageHandler.init();
   storageHandler.reset();
   $location.path('');
   directoryStructure.refresh();
-  directoryHandler.init();
-  editorTabsHandler.init();
-  keyBinds.init();
 });
 
 
@@ -33288,7 +33307,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].service('closeProjectHandler', function
     });
   };
 });
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function ($scope, window, $http, closeProjectHandler, directoryStructure, directoryHandler, editorTabsHandler, keyBinds) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function ($scope, window, $http, closeProjectHandler, directoryStructure) {
   window.title('Open a Project');
   window.show();
   window.changeSize({
@@ -33313,9 +33332,6 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
         if (response.data.type === 'success') {
           window.hide();
           directoryStructure.refresh();
-          directoryHandler.init();
-          editorTabsHandler.init();
-          keyBinds.init();
         }
       }, function (response) {
         console.log('Close Project AJAX Error !');

@@ -10,8 +10,7 @@ IDE.service('closeProjectHandler' , function () {
     };
 });
 
-IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closeProjectHandler , directoryStructure ,
-                                                directoryHandler , editorTabsHandler , keyBinds) {
+IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closeProjectHandler , directoryStructure) {
     window.title('Open a Project');
     window.show();
     window.changeSize({width : 700 , height : 500});
@@ -34,9 +33,6 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
                     if(response.data.type === 'success') {
                         window.hide();
                         directoryStructure.refresh();
-                        directoryHandler.init();
-                        editorTabsHandler.init();
-                        keyBinds.init();
                     }
                 } ,
                 function (response) {

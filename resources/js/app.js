@@ -91,7 +91,8 @@ IDE.service('window' , function () {
     };
 });
 
-IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , editorContent , simpleBar) {
+IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , editorContent
+                                             , simpleBar , editorTabsHandler , keyBinds , directoryHandler) {
     this.refresh = function () {
         $http.post(
             ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')
@@ -193,6 +194,9 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                     }
                     contextMenu.init();
                     simpleBar.init();
+                    editorTabsHandler.init();
+                    keyBinds.init();
+                    directoryHandler.init();
                 }
             } ,
             function (response) {
@@ -366,7 +370,28 @@ IDE.service('editorTabsHandler' , function (editorContent , editorTabs) {
 });
 
 IDE.service('directoryHandler' , function ($http , editorTabs , editorContent) {
+    this.reset = function() {
+        var _selectors = {
+            dblclick : {
+                0 : '.directory-structure .database , .directory-structure .Directory' ,
+                1 : '.directory-structure li.dir'
+            } ,
+            click : {
+                0 : '.directory-structure li i' ,
+                1 : '.directory-structure .database , .directory-structure .Directory'
+            }
+        };
+
+        Object.keys(_selectors).forEach(function(value) {
+            Object.keys(_selectors[value]).forEach(function (v) {
+                $(document).off(value , _selectors[value][v]);
+            });
+        });
+    };
+
     this.init = function () {
+        this.reset();
+
         $(document).on('click , contextmenu' , '.directory-structure li' , function () {
             $('.directory-structure li').each(function () {
                 $(this).removeClass('li-selected');
@@ -463,16 +488,11 @@ IDE.service('storageHandler' , function () {
     };
 });
 
-IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure
-                                     , directoryHandler , editorTabsHandler
-                                     , keyBinds , storageHandler) {
+IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure, storageHandler) {
     storageHandler.init();
     storageHandler.reset();
     $location.path('');
     directoryStructure.refresh();
-    directoryHandler.init();
-    editorTabsHandler.init();
-    keyBinds.init();
 });
 
 export {ACIDE , IDE};
