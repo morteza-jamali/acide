@@ -1,11 +1,11 @@
 var extensions = {
     js : {
         mode : 'javascript' ,
-        encode : false
+        encode : true
     } ,
     css : {
         mode : 'css' ,
-        encode : false
+        encode : true
     } ,
     html : {
         mode : 'html' ,

@@ -72,6 +72,13 @@ var ContextMenus = {
                 }
             } ,
             {
+                name : 'Directory' ,
+                img : 'assets/img/icons/folder-custom.svg' ,
+                fun: function () {
+                    window.location.hash = '#!newdirectory';
+                }
+            } ,
+            {
                 name: 'PHP File' ,
                 img : 'assets/img/icons/php.svg' ,
                 fun : function () {
@@ -302,22 +309,25 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                                         $(this).html(_content);
                                     }
                                 });
-                                Object.keys(response.data.message.files[value]).forEach(function (val) {
-                                    if(response.data.message.files[value][val] === 'file') {
-                                        var _icon = val.split('.').pop();
-                                        if (extensions[_icon] === undefined) {
-                                            _icon = 'file';
+
+                                if(response.data.message.active_file.length) {
+                                    Object.keys(response.data.message.files[value]).forEach(function (val) {
+                                        if(response.data.message.files[value][val] === 'file') {
+                                            var _icon = val.split('.').pop();
+                                            if (extensions[_icon] === undefined) {
+                                                _icon = 'file';
+                                            }
+                                            if (value + '\\' + val === response.data.message.active_file[0].path &&
+                                                response.data.message.active_file[0].project === response.data.message.project.path) {
+                                                var _slug = $('.directory-structure .files li[data-name="' +
+                                                    val + '"]').attr('data-slug');
+                                                editorTabs.clean();
+                                                editorTabs.append(val, 'assets/img/icons/' + _icon + '.svg', _slug);
+                                                editorContent.append(_slug, response.data.message.active_file[0].content, val.split('.').pop());
+                                            }
                                         }
-                                        if (value + '\\' + val === response.data.message.active_file[0].path &&
-                                            response.data.message.active_file[0].project === response.data.message.project.path) {
-                                            var _slug = $('.directory-structure .files li[data-name="' +
-                                                val + '"]').attr('data-slug');
-                                            editorTabs.clean();
-                                            editorTabs.append(val, 'assets/img/icons/' + _icon + '.svg', _slug);
-                                            editorContent.append(_slug, response.data.message.active_file[0].content, val.split('.').pop());
-                                        }
-                                    }
-                                });
+                                    });
+                                }
                             });
                         }
                     }
@@ -340,8 +350,9 @@ IDE.service('contextMenu' , function () {
 
 IDE.service('simpleBar' , function () {
     this.init = function () {
-        new SimpleBar($('.simpleBar')[0]);
-        new SimpleBar($('.simpleBar')[1]);
+        $('.simpleBar').each(function () {
+            new SimpleBar($(this)[0]);
+        });
     };
 });
 
@@ -405,7 +416,7 @@ IDE.service('editorTabs' , function () {
             $('.editor-tabs ul li').each(function () {
                 $(this).removeClass('active');
             });
-            var _html = '<li class="px-2 py-1 d-flex active" data-slug="' +
+            var _html = '<li class="px-2 py-1 d-flex flex-align-center active" data-slug="' +
                 slug + '"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' +
                 '<span class="close-tab ml-2">x</span></li>';
             $('.editor-tabs ul').append(_html);
@@ -421,16 +432,16 @@ IDE.service('editorHandler' , function ($rootScope , $http) {
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("ace/mode/" + mode);
         var _cursor_ = editor.selection.getCursor();
-        $rootScope.cursor_row = _cursor_.row;
-        $rootScope.cursor_col = _cursor_.column;
+        $rootScope.cursor_row = ++_cursor_.row;
+        $rootScope.cursor_col = ++_cursor_.column;
         editor.session.on('change', function(delta) {
             $('.editor-tabs ul li.active').addClass('font-italic');
             $('.editor-tabs ul li.active span.name').addClass('font-bold');
         });
         editor.session.selection.on('changeCursor', function(e) {
             var _cursor = editor.selection.getCursor();
-            $rootScope.cursor_row = _cursor.row;
-            $rootScope.cursor_col = _cursor.column;
+            $rootScope.cursor_row = ++_cursor.row;
+            $rootScope.cursor_col = ++_cursor.column;
             $rootScope.$apply();
         });
         editor.commands.addCommand({

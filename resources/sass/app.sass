@@ -69,6 +69,12 @@ main , .container-fluid , body , html
         z-index: 999999 !important
 .ace-monokai
   background-color: #131a20 !important
+  .ace_tooltip
+    background-color: #1c2731 !important
+    border: 1px solid rgba(255, 255, 255, 0.1) !important
+    border-radius: 0 !important
+    color: #ffffff !important
+    padding: 15px !important
   .ace_gutter
     background-color: #172028 !important
   .ace_marker-layer
@@ -105,6 +111,9 @@ main , .container-fluid , body , html
   background-color: #1c2731
   li
     min-width: 300px
+  li:not(.Directory)
+    span
+      white-space: nowrap !important
   li.dir
     i.mif-chevron-thin-down
       display: none
@@ -151,6 +160,7 @@ main , .container-fluid , body , html
     border-bottom: 2px solid transparent
     span.name
       font-weight: 100
+      white-space: nowrap !important
     img
       width: 20px
       height: 20px

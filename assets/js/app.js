@@ -32871,6 +32871,12 @@ var ContextMenus = {
         window.location.hash = '#!newfile';
       }
     }, {
+      name: 'Directory',
+      img: 'assets/img/icons/folder-custom.svg',
+      fun: function fun() {
+        window.location.hash = '#!newdirectory';
+      }
+    }, {
       name: 'PHP File',
       img: 'assets/img/icons/php.svg',
       fun: function fun() {
@@ -33076,23 +33082,26 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
                   _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).html(_content);
                 }
               });
-              Object.keys(response.data.message.files[value]).forEach(function (val) {
-                if (response.data.message.files[value][val] === 'file') {
-                  var _icon = val.split('.').pop();
 
-                  if (_extensions__WEBPACK_IMPORTED_MODULE_1__["default"][_icon] === undefined) {
-                    _icon = 'file';
+              if (response.data.message.active_file.length) {
+                Object.keys(response.data.message.files[value]).forEach(function (val) {
+                  if (response.data.message.files[value][val] === 'file') {
+                    var _icon = val.split('.').pop();
+
+                    if (_extensions__WEBPACK_IMPORTED_MODULE_1__["default"][_icon] === undefined) {
+                      _icon = 'file';
+                    }
+
+                    if (value + '\\' + val === response.data.message.active_file[0].path && response.data.message.active_file[0].project === response.data.message.project.path) {
+                      var _slug = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .files li[data-name="' + val + '"]').attr('data-slug');
+
+                      editorTabs.clean();
+                      editorTabs.append(val, 'assets/img/icons/' + _icon + '.svg', _slug);
+                      editorContent.append(_slug, response.data.message.active_file[0].content, val.split('.').pop());
+                    }
                   }
-
-                  if (value + '\\' + val === response.data.message.active_file[0].path && response.data.message.active_file[0].project === response.data.message.project.path) {
-                    var _slug = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .files li[data-name="' + val + '"]').attr('data-slug');
-
-                    editorTabs.clean();
-                    editorTabs.append(val, 'assets/img/icons/' + _icon + '.svg', _slug);
-                    editorContent.append(_slug, response.data.message.active_file[0].content, val.split('.').pop());
-                  }
-                }
-              });
+                });
+              }
             });
           }
         }
@@ -33117,8 +33126,9 @@ IDE.service('contextMenu', function () {
 });
 IDE.service('simpleBar', function () {
   this.init = function () {
-    new simplebar__WEBPACK_IMPORTED_MODULE_4__["default"](_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.simpleBar')[0]);
-    new simplebar__WEBPACK_IMPORTED_MODULE_4__["default"](_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.simpleBar')[1]);
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.simpleBar').each(function () {
+      new simplebar__WEBPACK_IMPORTED_MODULE_4__["default"](_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this)[0]);
+    });
   };
 });
 IDE.service('editorContent', function (editorHandler) {
@@ -33185,7 +33195,7 @@ IDE.service('editorTabs', function () {
         _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
       });
 
-      var _html = '<li class="px-2 py-1 d-flex active" data-slug="' + slug + '"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' + '<span class="close-tab ml-2">x</span></li>';
+      var _html = '<li class="px-2 py-1 d-flex flex-align-center active" data-slug="' + slug + '"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' + '<span class="close-tab ml-2">x</span></li>';
 
       _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul').append(_html);
     } else {
@@ -33201,8 +33211,8 @@ IDE.service('editorHandler', function ($rootScope, $http) {
 
     var _cursor_ = editor.selection.getCursor();
 
-    $rootScope.cursor_row = _cursor_.row;
-    $rootScope.cursor_col = _cursor_.column;
+    $rootScope.cursor_row = ++_cursor_.row;
+    $rootScope.cursor_col = ++_cursor_.column;
     editor.session.on('change', function (delta) {
       _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active').addClass('font-italic');
       _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active span.name').addClass('font-bold');
@@ -33210,8 +33220,8 @@ IDE.service('editorHandler', function ($rootScope, $http) {
     editor.session.selection.on('changeCursor', function (e) {
       var _cursor = editor.selection.getCursor();
 
-      $rootScope.cursor_row = _cursor.row;
-      $rootScope.cursor_col = _cursor.column;
+      $rootScope.cursor_row = ++_cursor.row;
+      $rootScope.cursor_col = ++_cursor.column;
       $rootScope.$apply();
     });
     editor.commands.addCommand({
@@ -33904,11 +33914,11 @@ __webpack_require__.r(__webpack_exports__);
 var extensions = {
   js: {
     mode: 'javascript',
-    encode: false
+    encode: true
   },
   css: {
     mode: 'css',
-    encode: false
+    encode: true
   },
   html: {
     mode: 'html',
