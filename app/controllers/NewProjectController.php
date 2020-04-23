@@ -5,7 +5,6 @@
     use ACIDECore\App\Database;
     use ACIDE\App\Models\DatabaseProject;
     use Rakit\Validation\Validator;
-    use ACIDECore\App\StringFactory;
     use ACIDE\App\Models\Record;
     use ACIDE\App\Models\Setting;
     use ACIDE\App\Models\FileProject;
@@ -65,24 +64,20 @@
                 return (new Response())->error($errors->toArray())->returnMsg();
             }
 
-            $name = StringFactory::getStringBeforeToken($this->request['name'] , '.');
-            $ext = StringFactory::getStringAfterToken($this->request['name'] , '.');
-            if($ext !== false && !empty($this->request['ext'])) {
-                $ext .= '.' . $this->request['ext'];
-            } elseif ($ext === false && !empty($this->request['ext'])) {
-                $ext = $this->request['ext'];
-            }
+            $path_info = pathinfo($this->request['name']);
 
-            if($ext === false) {
+            if(empty($this->request['ext']) && !isset($path_info['extension'])) {
                 return (new Response())->error(['extension' => 'is invalid'])->returnMsg();
             }
 
             $project = DatabaseProject::where('name' , '_active_project_')
                                        ->where('type' , 'label')->value('slug');
 
+            $ext = $path_info['extension'] . (empty($this->request['ext']) ? '' : '.' . $this->request['ext']);
+
             Record::updateOrCreate([
                 'project' => $project ,
-                'name' => $name ,
+                'name' => $path_info['filename'] ,
                 'ext' => $ext
             ]);
 
@@ -90,7 +85,7 @@
                 'project' => $project ,
                 'type' => 'label'
             ] , [
-                'name' => $name ,
+                'name' => $path_info['filename'] ,
                 'ext' => $ext
             ]);
 
@@ -100,7 +95,7 @@
         public function createFile() {
             $validator = new Validator();
             $validation = $validator->validate($this->request , [
-                'name' => 'required|regex:/^(?:[a-zA-Z0-9 ._-]*[a-zA-Z0-9])?\.[a-zA-Z0-9_-]+$/' ,
+                'name' => ['required', 'regex:/(^(?:[a-zA-Z0-9 ._-]*[a-zA-Z0-9])?\.[a-zA-Z0-9_-]+$)|(^[A-Za-z0-9]+$)/'] ,
                 'path' => 'required'
             ]);
 
@@ -109,19 +104,14 @@
                 return (new Response())->error($errors->toArray())->returnMsg();
             }
 
-            $name = StringFactory::getStringBeforeToken($this->request['name'] , '.');
-            $ext = StringFactory::getStringAfterToken($this->request['name'] , '.');
-            if($ext !== false && !empty($this->request['ext'])) {
-                $ext .= '.' . $this->request['ext'];
-            } elseif ($ext === false && !empty($this->request['ext'])) {
-                $ext = $this->request['ext'];
-            }
+            $path_info = pathinfo($this->request['name']);
 
-            if($ext === false) {
+            if(empty($this->request['ext']) && !isset($path_info['extension'])) {
                 return (new Response())->error(['extension' => 'is invalid'])->returnMsg();
             }
 
-            $file_path = $this->request['path'] . DIRECTORY_SEPARATOR . "{$name}.{$ext}";
+            $file_path = $this->request['path'] . DIRECTORY_SEPARATOR . $this->request['name']
+                . (empty($this->request['ext']) ? '' : '.' . $this->request['ext']);
 
             FileManager::addFileContent($file_path , '' , 'a');
 

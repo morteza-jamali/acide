@@ -4,7 +4,6 @@
     use ACIDE\App\Models\DatabaseProject;
     use ACIDECore\App\Database;
     use ACIDECore\App\Response;
-    use ACIDECore\App\StringFactory;
     use Rakit\Validation\Validator;
     use ACIDE\App\Models\Record;
     use ACFileManager\Src\File;
@@ -28,15 +27,14 @@
                 return (new Response())->error($errors->toArray())->returnMsg();
             }
 
-            $name = StringFactory::getStringBeforeToken($this->request['name'] , '.');
-            $ext = StringFactory::getStringAfterToken($this->request['name'] , '.');
+            $path_info = pathinfo($this->request['name']);
 
             $project = DatabaseProject::where('name' , '_active_project_')
                 ->where('type' , 'label')->value('slug');
             $content = Record::where('project' , $project)
                              ->where('type' , 'record')
-                             ->where('name' , $name)
-                             ->where('ext' , $ext)->value('content');
+                             ->where('name' , $path_info['filename'])
+                             ->where('ext' , $path_info['extension'])->value('content');
 
             return (new Response())->success(['content' => $content])->returnMsg();
         }
@@ -54,11 +52,10 @@
                 return (new Response())->error($errors->toArray())->returnMsg();
             }
 
-            $name = StringFactory::getStringBeforeToken($this->request['name'] , '.');
-            $ext = StringFactory::getStringAfterToken($this->request['name'] , '.');
+            $path_info = pathinfo($this->request['name']);
 
-            Record::where('project' , $this->request['project'])->where('name' , $name)
-                    ->where('ext' , $ext)->where('type' , 'record')->update([
+            Record::where('project' , $this->request['project'])->where('name' , $path_info['filename'])
+                    ->where('ext' , $path_info['extension'])->where('type' , 'record')->update([
                     'content' => $this->request['content']
                 ]);
 

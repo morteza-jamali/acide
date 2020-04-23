@@ -109,6 +109,10 @@ html {
   background-color: #172028 !important;
 }
 
+.ace-monokai .ace_marker-layer .ace_selection {
+  background: rgba(0, 102, 255, 0.4) !important;
+}
+
 .ace-monokai .ace_marker-layer .ace_active-line {
   background: rgba(255, 255, 255, 0.1) !important;
 }
