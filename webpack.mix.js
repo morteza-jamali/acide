@@ -9,6 +9,7 @@ mix.js([
         'node_modules/metro4/build/js/metro.min.js' ,
         'node_modules/he/he.js' ,
         'resources/js/mousetrap.min.js' ,
+        'resources/js/ideCtrl.js' ,
         'resources/js/newProjectCtrl.js' ,
         'resources/js/newRecord.js' ,
         'resources/js/newDirectory.js' ,

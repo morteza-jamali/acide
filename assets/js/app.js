@@ -33278,12 +33278,6 @@ IDE.service('storageHandler', function () {
     }
   };
 });
-IDE.controller('ideCtrl', function ($scope, $location, directoryStructure, storageHandler) {
-  storageHandler.init();
-  storageHandler.reset();
-  $location.path('');
-  directoryStructure.refresh();
-});
 
 
 /***/ }),
