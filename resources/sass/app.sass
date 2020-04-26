@@ -45,6 +45,8 @@ main , .container-fluid , body , html
         line-height: 29px !important
 .ide-content
   height: calc(100% - 90px)
+  &.terminal-size
+    height: calc(100% - 290px) !important
   background-color: #172028
 .thin-menu.top-menu
   border-bottom: 1px solid #172028
@@ -197,3 +199,6 @@ li[data-text=""]
       cursor: default !important
       &.active
         background-color: #117ae3 !important
+/* Terminal SASS
+.terminal-app
+  height: 200px

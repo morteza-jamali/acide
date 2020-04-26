@@ -22,7 +22,8 @@
                     'context-menu' => URL::getAbsolutePath() . 'assets/css/contextMenu.min.css' ,
                     'fontawesome' => URL::getAbsolutePath() . 'node_modules/@fortawesome/fontawesome-free/css/all.min.css' ,
                     'metro4' => URL::getAbsolutePath() . 'node_modules/metro4/build/css/metro-all.min.css' ,
-                    'simplebar' => URL::getAbsolutePath() . 'node_modules/simplebar/dist/simplebar.min.css'
+                    'simplebar' => URL::getAbsolutePath() . 'node_modules/simplebar/dist/simplebar.min.css' ,
+                    'jquery-terminal' => URL::getAbsolutePath() . 'node_modules/jquery.terminal/css/jquery.terminal.min.css'
                 ] ,
                 'namespaces' => [
                     'controller' => 'ACIDE\\App\\Controllers\\'

@@ -8,6 +8,7 @@ mix.js([
         'node_modules/angular-route/angular-route.min.js' ,
         'node_modules/metro4/build/js/metro.min.js' ,
         'node_modules/he/he.js' ,
+        'node_modules/jquery.terminal/js/jquery.terminal.min.js' ,
         'resources/js/mousetrap.min.js' ,
         'resources/js/ideCtrl.js' ,
         'resources/js/newProjectCtrl.js' ,

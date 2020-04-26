@@ -1,6 +1,6 @@
 - use ACIDECore\App\View
 - $scripts = View::getScripts(['app' , 'ace'])
-- $styles = View::getStyles(['app' , 'fontawesome' , 'metro4' , 'context-menu' , 'simplebar'])
+- $styles = View::getStyles(['app' , 'fontawesome' , 'metro4' , 'context-menu' , 'simplebar' , 'jquery-terminal'])
 
 doctype html
 html(lang="fa")
@@ -17,7 +17,7 @@ html(lang="fa")
     body(ng-app="ideApp" ng-controller="ideCtrl")
         main
             .container-fluid.p-0
-                div.thin-menu.fg-white.top-menu(data-role="appbar" data-expand-point="md")
+                div.thin-menu.fg-white.top-menu#app-bar-1(data-role="appbar" data-expand-point="md")
                     .app-bar-menu
                         li
                             a.dropdown-toggle(href="#!") File
@@ -32,12 +32,19 @@ html(lang="fa")
                             .editor-tabs.fg-white.simpleBar
                                 ul.list-style-none.m-0.d-flex
                             .code-editor.w-100: .editor
-                div.thin-menu.fg-white.bottom-menu(data-role="appbar" data-expand-point="md")
+                .terminal-app.d-none
+                    div.thin-menu.fg-white.bottom-menu#terminal-app-bar(data-role="appbar" data-expand-point="md")
+                        .app-bar-menu
+                            li: a(href="#!") Home
+                            li: a(href="#!") File
+                            li: a(ng-click="showTerminal()") Terminal
+                    .terminal-body
+                div.thin-menu.fg-white.bottom-menu#app-bar-2(data-role="appbar" data-expand-point="md")
                     .app-bar-menu
                         li: a(href="#!") Home
                         li: a(href="#!") File
-                        li: a(href="#!") Terminal
-                div.thin-menu.fg-white(data-role="appbar" data-expand-point="md")
+                        li: a(ng-click="showTerminal()") Terminal
+                div.thin-menu.fg-white#app-bar-3(data-role="appbar" data-expand-point="md")
                     .app-bar-menu.w-100
                         li.ml-auto: a {{cursor_row}}:{{cursor_col}}
                         li: a(href="#!") File

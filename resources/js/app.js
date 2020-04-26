@@ -1,9 +1,12 @@
-import * as $ from '../../node_modules/jquery/src/jquery';
+import * as $ from 'jquery/src/jquery';
+import * as jQ from 'jquery';
 import extensions from "./extensions";
 import { v4 as uuidv4 } from 'uuid';
-import he from '../../node_modules/he/he';
+import he from 'he/he';
 import SimpleBar from 'simplebar';
 import ContextMenus from "./exportContextMenu";
+import terminal from 'jquery.terminal/js/jquery.terminal';
+terminal(window, jQ);
 
 var ACIDE = {
     getWebsiteUrl : function () {
@@ -489,6 +492,31 @@ IDE.service('storageHandler' , function () {
                 Metro.storage.delItem(value);
             });
         }
+    };
+});
+
+IDE.service('terminalHandler' , function () {
+    this.show = function () {
+        $('.terminal-app').removeClass('d-none');
+        $('.ide-content').addClass('terminal-size');
+    };
+
+    this.hide = function () {
+        $('.terminal-app').addClass('d-none');
+        $('.ide-content').removeClass('terminal-size');
+    };
+
+    this.toggle = function () {
+        $('.terminal-app').toggleClass('d-none');
+        $('.ide-content').toggleClass('terminal-size');
+    };
+
+    this.init = function () {
+        jQ('.terminal-body').terminal({
+            open: function(value) {
+                console.log(value);
+            }
+        });
     };
 });
 

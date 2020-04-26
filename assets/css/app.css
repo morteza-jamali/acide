@@ -60,6 +60,10 @@ html {
   background-color: #172028;
 }
 
+.ide-content.terminal-size {
+  height: calc(100% - 290px) !important;
+}
+
 .thin-menu.top-menu {
   border-bottom: 1px solid #172028;
 }
@@ -311,5 +315,11 @@ li[data-text=""] {
 
 .close_project .files_list li.active {
   background-color: #117ae3 !important;
+}
+
+/* Terminal SASS */
+
+.terminal-app {
+  height: 200px;
 }
 
