@@ -34,10 +34,11 @@ html(lang="fa")
                             .code-editor.w-100: .editor
                 .terminal-app.d-none
                     div.thin-menu.fg-white.bottom-menu#terminal-app-bar(data-role="appbar" data-expand-point="md")
-                        .app-bar-menu
-                            li: a(href="#!") Home
-                            li: a(href="#!") File
-                            li: a(ng-click="showTerminal()") Terminal
+                        .app-bar-menu.w-100
+                            li.n-hover: a Terminal :
+                            .terminal-tabs.d-flex
+                            li: a(ng-click="appendTerminal()"): span.mif-plus
+                            li.ml-auto: a(ng-click="minimizeTerminal()"): span.mif-minus
                     .terminal-body
                 div.thin-menu.fg-white.bottom-menu#app-bar-2(data-role="appbar" data-expand-point="md")
                     .app-bar-menu

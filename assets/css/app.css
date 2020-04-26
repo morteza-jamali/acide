@@ -323,3 +323,27 @@ li[data-text=""] {
   height: 200px;
 }
 
+.terminal-app .terminal-body {
+  height: calc(100% - 30px) !important;
+}
+
+.terminal-app .terminal-body .child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.terminal-app .terminal-body .child.active {
+  z-index: 999999 !important;
+}
+
+.terminal-app #terminal-app-bar li:not(.n-hover):hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.terminal-app #terminal-app-bar .close-terminal {
+  color: rgba(255, 255, 255, 0.4);
+}
+

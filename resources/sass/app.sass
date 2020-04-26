@@ -202,3 +202,18 @@ li[data-text=""]
 /* Terminal SASS
 .terminal-app
   height: 200px
+  .terminal-body
+    height: calc(100% - 30px) !important
+    .child
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      &.active
+        z-index: 999999 !important
+  #terminal-app-bar
+    li:not(.n-hover):hover
+      background-color: rgba(255,255,255,0.1)
+    .close-terminal
+      color: rgba(255, 255, 255, 0.4)

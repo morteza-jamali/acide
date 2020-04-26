@@ -46139,11 +46139,6 @@ IDE.service('storageHandler', function () {
   };
 });
 IDE.service('terminalHandler', function () {
-  this.show = function () {
-    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app').removeClass('d-none');
-    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.ide-content').addClass('terminal-size');
-  };
-
   this.hide = function () {
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app').addClass('d-none');
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.ide-content').removeClass('terminal-size');
@@ -46154,8 +46149,42 @@ IDE.service('terminalHandler', function () {
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.ide-content').toggleClass('terminal-size');
   };
 
-  this.init = function () {
-    jquery__WEBPACK_IMPORTED_MODULE_1__('.terminal-body').terminal({
+  this.setEvents = function () {
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', '.terminal-app .terminal-tabs li span.close-terminal', function () {
+      var _parent_li = jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).parents('li');
+
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child[data-terminal-slug="' + _parent_li.attr('data-terminal-slug') + '"]').remove();
+
+      _parent_li.remove();
+    });
+  };
+
+  this.activeTab = function () {
+    var slug = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+
+    if (slug === undefined) {
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs li').each(function () {
+        jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
+      });
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child').each(function () {
+        jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
+      });
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child').last().addClass('active');
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs li').last().addClass('active');
+    }
+  };
+
+  this.isInitiate = function () {
+    return jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child').length;
+  };
+
+  this.append = function () {
+    var _terminal_slug = Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])();
+
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs').append('<li data-terminal-slug="' + _terminal_slug + '"><a>Local <span class="close-terminal ml-2">X</span></a></li>');
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body').append('<div class="h-100 child" data-terminal-slug="' + _terminal_slug + '"></div>');
+    this.activeTab();
+    jquery__WEBPACK_IMPORTED_MODULE_1__(".terminal-app .terminal-body div[data-terminal-slug='" + _terminal_slug + "']").terminal({
       open: function open(value) {
         console.log(value);
       }
@@ -46863,7 +46892,19 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('ideCtrl', function ($scope,
 
   $scope.showTerminal = function () {
     terminalHandler.toggle();
-    terminalHandler.init();
+
+    if (!terminalHandler.isInitiate()) {
+      terminalHandler.append();
+      terminalHandler.setEvents();
+    }
+  };
+
+  $scope.minimizeTerminal = function () {
+    terminalHandler.hide();
+  };
+
+  $scope.appendTerminal = function () {
+    terminalHandler.append();
   };
 });
 

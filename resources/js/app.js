@@ -496,11 +496,6 @@ IDE.service('storageHandler' , function () {
 });
 
 IDE.service('terminalHandler' , function () {
-    this.show = function () {
-        $('.terminal-app').removeClass('d-none');
-        $('.ide-content').addClass('terminal-size');
-    };
-
     this.hide = function () {
         $('.terminal-app').addClass('d-none');
         $('.ide-content').removeClass('terminal-size');
@@ -511,8 +506,47 @@ IDE.service('terminalHandler' , function () {
         $('.ide-content').toggleClass('terminal-size');
     };
 
-    this.init = function () {
-        jQ('.terminal-body').terminal({
+    this.setEvents = function () {
+        $(document).on('click' , '.terminal-app .terminal-tabs li span.close-terminal', function() {
+            var _parent_li = $(this).parents('li');
+            $('.terminal-app .terminal-body .child[data-terminal-slug="' + _parent_li.attr('data-terminal-slug') +
+                '"]').remove();
+            _parent_li.remove();
+        });
+    };
+
+    this.activeTab = function (slug = undefined) {
+        if(slug === undefined) {
+            $('.terminal-app .terminal-tabs li').each(function () {
+                $(this).removeClass('active');
+            });
+            $('.terminal-app .terminal-body .child').each(function () {
+                $(this).removeClass('active');
+            });
+
+            $('.terminal-app .terminal-body .child').last().addClass('active');
+            $('.terminal-app .terminal-tabs li').last().addClass('active');
+        }
+    };
+
+    this.isInitiate = function () {
+        return $('.terminal-app .terminal-body .child').length;
+    };
+
+    this.append = function () {
+        var _terminal_slug = uuidv4();
+
+        $('.terminal-app .terminal-tabs').append(
+            '<li data-terminal-slug="' + _terminal_slug +
+            '"><a>Local <span class="close-terminal ml-2">X</span></a></li>'
+        );
+        $('.terminal-app .terminal-body').append(
+            '<div class="h-100 child" data-terminal-slug="' + _terminal_slug + '"></div>'
+        );
+
+        this.activeTab();
+
+        jQ(".terminal-app .terminal-body div[data-terminal-slug='" + _terminal_slug + "']").terminal({
             open: function(value) {
                 console.log(value);
             }

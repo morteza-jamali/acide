@@ -8,6 +8,17 @@ IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure, st
 
     $scope.showTerminal = function () {
         terminalHandler.toggle();
-        terminalHandler.init();
+        if(!terminalHandler.isInitiate()) {
+            terminalHandler.append();
+            terminalHandler.setEvents();
+        }
+    };
+
+    $scope.minimizeTerminal = function () {
+        terminalHandler.hide();
+    };
+
+    $scope.appendTerminal = function () {
+        terminalHandler.append();
     };
 });
