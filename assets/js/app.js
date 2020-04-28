@@ -45942,7 +45942,7 @@ IDE.service('editorTabs', function () {
         jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
       });
 
-      var _html = '<li class="px-2 py-1 d-flex flex-align-center active" data-slug="' + slug + '"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' + '<span class="close-tab ml-2">x</span></li>';
+      var _html = '<li class="pr-2 d-flex flex-align-center active" data-slug="' + slug + '"><div class="py-1 pl-2"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' + '</div><span class="close-tab ml-2">x</span></li>';
 
       jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul').append(_html);
     } else {
@@ -46014,18 +46014,22 @@ IDE.service('editorHandler', function ($rootScope, $http) {
 IDE.service('editorTabsHandler', function (editorContent, editorTabs) {
   this.init = function () {
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', '.editor-tabs li .close-tab', function () {
+      var _is_active = jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).parent().hasClass('active');
+
       jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('#' + jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).parent().attr('data-slug')).remove();
       jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).parent().remove();
 
-      var _elm = jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li').last();
+      if (_is_active) {
+        var _elm = jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li').last();
 
-      _elm.addClass('active');
+        _elm.addClass('active');
 
-      editorContent.activate(_elm.attr('data-slug'));
+        editorContent.activate(_elm.attr('data-slug'));
+      }
     });
-    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', '.editor-tabs ul li', function () {
-      editorTabs.activate(jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).attr('data-slug'));
-      editorContent.activate(jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).attr('data-slug'));
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', '.editor-tabs ul li div', function () {
+      editorTabs.activate(jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).parent().attr('data-slug'));
+      editorContent.activate(jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).parent().attr('data-slug'));
     });
   };
 });

@@ -287,9 +287,9 @@ IDE.service('editorTabs' , function () {
             $('.editor-tabs ul li').each(function () {
                 $(this).removeClass('active');
             });
-            var _html = '<li class="px-2 py-1 d-flex flex-align-center active" data-slug="' +
-                slug + '"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' +
-                '<span class="close-tab ml-2">x</span></li>';
+            var _html = '<li class="pr-2 d-flex flex-align-center active" data-slug="' +
+                slug + '"><div class="py-1 pl-2"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' +
+                '</div><span class="close-tab ml-2">x</span></li>';
             $('.editor-tabs ul').append(_html);
         } else {
             this.activate(slug);
@@ -363,15 +363,18 @@ IDE.service('editorHandler' , function ($rootScope , $http) {
 IDE.service('editorTabsHandler' , function (editorContent , editorTabs) {
     this.init = function () {
         $(document).on('click' , '.editor-tabs li .close-tab' , function() {
+            var _is_active = $(this).parent().hasClass('active');
             $('#' + $(this).parent().attr('data-slug')).remove();
             $(this).parent().remove();
-            var _elm = $('.editor-tabs ul li').last();
-            _elm.addClass('active');
-            editorContent.activate(_elm.attr('data-slug'));
+            if(_is_active) {
+                var _elm = $('.editor-tabs ul li').last();
+                _elm.addClass('active');
+                editorContent.activate(_elm.attr('data-slug'));
+            }
         });
-        $(document).on('click' , '.editor-tabs ul li' , function () {
-            editorTabs.activate($(this).attr('data-slug'));
-            editorContent.activate($(this).attr('data-slug'));
+        $(document).on('click' , '.editor-tabs ul li div' , function () {
+            editorTabs.activate($(this).parent().attr('data-slug'));
+            editorContent.activate($(this).parent().attr('data-slug'));
         });
     };
 });
