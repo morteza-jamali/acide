@@ -46143,6 +46143,10 @@ IDE.service('storageHandler', function () {
   };
 });
 IDE.service('terminalHandler', function () {
+  var service_object = this;
+
+  var _counter = -1;
+
   this.hide = function () {
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app').addClass('d-none');
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.ide-content').removeClass('terminal-size');
@@ -46153,28 +46157,21 @@ IDE.service('terminalHandler', function () {
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.ide-content').toggleClass('terminal-size');
   };
 
-  this.setEvents = function () {
-    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', '.terminal-app .terminal-tabs li span.close-terminal', function () {
-      var _parent_li = jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).parents('li');
-
-      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child[data-terminal-slug="' + _parent_li.attr('data-terminal-slug') + '"]').remove();
-
-      _parent_li.remove();
-    });
-  };
-
-  this.activeTab = function () {
+  this.activeTerminal = function () {
     var slug = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs li').each(function () {
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
+    });
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child').each(function () {
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
+    });
 
     if (slug === undefined) {
-      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs li').each(function () {
-        jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
-      });
-      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child').each(function () {
-        jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
-      });
       jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child').last().addClass('active');
       jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs li').last().addClass('active');
+    } else {
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child[data-terminal-slug="' + slug + '"]').addClass('active');
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs li[data-terminal-slug="' + slug + '"]').addClass('active');
     }
   };
 
@@ -46185,13 +46182,45 @@ IDE.service('terminalHandler', function () {
   this.append = function () {
     var _terminal_slug = Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])();
 
-    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs').append('<li data-terminal-slug="' + _terminal_slug + '"><a>Local <span class="close-terminal ml-2">X</span></a></li>');
+    var _counter_slug = '';
+    ++_counter;
+
+    if (_counter > 0) {
+      _counter_slug = '(' + _counter + ')';
+    }
+
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs').append('<li data-terminal-slug="' + _terminal_slug + '"><a><div>Local ' + _counter_slug + '</div><span class="close-terminal ml-2">X</span></a></li>');
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body').append('<div class="h-100 child" data-terminal-slug="' + _terminal_slug + '"></div>');
-    this.activeTab();
+    this.activeTerminal();
     jquery__WEBPACK_IMPORTED_MODULE_1__(".terminal-app .terminal-body div[data-terminal-slug='" + _terminal_slug + "']").terminal({
       open: function open(value) {
         console.log(value);
       }
+    }, {
+      greetings: 'Welcome to ACID-E terminal'
+    });
+  };
+
+  this.setEvents = function () {
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', '.terminal-app .terminal-tabs li span.close-terminal', function () {
+      var _parent_li = jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).parents('li');
+
+      var _is_active = _parent_li.hasClass('active');
+
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-body .child[data-terminal-slug="' + _parent_li.attr('data-terminal-slug') + '"]').remove();
+
+      _parent_li.remove();
+
+      if (_is_active) {
+        service_object.activeTerminal();
+      }
+
+      if (jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.terminal-app .terminal-tabs li').length === 0) {
+        service_object.hide();
+      }
+    });
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('click', '.terminal-app .terminal-tabs li a div', function () {
+      service_object.activeTerminal(jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).parents('li').attr('data-terminal-slug'));
     });
   };
 });

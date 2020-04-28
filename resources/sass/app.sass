@@ -215,5 +215,10 @@ li[data-text=""]
   #terminal-app-bar
     li:not(.n-hover):hover
       background-color: rgba(255,255,255,0.1)
-    .close-terminal
-      color: rgba(255, 255, 255, 0.4)
+    div
+      display: inline-block
+    .terminal-tabs
+      li.active
+        border-bottom: 1px solid #d4d4d4
+        .close-terminal
+          color: rgba(255, 255, 255, 0.4)

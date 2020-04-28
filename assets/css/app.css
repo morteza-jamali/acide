@@ -343,7 +343,15 @@ li[data-text=""] {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.terminal-app #terminal-app-bar .close-terminal {
+.terminal-app #terminal-app-bar div {
+  display: inline-block;
+}
+
+.terminal-app #terminal-app-bar .terminal-tabs li.active {
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.terminal-app #terminal-app-bar .terminal-tabs li.active .close-terminal {
   color: rgba(255, 255, 255, 0.4);
 }
 

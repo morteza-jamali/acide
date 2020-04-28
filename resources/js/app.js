@@ -499,6 +499,9 @@ IDE.service('storageHandler' , function () {
 });
 
 IDE.service('terminalHandler' , function () {
+    var service_object = this;
+    var _counter = -1;
+
     this.hide = function () {
         $('.terminal-app').addClass('d-none');
         $('.ide-content').removeClass('terminal-size');
@@ -509,26 +512,19 @@ IDE.service('terminalHandler' , function () {
         $('.ide-content').toggleClass('terminal-size');
     };
 
-    this.setEvents = function () {
-        $(document).on('click' , '.terminal-app .terminal-tabs li span.close-terminal', function() {
-            var _parent_li = $(this).parents('li');
-            $('.terminal-app .terminal-body .child[data-terminal-slug="' + _parent_li.attr('data-terminal-slug') +
-                '"]').remove();
-            _parent_li.remove();
+    this.activeTerminal = function (slug = undefined) {
+        $('.terminal-app .terminal-tabs li').each(function () {
+            $(this).removeClass('active');
         });
-    };
-
-    this.activeTab = function (slug = undefined) {
+        $('.terminal-app .terminal-body .child').each(function () {
+            $(this).removeClass('active');
+        });
         if(slug === undefined) {
-            $('.terminal-app .terminal-tabs li').each(function () {
-                $(this).removeClass('active');
-            });
-            $('.terminal-app .terminal-body .child').each(function () {
-                $(this).removeClass('active');
-            });
-
             $('.terminal-app .terminal-body .child').last().addClass('active');
             $('.terminal-app .terminal-tabs li').last().addClass('active');
+        } else {
+            $('.terminal-app .terminal-body .child[data-terminal-slug="' + slug + '"]').addClass('active');
+            $('.terminal-app .terminal-tabs li[data-terminal-slug="' + slug + '"]').addClass('active');
         }
     };
 
@@ -538,21 +534,49 @@ IDE.service('terminalHandler' , function () {
 
     this.append = function () {
         var _terminal_slug = uuidv4();
+        var _counter_slug = '';
+        ++_counter;
+        if(_counter > 0) {
+            _counter_slug = '(' + _counter + ')';
+        }
 
         $('.terminal-app .terminal-tabs').append(
             '<li data-terminal-slug="' + _terminal_slug +
-            '"><a>Local <span class="close-terminal ml-2">X</span></a></li>'
+            '"><a><div>Local ' + _counter_slug +
+                '</div><span class="close-terminal ml-2">X</span></a></li>'
         );
         $('.terminal-app .terminal-body').append(
             '<div class="h-100 child" data-terminal-slug="' + _terminal_slug + '"></div>'
         );
 
-        this.activeTab();
+        this.activeTerminal();
 
         jQ(".terminal-app .terminal-body div[data-terminal-slug='" + _terminal_slug + "']").terminal({
             open: function(value) {
                 console.log(value);
             }
+        } , {
+            greetings : 'Welcome to ACID-E terminal'
+        });
+    };
+
+    this.setEvents = function () {
+        $(document).on('click' , '.terminal-app .terminal-tabs li span.close-terminal', function() {
+            var _parent_li = $(this).parents('li');
+            var _is_active = _parent_li.hasClass('active');
+            $('.terminal-app .terminal-body .child[data-terminal-slug="' + _parent_li.attr('data-terminal-slug') +
+                '"]').remove();
+            _parent_li.remove();
+            if(_is_active) {
+                service_object.activeTerminal();
+            }
+            if($('.terminal-app .terminal-tabs li').length === 0) {
+                service_object.hide();
+            }
+        });
+
+        $(document).on('click' , '.terminal-app .terminal-tabs li a div' , function() {
+            service_object.activeTerminal($(this).parents('li').attr('data-terminal-slug'));
         });
     };
 });
