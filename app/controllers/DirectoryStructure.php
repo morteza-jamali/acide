@@ -88,7 +88,7 @@
             $active_file = File::where('project' , $path)
                 ->where('type' , 'label')->get()->toArray();
 
-            if(empty($active_file)) {
+            if(empty($active_file) || !FileManager::exists($active_file[0]['path'])) {
                 $active_file = [];
             } else {
                 $active_file[0]['content'] = FileManager::getFileContent($active_file[0]['path']);
@@ -136,6 +136,15 @@
 
             $path = FileProject::where('name' , '_active_project_')
                 ->where('type' , 'label')->value('path');
+
+            FileManager::deleteDirectory($this->request['path']);
+
+            if($path == $this->request['path']) {
+                FileProject::where('path' , $path)->delete();
+                File::where('project' , $path)->delete();
+            }
+
+            return (new Response())->success(['Item' => 'deleted'])->returnMsg();
         }
     }
 ?>

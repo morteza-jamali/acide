@@ -46721,22 +46721,17 @@ __webpack_require__.r(__webpack_exports__);
 
 _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteFileCtrl', function ($scope, $http, directoryStructure, elementHandler) {
   var path = elementHandler.getSelectedDir().attr('data-path');
+  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@deleteItem'), {
+    'path': path
+  }).then(function (response) {
+    console.log(response.data);
 
-  $scope.createFile = function () {
-    var ext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
-      'name': $scope.file_name,
-      'path': path,
-      'ext': ext
-    }).then(function (response) {
-      if (response.data.type === 'success') {
-        window.hide();
-        directoryStructure.refresh();
-      }
-    }, function (response) {
-      console.log('New File AJAX Error !');
-    });
-  };
+    if (response.data.type === 'success') {
+      directoryStructure.refresh();
+    }
+  }, function (response) {
+    console.log('Delete Item AJAX Error !');
+  });
 });
 
 /***/ }),
