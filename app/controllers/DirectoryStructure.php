@@ -108,16 +108,11 @@
         }
 
         public function getAllFileProjects() {
-            $files = FileManager::getDirectoryTree(dirname(dirname(__DIR__)) . '/work');
+            $directories = FileManager::getDirectories(dirname(dirname(__DIR__)) . '/work');
             $projects = [];
 
-            foreach ($files as $dir => $file) {
-                foreach ($file as $f => $type) {
-                    if($type === 'directory') {
-                        $projects[$f] = $dir . DIRECTORY_SEPARATOR . $f;
-                    }
-                }
-                break;
+            foreach ($directories as $dir) {
+                $projects[FileManager::getBaseName($dir)] = $dir;
             }
 
             return (new Response())->success($projects)->returnMsg();
