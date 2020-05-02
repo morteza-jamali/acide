@@ -104,6 +104,8 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
         $http.post(
             ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')
         ).then(function (response) {
+                editorTabs.clean();
+                editorContent.clean();
                 if(response.data.type === 'success' && response.data.message.length !== 0) {
                     if (response.data.message.default === 'Database') {
                         var _icon = null;
@@ -134,7 +136,6 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                                 }
                                 var _slug = $('.directory-structure .records li[data-name="' +
                                     value.name + '.' + value.ext + '"]').attr('data-slug');
-                                editorTabs.clean();
                                 editorTabs.append(value.name + '.' + value.ext, _icon, _slug);
                                 editorContent.append(_slug, value.content, value.ext);
                             }
@@ -142,7 +143,6 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                     }
 
                     if(response.data.message.default === 'File') {
-                        var _icon_ = null;
                         var _html = '<ul class="list-style-none m-0 h-100 simpleBar" style="overflow: auto"><li class="Directory pl-4 pt-1 d-flex" data-slug="' +
                             response.data.message.project.path + '">' +
                             '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name +
@@ -189,7 +189,6 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                                                 response.data.message.active_file[0].project === response.data.message.project.path) {
                                                 var _slug = $('.directory-structure .files li[data-name="' +
                                                     val + '"]').attr('data-slug');
-                                                editorTabs.clean();
                                                 editorTabs.append(val, 'assets/img/icons/' + _icon + '.svg', _slug);
                                                 editorContent.append(_slug, response.data.message.active_file[0].content, val.split('.').pop());
                                             }
@@ -228,6 +227,10 @@ IDE.service('simpleBar' , function () {
 });
 
 IDE.service('editorContent' , function (editorHandler) {
+    this.clean = function () {
+        $('.code-editor .editor').empty();
+    };
+
     this.activate = function (slug) {
         $('.code-editor .editor .child').each(function () {
             $(this).removeClass('active');
@@ -288,7 +291,7 @@ IDE.service('editorTabs' , function () {
                 $(this).removeClass('active');
             });
             var _html = '<li class="pr-2 d-flex flex-align-center active" data-slug="' +
-                slug + '"><div class="py-1 pl-2"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' +
+                slug + '"><div class="py-1 pl-2 d-flex"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' +
                 '</div><span class="close-tab ml-2">x</span></li>';
             $('.editor-tabs ul').append(_html);
         } else {

@@ -19,7 +19,7 @@
             li.mb-2: a(ng-click="openProject()").fg-white
                 i.mif-folder-open2.mr-2
                 = 'Open Project'
-            li.mb-2: a.fg-white
+            li.mb-2: a(ng-click="removeProject()").fg-white
                 i.mif-layers-clear.mr-2
                 = 'Remove Project'
         small.fg-red(ng-show="error === 'selection'") Please select a project

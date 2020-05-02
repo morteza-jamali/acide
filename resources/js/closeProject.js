@@ -2,9 +2,26 @@ import {IDE , ACIDE} from "./app";
 import * as $ from '../../node_modules/jquery/src/jquery';
 
 IDE.service('closeProjectHandler' , function () {
+    var service_obj = this;
+
+    this.getItem = function () {
+        return $('.close_project .database_list li , .close_project .files_list li');
+    };
+
+    this.getActiveItem = function () {
+        return $('.close_project .database_list li.active , .close_project .files_list li.active');
+    };
+
+    this.validate = function (scope) {
+        scope.error = '';
+        if(!service_obj.getActiveItem().length) {
+            scope.error = 'selection';
+        }
+    };
+
     this.init = function () {
         $(document).on('click' , '.close_project .database_list li , .close_project .files_list li' , function () {
-            $('.close_project .database_list li , .close_project .files_list li').removeClass('active');
+            service_obj.getItem().removeClass('active');
             $(this).addClass('active');
         });
     };
@@ -16,11 +33,8 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
     window.changeSize({width : 700 , height : 500});
 
     $scope.openProject = function() {
-        $scope.error = '';
-        var _elm = $('.close_project .database_list li.active , .close_project .files_list li.active');
-        if(!_elm.length) {
-            $scope.error = 'selection';
-        }
+        closeProjectHandler.validate($scope);
+        var _elm = closeProjectHandler.getActiveItem();
 
         if(_elm.length) {
             $http.post(
@@ -39,6 +53,10 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
                     console.log('Close Project AJAX Error !');
                 });
         }
+    };
+
+    $scope.removeProject = function() {
+
     };
 
     $http.post(

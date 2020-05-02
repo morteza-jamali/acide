@@ -45760,6 +45760,9 @@ IDE.service('window', function () {
 IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar, editorTabsHandler, keyBinds, directoryHandler) {
   this.refresh = function () {
     $http.post(ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')).then(function (response) {
+      editorTabs.clean();
+      editorContent.clean();
+
       if (response.data.type === 'success' && response.data.message.length !== 0) {
         if (response.data.message["default"] === 'Database') {
           var _icon = null;
@@ -45789,7 +45792,6 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
 
               var _slug = jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .records li[data-name="' + value.name + '.' + value.ext + '"]').attr('data-slug');
 
-              editorTabs.clean();
               editorTabs.append(value.name + '.' + value.ext, _icon, _slug);
               editorContent.append(_slug, value.content, value.ext);
             }
@@ -45797,8 +45799,6 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
         }
 
         if (response.data.message["default"] === 'File') {
-          var _icon_ = null;
-
           var _html = '<ul class="list-style-none m-0 h-100 simpleBar" style="overflow: auto"><li class="Directory pl-4 pt-1 d-flex" data-slug="' + response.data.message.project.path + '">' + '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name + '<span class="fg-darkGray ml-2">sources root ,' + response.data.message.project.path + '</span>' + '</li><ul class="list-style-none pl-7 mr-0 files" data-path="' + response.data.message.project.path + '"></ul></ul>';
 
           jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure').html(_html);
@@ -45839,7 +45839,6 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
                     if (value + '\\' + val === response.data.message.active_file[0].path && response.data.message.active_file[0].project === response.data.message.project.path) {
                       var _slug = jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .files li[data-name="' + val + '"]').attr('data-slug');
 
-                      editorTabs.clean();
                       editorTabs.append(val, 'assets/img/icons/' + _icon + '.svg', _slug);
                       editorContent.append(_slug, response.data.message.active_file[0].content, val.split('.').pop());
                     }
@@ -45879,6 +45878,10 @@ IDE.service('simpleBar', function () {
   };
 });
 IDE.service('editorContent', function (editorHandler) {
+  this.clean = function () {
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.code-editor .editor').empty();
+  };
+
   this.activate = function (slug) {
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.code-editor .editor .child').each(function () {
       jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
@@ -45942,7 +45945,7 @@ IDE.service('editorTabs', function () {
         jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(this).removeClass('active');
       });
 
-      var _html = '<li class="pr-2 d-flex flex-align-center active" data-slug="' + slug + '"><div class="py-1 pl-2"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' + '</div><span class="close-tab ml-2">x</span></li>';
+      var _html = '<li class="pr-2 d-flex flex-align-center active" data-slug="' + slug + '"><div class="py-1 pl-2 d-flex"><img src="' + icon + '" class="mr-1"><span class="name">' + name + '</span>' + '</div><span class="close-tab ml-2">x</span></li>';
 
       jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul').append(_html);
     } else {
@@ -46243,9 +46246,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].service('closeProjectHandler', function () {
+  var service_obj = this;
+
+  this.getItem = function () {
+    return _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.close_project .database_list li , .close_project .files_list li');
+  };
+
+  this.getActiveItem = function () {
+    return _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.close_project .database_list li.active , .close_project .files_list li.active');
+  };
+
+  this.validate = function (scope) {
+    scope.error = '';
+
+    if (!service_obj.getActiveItem().length) {
+      scope.error = 'selection';
+    }
+  };
+
   this.init = function () {
     _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(document).on('click', '.close_project .database_list li , .close_project .files_list li', function () {
-      _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.close_project .database_list li , .close_project .files_list li').removeClass('active');
+      service_obj.getItem().removeClass('active');
       _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(this).addClass('active');
     });
   };
@@ -46259,13 +46280,9 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
   });
 
   $scope.openProject = function () {
-    $scope.error = '';
+    closeProjectHandler.validate($scope);
 
-    var _elm = _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.close_project .database_list li.active , .close_project .files_list li.active');
-
-    if (!_elm.length) {
-      $scope.error = 'selection';
-    }
+    var _elm = closeProjectHandler.getActiveItem();
 
     if (_elm.length) {
       $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@openProject'), {
@@ -46281,6 +46298,8 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
       });
     }
   };
+
+  $scope.removeProject = function () {};
 
   $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllDatabaseProjects')).then(function (response) {
     if (response.data.type === 'success') {
