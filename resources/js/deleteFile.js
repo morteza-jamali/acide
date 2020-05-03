@@ -6,7 +6,8 @@ IDE.controller('deleteFileCtrl' , function ($scope , $http , directoryStructure 
     $http.post(
         ACIDE.getFullRoute('DirectoryStructure@deleteItem') ,
         {
-            'path' : path
+            path : path ,
+            type : 'File'
         }
     ).then(function (response) {
         console.log(response.data);

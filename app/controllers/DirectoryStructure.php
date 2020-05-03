@@ -121,7 +121,8 @@
         public function deleteItem() {
             $validator = new Validator();
             $validation = $validator->validate($this->request , [
-                'path' => 'required'
+                'path' => 'required' ,
+                'type' => 'required'
             ]);
 
             if($validation->fails()) {
@@ -129,14 +130,21 @@
                 return (new Response())->error($errors->toArray())->returnMsg();
             }
 
-            $path = FileProject::where('name' , '_active_project_')
-                ->where('type' , 'label')->value('path');
+            if($this->request['type'] == 'File') {
+                $path = FileProject::where('name' , '_active_project_')
+                    ->where('type' , 'label')->value('path');
 
-            FileManager::deleteDirectory($this->request['path']);
+                FileManager::deleteDirectory($this->request['path']);
 
-            if($path == $this->request['path']) {
-                FileProject::where('path' , $path)->delete();
-                File::where('project' , $path)->delete();
+                if($path == $this->request['path']) {
+                    FileProject::where('path' , $path)->delete();
+                    File::where('project' , $path)->delete();
+                }
+            }
+
+            if($this->request['type'] == 'Database') {
+                DatabaseProject::where('slug' , $this->request['path'])->delete();
+                Record::where('project' , $this->request['path'])->delete();
             }
 
             return (new Response())->success(['Item' => 'deleted'])->returnMsg();

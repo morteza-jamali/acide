@@ -101,6 +101,7 @@ IDE.service('window' , function () {
 IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , editorContent
                                              , simpleBar , editorTabsHandler , keyBinds , directoryHandler) {
     this.refresh = function () {
+        console.log('run !');
         $http.post(
             ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')
         ).then(function (response) {

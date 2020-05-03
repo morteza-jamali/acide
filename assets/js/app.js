@@ -45759,6 +45759,7 @@ IDE.service('window', function () {
 });
 IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar, editorTabsHandler, keyBinds, directoryHandler) {
   this.refresh = function () {
+    console.log('run !');
     $http.post(ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')).then(function (response) {
       editorTabs.clean();
       editorContent.clean();
@@ -46299,28 +46300,55 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
     }
   };
 
-  $scope.removeProject = function () {};
+  $scope.removeProject = function () {
+    closeProjectHandler.validate($scope);
 
-  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllDatabaseProjects')).then(function (response) {
-    if (response.data.type === 'success') {
-      $scope.database_projects = response.data.message;
-    }
-  }, function (response) {
-    console.log('Close Project AJAX Error !');
-  });
-  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllFileProjects')).then(function (response) {
-    if (response.data.type === 'success') {
-      $scope.files_projects = [];
-      Object.keys(response.data.message).forEach(function (value) {
-        $scope.files_projects.push({
-          name: value,
-          path: response.data.message[value]
-        });
+    var _elm = closeProjectHandler.getActiveItem();
+
+    if (_elm.length) {
+      $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@deleteItem'), {
+        type: _elm.parent().hasClass('database_list') ? 'Database' : 'File',
+        path: _elm.attr('data-slug')
+      }).then(function (response) {
+        if (response.data.type === 'success') {
+          directoryStructure.refresh();
+          $scope.getAllDBProjects();
+          $scope.getAllFileProjects();
+        }
+      }, function (response) {
+        console.log('Remove Project AJAX Error !');
       });
     }
-  }, function (response) {
-    console.log('Close Project AJAX Error !');
-  });
+  };
+
+  $scope.getAllDBProjects = function () {
+    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllDatabaseProjects')).then(function (response) {
+      if (response.data.type === 'success') {
+        $scope.database_projects = response.data.message;
+      }
+    }, function (response) {
+      console.log('Close Project AJAX Error !');
+    });
+  };
+
+  $scope.getAllFileProjects = function () {
+    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllFileProjects')).then(function (response) {
+      if (response.data.type === 'success') {
+        $scope.files_projects = [];
+        Object.keys(response.data.message).forEach(function (value) {
+          $scope.files_projects.push({
+            name: value,
+            path: response.data.message[value]
+          });
+        });
+      }
+    }, function (response) {
+      console.log('Close Project AJAX Error !');
+    });
+  };
+
+  $scope.getAllDBProjects();
+  $scope.getAllFileProjects();
   closeProjectHandler.init();
 });
 
@@ -46741,7 +46769,8 @@ __webpack_require__.r(__webpack_exports__);
 _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteFileCtrl', function ($scope, $http, directoryStructure, elementHandler) {
   var path = elementHandler.getSelectedDir().attr('data-path');
   $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@deleteItem'), {
-    'path': path
+    path: path,
+    type: 'File'
   }).then(function (response) {
     console.log(response.data);
 
