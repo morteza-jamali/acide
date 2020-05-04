@@ -1,0 +1,10 @@
+.p-5
+    form(name="renameDirectoryForm" novalidate)
+        input.fg-white(type="text" data-role="materialinput"
+            placeholder="Enter New Name" ng-model="directory_name"
+            name="name" required directory-validation)
+        small.fg-red(ng-show="renameDirectoryForm.name.$dirty && renameDirectoryForm.name.$error.required") Name can not be empty
+        br
+        small.fg-red(ng-show="renameDirectoryForm.name.$dirty && renameDirectoryForm.name.$invalid") Name is invalid
+    button.button.primary.mt-5.float-right(ng-click="renameDirectory()"
+        ng-disabled="renameDirectoryForm.name.$invalid") Rename

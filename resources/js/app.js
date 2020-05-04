@@ -55,6 +55,10 @@ IDE.config(function($routeProvider) {
         .when('/newdirectory' , {
             templateUrl : ACIDE.getTemplateURL('windows/html/new_directory') ,
             controller : 'newDirectoryCtrl'
+        })
+        .when('/renamedirectory' , {
+            templateUrl : ACIDE.getTemplateURL('windows/html/rename_directory') ,
+            controller : 'renameDirectoryCtrl'
         });
 });
 

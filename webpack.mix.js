@@ -11,7 +11,7 @@ mix.js([
         'node_modules/jquery.terminal/js/jquery.terminal.min.js' ,
         'resources/js/mousetrap.min.js' ,
         'resources/js/ideCtrl.js' ,
-        'resources/js/newProjectCtrl.js' ,
+        'resources/js/newProject.js' ,
         'resources/js/newRecord.js' ,
         'resources/js/newDirectory.js' ,
         'resources/js/newFile.js' ,
@@ -20,6 +20,7 @@ mix.js([
         'resources/js/closeProject.js' ,
         'resources/js/contextMenu.min.js' ,
         'resources/js/validation.js',
+        'resources/js/renameDirectory.js' ,
         'resources/js/app.js'
     ], 'assets/js/app.js')
     .sass('resources/sass/app.sass', 'assets/css/app.css')

@@ -130,7 +130,10 @@ var ContextMenus = {
         name: 'Paste' ,
         img : 'assets/img/tabler-icons/paste.png'
     } , {
-        name: 'Rename'
+        name: 'Rename' ,
+        fun : function () {
+            window.location.hash = '#!renamedirectory';
+        }
     } , {
         name: 'Delete' ,
         fun : function () {
