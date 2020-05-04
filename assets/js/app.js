@@ -47560,17 +47560,16 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameDirectoryCtrl', funct
   var path = elementHandler.getSelectedDir().attr('data-path');
 
   $scope.renameDirectory = function () {
-    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
-      'name': $scope.file_name,
-      'path': path,
-      'ext': ext
+    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@renameItem'), {
+      'name': $scope.directory_name,
+      'path': path
     }).then(function (response) {
       if (response.data.type === 'success') {
         window.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
-      console.log('New File AJAX Error !');
+      console.log('New Directory Name AJAX Error !');
     });
   };
 });

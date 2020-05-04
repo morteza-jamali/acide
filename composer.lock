@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/morteza-jamali/AC-FileManager.git",
-                "reference": "85ff1957b996b2203fc0e9c614206cd1769f24f0"
+                "reference": "126e66cf3967a06982ba25a023060263b641dcda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/morteza-jamali/AC-FileManager/zipball/85ff1957b996b2203fc0e9c614206cd1769f24f0",
-                "reference": "85ff1957b996b2203fc0e9c614206cd1769f24f0",
+                "url": "https://api.github.com/repos/morteza-jamali/AC-FileManager/zipball/126e66cf3967a06982ba25a023060263b641dcda",
+                "reference": "126e66cf3967a06982ba25a023060263b641dcda",
                 "shasum": ""
             },
             "require": {
@@ -41,14 +41,14 @@
                     "role": "Developer"
                 }
             ],
-            "description": "This is ACIDE project file manager library",
+            "description": "This is ACID-E project file manager library",
             "homepage": "https://github.com/morteza-jamali/AC-FileManager",
             "keywords": [
                 "acfilemanager",
                 "acide",
                 "file manager"
             ],
-            "time": "2020-04-30T15:57:13+00:00"
+            "time": "2020-05-04T18:35:21+00:00"
         },
         {
             "name": "acide/core",
@@ -56,12 +56,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/morteza-jamali/acide-core.git",
-                "reference": "16067aedefcf1d0026c666bab4df27f36a470431"
+                "reference": "edb9c8a0c31856e5eeacdb1583622772f466a6c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/morteza-jamali/acide-core/zipball/16067aedefcf1d0026c666bab4df27f36a470431",
-                "reference": "16067aedefcf1d0026c666bab4df27f36a470431",
+                "url": "https://api.github.com/repos/morteza-jamali/acide-core/zipball/edb9c8a0c31856e5eeacdb1583622772f466a6c1",
+                "reference": "edb9c8a0c31856e5eeacdb1583622772f466a6c1",
                 "shasum": ""
             },
             "require": {
@@ -82,13 +82,13 @@
                     "role": "Developer"
                 }
             ],
-            "description": "This is ACIDE project core library",
+            "description": "This is ACID-E project core library",
             "homepage": "https://github.com/morteza-jamali/acide-core",
             "keywords": [
                 "acide",
                 "core"
             ],
-            "time": "2020-03-19T17:04:50+00:00"
+            "time": "2020-05-04T19:22:09+00:00"
         },
         {
             "name": "cakephp/cache",

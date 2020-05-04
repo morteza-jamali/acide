@@ -10,6 +10,7 @@
     use ACIDE\App\Models\File;
     use ACFileManager\Src\File as FileManager;
     use Rakit\Validation\Validator;
+    use ACIDECore\App\StringFactory;
 
     class DirectoryStructure {
         private $request = null;
@@ -148,6 +149,34 @@
             }
 
             return (new Response())->success(['Item' => 'deleted'])->returnMsg();
+        }
+
+        public function renameItem() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'path' => 'required' ,
+                'name' => ['required', 'regex:/^([a-zA-Z0-9][^\*\/\>\<\?\|\:]*)$/']
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            FileManager::rename($this->request['path'] , $this->request['name']);
+
+            $path = FileProject::where('name' , '_active_project_')
+                ->where('type' , 'label')->value('path');
+
+            if($path == $this->request['path']) {
+                $new_path = StringFactory::lastReplace(
+                        basename($this->request['path']) , '' , $this->request['path']
+                    ) . $this->request['name'];
+                FileProject::where('path' , $path)->update(['path' => $new_path]);
+                File::where('project' , $path)->update(['project' => $new_path]);
+            }
+
+            return (new Response())->success(['Item' => 'renamed'])->returnMsg();
         }
     }
 ?>

@@ -8,11 +8,10 @@ IDE.controller('renameDirectoryCtrl' , function ($scope , $http , window , direc
 
     $scope.renameDirectory = function () {
         $http.post(
-            ACIDE.getFullRoute('NewProjectController@createFile') ,
+            ACIDE.getFullRoute('DirectoryStructure@renameItem') ,
             {
-                'name' : $scope.file_name ,
-                'path' : path ,
-                'ext' : ext
+                'name' : $scope.directory_name ,
+                'path' : path
             }
         ).then(function (response) {
                 if(response.data.type === 'success') {
@@ -21,7 +20,7 @@ IDE.controller('renameDirectoryCtrl' , function ($scope , $http , window , direc
                 }
             } ,
             function (response) {
-                console.log('New File AJAX Error !');
+                console.log('New Directory Name AJAX Error !');
             });
     };
 });
