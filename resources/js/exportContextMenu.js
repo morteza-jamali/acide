@@ -125,10 +125,17 @@ var ContextMenus = {
         img : 'assets/img/tabler-icons/scissors.png'
     } , {
         name: 'Copy' ,
-        img : 'assets/img/tabler-icons/copy.png'
+        img : 'assets/img/tabler-icons/copy.png' ,
+        fun : function () {
+            window.location.hash = '#!copydirectory';
+        }
     } , {
         name: 'Paste' ,
-        img : 'assets/img/tabler-icons/paste.png'
+        img : 'assets/img/tabler-icons/paste.png' ,
+        disable : true ,
+        fun : function () {
+            window.location.hash = '#!pasteitem';
+        }
     } , {
         name: 'Rename' ,
         fun : function () {

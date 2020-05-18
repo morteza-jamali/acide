@@ -178,5 +178,22 @@
 
             return (new Response())->success(['Item' => 'renamed'])->returnMsg();
         }
+
+        public function copyDirectory() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'from_path' => 'required' ,
+                'to_path' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            FileManager::copyDirectoryRecursively($this->request['from_path'] , $this->request['to_path']);
+
+            return (new Response())->success(['Directory' => 'copied'])->returnMsg();
+        }
     }
 ?>

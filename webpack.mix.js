@@ -16,6 +16,8 @@ mix.js([
         'resources/js/newDirectory.js' ,
         'resources/js/newFile.js' ,
         'resources/js/newExeFile.js' ,
+        'resources/js/copyDirectory.js' ,
+        'resources/js/pasteItem.js' ,
         'resources/js/deleteFile.js' ,
         'resources/js/closeProject.js' ,
         'resources/js/contextMenu.min.js' ,

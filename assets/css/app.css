@@ -32,6 +32,10 @@ a {
   font-weight: 700 !important;
 }
 
+.opacity-m {
+  opacity: 0.5 !important;
+}
+
 main,
 .container-fluid,
 body,
@@ -241,6 +245,10 @@ html {
 
 .iw-mSelected {
   background-color: #117ae3 !important;
+}
+
+.iw-mDisable .iw-mOverlay {
+  background: transparent !important;
 }
 
 .iw-mIcon {

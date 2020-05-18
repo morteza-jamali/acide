@@ -59,6 +59,14 @@ IDE.config(function($routeProvider) {
         .when('/renamedirectory' , {
             templateUrl : ACIDE.getTemplateURL('windows/html/rename_directory') ,
             controller : 'renameDirectoryCtrl'
+        })
+        .when('/copydirectory' , {
+            template : '' ,
+            controller : 'copyDirectoryCtrl'
+        })
+        .when('/pasteitem' , {
+            template : '' ,
+            controller : 'pasteItemCtrl'
         });
 });
 
@@ -217,6 +225,10 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
 });
 
 IDE.service('contextMenu' , function () {
+    this.update = function (elm , obj) {
+        $(elm).contextMenu('update', obj);
+    };
+
     this.init = function () {
         $('.directory-structure .database').contextMenu(ContextMenus.database_structure,{triggerOn:'contextmenu'});
         $('.directory-structure .Directory , .directory-structure li.dir').contextMenu(ContextMenus.file_structure,{triggerOn:'contextmenu'});
@@ -496,7 +508,8 @@ IDE.service('storageHandler' , function () {
         } else {
             var _keys = [
                 'new_file_type' ,
-                'new_file_name'
+                'new_file_name' ,
+                'paste_item_obj'
             ];
 
             _keys.forEach(function (value) {
