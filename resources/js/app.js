@@ -68,6 +68,14 @@ IDE.config(function($routeProvider) {
             template : '' ,
             controller : 'cutDirectoryCtrl'
         })
+        .when('/cutfile' , {
+            template : '' ,
+            controller : 'cutFileCtrl'
+        })
+        .when('/copyfile' , {
+            template : '' ,
+            controller : 'copyFileCtrl'
+        })
         .when('/pasteitem' , {
             template : '' ,
             controller : 'pasteItemCtrl'
@@ -87,6 +95,10 @@ IDE.service('elementHandler' , function () {
 
     this.getSelectedDir = function () {
         return $('.directory-structure li.li-selected').next();
+    };
+
+    this.getParentDir = function () {
+        return $('.directory-structure li.li-selected').parents('ul');
     };
 });
 
@@ -235,7 +247,8 @@ IDE.service('contextMenu' , function () {
 
     this.init = function () {
         $('.directory-structure .database').contextMenu(ContextMenus.database_structure,{triggerOn:'contextmenu'});
-        $('.directory-structure .Directory , .directory-structure li.dir').contextMenu(ContextMenus.file_structure,{triggerOn:'contextmenu'});
+        $('.directory-structure .Directory , .directory-structure li.dir').contextMenu(ContextMenus.directory_structure,{triggerOn:'contextmenu'});
+        $('.directory-structure li:not(.dir):not(.Directory)').contextMenu(ContextMenus.file_structure,{triggerOn:'contextmenu'});
     };
 });
 

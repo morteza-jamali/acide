@@ -8,6 +8,7 @@ IDE.controller('copyDirectoryCtrl' , function (directoryStructure , elementHandl
     elementHandler.getSelectedElm().addClass('opacity-m');
     Metro.storage.setItem('paste_item_obj' , {
         type : 'copy' ,
+        object : 'directory' ,
         path : elementHandler.getSelectedDir().attr('data-path')
     });
     contextMenu.update('.directory-structure .Directory , .directory-structure li.dir' , [{

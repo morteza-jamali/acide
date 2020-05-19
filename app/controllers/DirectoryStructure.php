@@ -215,5 +215,45 @@
 
             return (new Response())->success(['Directory' => 'moved'])->returnMsg();
         }
+
+        public function cutFile() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'from_path' => 'required' ,
+                'to_path' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            FileManager::moveFile(
+                StringFactory::lastReplace(FileManager::getBaseName($this->request['from_path']) , '' , $this->request['from_path']) ,
+                $this->request['to_path'] ,
+                FileManager::getBaseName($this->request['from_path']));
+
+            return (new Response())->success(['File' => 'moved'])->returnMsg();
+        }
+
+        public function copyFile() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'from_path' => 'required' ,
+                'to_path' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            FileManager::copyFile(
+                $this->request['from_path'] ,
+                $this->request['to_path'] . DIRECTORY_SEPARATOR . FileManager::getBaseName($this->request['from_path']))
+            ;
+
+            return (new Response())->success(['File' => 'copied'])->returnMsg();
+        }
     }
 ?>

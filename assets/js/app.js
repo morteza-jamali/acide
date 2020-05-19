@@ -45724,6 +45724,12 @@ IDE.config(function ($routeProvider) {
   }).when('/cutdirectory', {
     template: '',
     controller: 'cutDirectoryCtrl'
+  }).when('/cutfile', {
+    template: '',
+    controller: 'cutFileCtrl'
+  }).when('/copyfile', {
+    template: '',
+    controller: 'copyFileCtrl'
   }).when('/pasteitem', {
     template: '',
     controller: 'pasteItemCtrl'
@@ -45741,6 +45747,10 @@ IDE.service('elementHandler', function () {
 
   this.getSelectedDir = function () {
     return jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li.li-selected').next();
+  };
+
+  this.getParentDir = function () {
+    return jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li.li-selected').parents('ul');
   };
 });
 IDE.service('window', function () {
@@ -45882,7 +45892,10 @@ IDE.service('contextMenu', function () {
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .database').contextMenu(_exportContextMenu__WEBPACK_IMPORTED_MODULE_6__["default"].database_structure, {
       triggerOn: 'contextmenu'
     });
-    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .Directory , .directory-structure li.dir').contextMenu(_exportContextMenu__WEBPACK_IMPORTED_MODULE_6__["default"].file_structure, {
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure .Directory , .directory-structure li.dir').contextMenu(_exportContextMenu__WEBPACK_IMPORTED_MODULE_6__["default"].directory_structure, {
+      triggerOn: 'contextmenu'
+    });
+    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li:not(.dir):not(.Directory)').contextMenu(_exportContextMenu__WEBPACK_IMPORTED_MODULE_6__["default"].file_structure, {
       triggerOn: 'contextmenu'
     });
   };
@@ -46792,7 +46805,41 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('copyDirectoryCtrl', functio
   elementHandler.getSelectedElm().addClass('opacity-m');
   Metro.storage.setItem('paste_item_obj', {
     type: 'copy',
+    object: 'directory',
     path: elementHandler.getSelectedDir().attr('data-path')
+  });
+  contextMenu.update('.directory-structure .Directory , .directory-structure li.dir', [{
+    name: 'Paste',
+    img: 'assets/img/tabler-icons/paste.png',
+    disable: false
+  }]);
+});
+
+/***/ }),
+
+/***/ "./resources/js/copyFile.js":
+/*!**********************************!*\
+  !*** ./resources/js/copyFile.js ***!
+  \**********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
+
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('copyFileCtrl', function (directoryStructure, elementHandler, contextMenu) {
+  _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li').each(function () {
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(this).removeClass('opacity-m');
+  });
+  elementHandler.getSelectedElm().addClass('opacity-m');
+  Metro.storage.setItem('paste_item_obj', {
+    type: 'copy',
+    object: 'file',
+    path: elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name')
   });
   contextMenu.update('.directory-structure .Directory , .directory-structure li.dir', [{
     name: 'Paste',
@@ -46824,7 +46871,41 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('cutDirectoryCtrl', function
   elementHandler.getSelectedElm().addClass('opacity-m');
   Metro.storage.setItem('paste_item_obj', {
     type: 'cut',
+    object: 'directory',
     path: elementHandler.getSelectedDir().attr('data-path')
+  });
+  contextMenu.update('.directory-structure .Directory , .directory-structure li.dir', [{
+    name: 'Paste',
+    img: 'assets/img/tabler-icons/paste.png',
+    disable: false
+  }]);
+});
+
+/***/ }),
+
+/***/ "./resources/js/cutFile.js":
+/*!*********************************!*\
+  !*** ./resources/js/cutFile.js ***!
+  \*********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
+/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
+
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('cutFileCtrl', function (directoryStructure, elementHandler, contextMenu) {
+  _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li').each(function () {
+    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(this).removeClass('opacity-m');
+  });
+  elementHandler.getSelectedElm().addClass('opacity-m');
+  Metro.storage.setItem('paste_item_obj', {
+    type: 'cut',
+    object: 'file',
+    path: elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name')
   });
   contextMenu.update('.directory-structure .Directory , .directory-structure li.dir', [{
     name: 'Paste',
@@ -46905,7 +46986,7 @@ var ContextMenus = {
       img: 'assets/img/icons/coffee.svg'
     }]
   }],
-  file_structure: [{
+  directory_structure: [{
     name: 'New',
     subMenu: [{
       name: 'File',
@@ -46994,6 +47075,29 @@ var ContextMenus = {
     disable: true,
     fun: function fun() {
       window.location.hash = '#!pasteitem';
+    }
+  }, {
+    name: 'Rename',
+    fun: function fun() {
+      window.location.hash = '#!renamedirectory';
+    }
+  }, {
+    name: 'Delete',
+    fun: function fun() {
+      window.location.hash = '#!deletefile';
+    }
+  }],
+  file_structure: [{
+    name: 'Cut',
+    img: 'assets/img/tabler-icons/scissors.png',
+    fun: function fun() {
+      window.location.hash = '#!cutfile';
+    }
+  }, {
+    name: 'Copy',
+    img: 'assets/img/tabler-icons/copy.png',
+    fun: function fun() {
+      window.location.hash = '#!copyfile';
     }
   }, {
     name: 'Rename',
@@ -47642,17 +47746,37 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('pasteItemCtrl', function ($
 
   var _to_path = elementHandler.getSelectedDir().attr('data-path');
 
-  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@' + (paste_item_obj.type === 'copy' ? 'copyDirectory' : 'cutDirectory')), {
+  var _method = '';
+
+  if (paste_item_obj.object === 'file') {
+    if (paste_item_obj.type === 'copy') {
+      _method = 'copyFile';
+    } else if (paste_item_obj.type === 'cut') {
+      _method = 'cutFile';
+    }
+  } else if (paste_item_obj.object === 'directory') {
+    if (paste_item_obj.type === 'copy') {
+      _method = 'copyDirectory';
+    } else if (paste_item_obj.type === 'cut') {
+      _method = 'cutDirectory';
+    }
+  }
+
+  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@' + _method), {
     from_path: paste_item_obj.path,
     to_path: _to_path
   }).then(function (response) {
     if (response.data.type === 'success') {
       directoryStructure.refresh();
-      contextMenu.update('.directory-structure .Directory , .directory-structure li.dir', [{
-        name: 'Paste',
-        img: 'assets/img/tabler-icons/paste.png',
-        disable: true
-      }]);
+      var _elm = ['.directory-structure .Directory , .directory-structure li.dir', '.directory-structure li:not(.dir):not(.Directory)'];
+
+      _elm.forEach(function (value) {
+        contextMenu.update(value, [{
+          name: 'Paste',
+          img: 'assets/img/tabler-icons/paste.png',
+          disable: true
+        }]);
+      });
     }
   }, function (response) {
     console.log('Copy Or Cut Directory AJAX Error !');
@@ -47796,9 +47920,9 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('directoryValidation', functi
 /***/ }),
 
 /***/ 0:
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./node_modules/jquery.terminal/js/jquery.terminal.min.js ./resources/js/mousetrap.min.js ./resources/js/ideCtrl.js ./resources/js/newProject.js ./resources/js/newRecord.js ./resources/js/newDirectory.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/copyDirectory.js ./resources/js/cutDirectory.js ./resources/js/pasteItem.js ./resources/js/deleteFile.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/renameDirectory.js ./resources/js/app.js ./resources/sass/app.sass ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./node_modules/jquery.terminal/js/jquery.terminal.min.js ./resources/js/mousetrap.min.js ./resources/js/ideCtrl.js ./resources/js/newProject.js ./resources/js/newRecord.js ./resources/js/newDirectory.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/copyDirectory.js ./resources/js/copyFile.js ./resources/js/cutDirectory.js ./resources/js/cutFile.js ./resources/js/pasteItem.js ./resources/js/deleteFile.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/renameDirectory.js ./resources/js/app.js ./resources/sass/app.sass ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47817,7 +47941,9 @@ __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newDirectory.js */"./re
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newFile.js */"./resources/js/newFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\newExeFile.js */"./resources/js/newExeFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\copyDirectory.js */"./resources/js/copyDirectory.js");
+__webpack_require__(/*! C:\wamp64\www\acide\resources\js\copyFile.js */"./resources/js/copyFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\cutDirectory.js */"./resources/js/cutDirectory.js");
+__webpack_require__(/*! C:\wamp64\www\acide\resources\js\cutFile.js */"./resources/js/cutFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\pasteItem.js */"./resources/js/pasteItem.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\deleteFile.js */"./resources/js/deleteFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\closeProject.js */"./resources/js/closeProject.js");

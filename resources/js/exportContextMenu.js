@@ -39,7 +39,7 @@ var ContextMenus = {
             }
         ]
     }] ,
-    file_structure : [{
+    directory_structure : [{
         name: 'New',
         subMenu : [
             {
@@ -149,7 +149,34 @@ var ContextMenus = {
         fun : function () {
             window.location.hash = '#!deletefile';
         }
-    }]
+    }] ,
+    file_structure : [
+        {
+            name: 'Cut' ,
+            img : 'assets/img/tabler-icons/scissors.png' ,
+            fun : function () {
+                window.location.hash = '#!cutfile';
+            }
+        } , {
+            name: 'Copy' ,
+            img : 'assets/img/tabler-icons/copy.png' ,
+            fun : function () {
+                window.location.hash = '#!copyfile';
+            }
+        } ,
+        {
+            name: 'Rename' ,
+            fun : function () {
+                window.location.hash = '#!renamedirectory';
+            }
+        } ,
+        {
+            name: 'Delete' ,
+            fun : function () {
+                window.location.hash = '#!deletefile';
+            }
+        }]
+
 };
 
 export default ContextMenus;
