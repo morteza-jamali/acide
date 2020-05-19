@@ -64,6 +64,10 @@ IDE.config(function($routeProvider) {
             template : '' ,
             controller : 'copyDirectoryCtrl'
         })
+        .when('/cutdirectory' , {
+            template : '' ,
+            controller : 'cutDirectoryCtrl'
+        })
         .when('/pasteitem' , {
             template : '' ,
             controller : 'pasteItemCtrl'

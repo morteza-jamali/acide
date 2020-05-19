@@ -122,7 +122,10 @@ var ContextMenus = {
         ]
     } , {
         name: 'Cut' ,
-        img : 'assets/img/tabler-icons/scissors.png'
+        img : 'assets/img/tabler-icons/scissors.png' ,
+        fun : function () {
+            window.location.hash = '#!cutdirectory';
+        }
     } , {
         name: 'Copy' ,
         img : 'assets/img/tabler-icons/copy.png' ,

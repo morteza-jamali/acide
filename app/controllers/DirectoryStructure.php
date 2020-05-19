@@ -195,5 +195,25 @@
 
             return (new Response())->success(['Directory' => 'copied'])->returnMsg();
         }
+
+        public function cutDirectory() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'from_path' => 'required' ,
+                'to_path' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            FileManager::moveDirectory(
+                StringFactory::lastReplace(FileManager::getBaseName($this->request['from_path']) , '' , $this->request['from_path']) ,
+                $this->request['to_path'] ,
+                FileManager::getBaseName($this->request['from_path']));
+
+            return (new Response())->success(['Directory' => 'moved'])->returnMsg();
+        }
     }
 ?>
