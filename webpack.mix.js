@@ -21,7 +21,7 @@ mix.js([
         'resources/js/cutDirectory.js' ,
         'resources/js/cutFile.js' ,
         'resources/js/pasteItem.js' ,
-        'resources/js/deleteFile.js' ,
+        'resources/js/deleteItem.js' ,
         'resources/js/closeProject.js' ,
         'resources/js/contextMenu.min.js' ,
         'resources/js/validation.js',

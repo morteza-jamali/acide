@@ -131,7 +131,7 @@
                 return (new Response())->error($errors->toArray())->returnMsg();
             }
 
-            if($this->request['type'] == 'File') {
+            if($this->request['type'] == 'directory') {
                 $path = FileProject::where('name' , '_active_project_')
                     ->where('type' , 'label')->value('path');
 
@@ -146,6 +146,19 @@
             if($this->request['type'] == 'Database') {
                 DatabaseProject::where('slug' , $this->request['path'])->delete();
                 Record::where('project' , $this->request['path'])->delete();
+            }
+
+            if($this->request['type'] == 'file') {
+                $project_path = FileProject::where('name' , '_active_project_')
+                    ->where('type' , 'label')->value('path');
+                $active_file_path = File::where('project' , $project_path)
+                    ->where('type' , 'label')->value('path');
+
+                FileManager::deleteFile($this->request['path']);
+
+                if($active_file_path == $this->request['path']) {
+                    File::where('path' , $active_file_path)->delete();
+                }
             }
 
             return (new Response())->success(['Item' => 'deleted'])->returnMsg();

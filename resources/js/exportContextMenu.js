@@ -147,7 +147,7 @@ var ContextMenus = {
     } , {
         name: 'Delete' ,
         fun : function () {
-            window.location.hash = '#!deletefile';
+            window.location.hash = '#!deleteitem';
         }
     }] ,
     file_structure : [
@@ -173,7 +173,7 @@ var ContextMenus = {
         {
             name: 'Delete' ,
             fun : function () {
-                window.location.hash = '#!deletefile';
+                window.location.hash = '#!deleteitem';
             }
         }]
 

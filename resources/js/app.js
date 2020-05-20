@@ -48,9 +48,9 @@ IDE.config(function($routeProvider) {
             templateUrl : ACIDE.getTemplateURL('windows/html/new_exe_file') ,
             controller : 'newExeFileCtrl'
         })
-        .when('/deletefile' , {
+        .when('/deleteitem' , {
             template : '' ,
-            controller : 'deleteFileCtrl'
+            controller : 'deleteItemCtrl'
         })
         .when('/newdirectory' , {
             templateUrl : ACIDE.getTemplateURL('windows/html/new_directory') ,

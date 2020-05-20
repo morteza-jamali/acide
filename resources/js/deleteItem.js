@@ -1,16 +1,18 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('deleteFileCtrl' , function ($scope , $http , directoryStructure , elementHandler) {
-    var path = elementHandler.getSelectedDir().attr('data-path');
+IDE.controller('deleteItemCtrl' , function ($scope , $http , directoryStructure , elementHandler) {
+    var _elm_type = elementHandler.getSelectedItemType();
+    var path = _elm_type === 'file' ?
+        elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name') :
+        elementHandler.getSelectedDir().attr('data-path');
 
     $http.post(
         ACIDE.getFullRoute('DirectoryStructure@deleteItem') ,
         {
             path : path ,
-            type : 'File'
+            type : _elm_type
         }
     ).then(function (response) {
-        console.log(response.data);
             if(response.data.type === 'success') {
                 directoryStructure.refresh();
             }
