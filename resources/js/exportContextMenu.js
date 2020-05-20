@@ -167,7 +167,7 @@ var ContextMenus = {
         {
             name: 'Rename' ,
             fun : function () {
-                window.location.hash = '#!renamedirectory';
+                window.location.hash = '#!renamefile';
             }
         } ,
         {

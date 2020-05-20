@@ -1,0 +1,10 @@
+.p-5
+    form(name="renameFileForm" novalidate)
+        input.fg-white(type="text" data-role="materialinput"
+            placeholder="Enter New Name" ng-model="file_name"
+            name="name" required file-validation)
+        small.fg-red(ng-show="renameFileForm.name.$dirty && renameFileForm.name.$error.required") Name can not be empty
+        br
+        small.fg-red(ng-show="renameFileForm.name.$dirty && renameFileForm.name.$invalid") Name is invalid
+    button.button.primary.mt-5.float-right(ng-click="renameFile()"
+        ng-disabled="renameFileForm.name.$invalid") Rename

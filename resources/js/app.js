@@ -60,6 +60,10 @@ IDE.config(function($routeProvider) {
             templateUrl : ACIDE.getTemplateURL('windows/html/rename_directory') ,
             controller : 'renameDirectoryCtrl'
         })
+        .when('/renamefile' , {
+            templateUrl : ACIDE.getTemplateURL('windows/html/rename_file') ,
+            controller : 'renameFileCtrl'
+        })
         .when('/copydirectory' , {
             template : '' ,
             controller : 'copyDirectoryCtrl'

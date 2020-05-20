@@ -45718,6 +45718,9 @@ IDE.config(function ($routeProvider) {
   }).when('/renamedirectory', {
     templateUrl: ACIDE.getTemplateURL('windows/html/rename_directory'),
     controller: 'renameDirectoryCtrl'
+  }).when('/renamefile', {
+    templateUrl: ACIDE.getTemplateURL('windows/html/rename_file'),
+    controller: 'renameFileCtrl'
   }).when('/copydirectory', {
     template: '',
     controller: 'copyDirectoryCtrl'
@@ -47102,7 +47105,7 @@ var ContextMenus = {
   }, {
     name: 'Rename',
     fun: function fun() {
-      window.location.hash = '#!renamedirectory';
+      window.location.hash = '#!renamefile';
     }
   }, {
     name: 'Delete',
@@ -47822,6 +47825,43 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameDirectoryCtrl', funct
 
 /***/ }),
 
+/***/ "./resources/js/renameFile.js":
+/*!************************************!*\
+  !*** ./resources/js/renameFile.js ***!
+  \************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameFileCtrl', function ($scope, $http, window, directoryStructure, elementHandler) {
+  window.title('Rename File');
+  window.show();
+  window.changeSize({
+    width: 400,
+    height: 300
+  });
+  var path = elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name');
+
+  $scope.renameFile = function () {
+    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@renameItem'), {
+      'name': $scope.file_name,
+      'path': path
+    }).then(function (response) {
+      if (response.data.type === 'success') {
+        window.hide();
+        directoryStructure.refresh();
+      }
+    }, function (response) {
+      console.log('New File Name AJAX Error !');
+    });
+  };
+});
+
+/***/ }),
+
 /***/ "./resources/js/validation.js":
 /*!************************************!*\
   !*** ./resources/js/validation.js ***!
@@ -47920,9 +47960,9 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('directoryValidation', functi
 /***/ }),
 
 /***/ 0:
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./node_modules/jquery.terminal/js/jquery.terminal.min.js ./resources/js/mousetrap.min.js ./resources/js/ideCtrl.js ./resources/js/newProject.js ./resources/js/newRecord.js ./resources/js/newDirectory.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/copyDirectory.js ./resources/js/copyFile.js ./resources/js/cutDirectory.js ./resources/js/cutFile.js ./resources/js/pasteItem.js ./resources/js/deleteFile.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/renameDirectory.js ./resources/js/app.js ./resources/sass/app.sass ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./node_modules/jquery.terminal/js/jquery.terminal.min.js ./resources/js/mousetrap.min.js ./resources/js/ideCtrl.js ./resources/js/newProject.js ./resources/js/newRecord.js ./resources/js/newDirectory.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/copyDirectory.js ./resources/js/copyFile.js ./resources/js/cutDirectory.js ./resources/js/cutFile.js ./resources/js/pasteItem.js ./resources/js/deleteFile.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/renameDirectory.js ./resources/js/renameFile.js ./resources/js/app.js ./resources/sass/app.sass ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47950,6 +47990,7 @@ __webpack_require__(/*! C:\wamp64\www\acide\resources\js\closeProject.js */"./re
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\contextMenu.min.js */"./resources/js/contextMenu.min.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\validation.js */"./resources/js/validation.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\renameDirectory.js */"./resources/js/renameDirectory.js");
+__webpack_require__(/*! C:\wamp64\www\acide\resources\js\renameFile.js */"./resources/js/renameFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\app.js */"./resources/js/app.js");
 module.exports = __webpack_require__(/*! C:\wamp64\www\acide\resources\sass\app.sass */"./resources/sass/app.sass");
 
