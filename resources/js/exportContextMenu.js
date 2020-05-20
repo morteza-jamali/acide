@@ -130,7 +130,7 @@ var ContextMenus = {
         name: 'Copy' ,
         img : 'assets/img/tabler-icons/copy.png' ,
         fun : function () {
-            window.location.hash = '#!copydirectory';
+            window.location.hash = '#!copyitem';
         }
     } , {
         name: 'Paste' ,
@@ -161,7 +161,7 @@ var ContextMenus = {
             name: 'Copy' ,
             img : 'assets/img/tabler-icons/copy.png' ,
             fun : function () {
-                window.location.hash = '#!copyfile';
+                window.location.hash = '#!copyitem';
             }
         } ,
         {

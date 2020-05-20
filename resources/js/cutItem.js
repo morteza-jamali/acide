@@ -1,7 +1,7 @@
 import {IDE , ACIDE} from "./app";
 import * as $ from '../../node_modules/jquery/src/jquery';
 
-IDE.controller('cutItemCtrl' , function (directoryStructure , elementHandler , contextMenu) {
+IDE.controller('cutItemCtrl' , function (elementHandler , contextMenu) {
     var _elm_type = elementHandler.getSelectedItemType();
     var path = _elm_type === 'file' ?
         elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name') :

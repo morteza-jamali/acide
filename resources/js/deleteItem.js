@@ -1,6 +1,6 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('deleteItemCtrl' , function ($scope , $http , directoryStructure , elementHandler) {
+IDE.controller('deleteItemCtrl' , function ($http , directoryStructure , elementHandler) {
     var _elm_type = elementHandler.getSelectedItemType();
     var path = _elm_type === 'file' ?
         elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name') :

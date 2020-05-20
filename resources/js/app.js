@@ -64,17 +64,13 @@ IDE.config(function($routeProvider) {
             templateUrl : ACIDE.getTemplateURL('windows/html/rename_file') ,
             controller : 'renameItemCtrl'
         })
-        .when('/copydirectory' , {
-            template : '' ,
-            controller : 'copyDirectoryCtrl'
-        })
         .when('/cutitem' , {
             template : '' ,
             controller : 'cutItemCtrl'
         })
-        .when('/copyfile' , {
+        .when('/copyitem' , {
             template : '' ,
-            controller : 'copyFileCtrl'
+            controller : 'copyItemCtrl'
         })
         .when('/pasteitem' , {
             template : '' ,
