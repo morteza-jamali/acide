@@ -25,8 +25,7 @@ mix.js([
         'resources/js/closeProject.js' ,
         'resources/js/contextMenu.min.js' ,
         'resources/js/validation.js',
-        'resources/js/renameDirectory.js' ,
-        'resources/js/renameFile.js' ,
+        'resources/js/renameItem.js' ,
         'resources/js/app.js'
     ], 'assets/js/app.js')
     .sass('resources/sass/app.sass', 'assets/css/app.css')

@@ -58,11 +58,11 @@ IDE.config(function($routeProvider) {
         })
         .when('/renamedirectory' , {
             templateUrl : ACIDE.getTemplateURL('windows/html/rename_directory') ,
-            controller : 'renameDirectoryCtrl'
+            controller : 'renameItemCtrl'
         })
         .when('/renamefile' , {
             templateUrl : ACIDE.getTemplateURL('windows/html/rename_file') ,
-            controller : 'renameFileCtrl'
+            controller : 'renameItemCtrl'
         })
         .when('/copydirectory' , {
             template : '' ,
@@ -103,6 +103,14 @@ IDE.service('elementHandler' , function () {
 
     this.getParentDir = function () {
         return $('.directory-structure li.li-selected').parents('ul');
+    };
+
+    this.getSelectedItemType = function () {
+        var _elm = this.getSelectedElm();
+        if(_elm.hasClass('dir') || _elm.hasClass('Directory')) {
+            return 'directory';
+        }
+        return 'file';
     };
 });
 
