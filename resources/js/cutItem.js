@@ -1,15 +1,20 @@
 import {IDE , ACIDE} from "./app";
 import * as $ from '../../node_modules/jquery/src/jquery';
 
-IDE.controller('cutFileCtrl' , function (directoryStructure , elementHandler , contextMenu) {
+IDE.controller('cutItemCtrl' , function (directoryStructure , elementHandler , contextMenu) {
+    var _elm_type = elementHandler.getSelectedItemType();
+    var path = _elm_type === 'file' ?
+        elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name') :
+        elementHandler.getSelectedDir().attr('data-path');
+
     $('.directory-structure li').each(function() {
         $(this).removeClass('opacity-m');
     });
     elementHandler.getSelectedElm().addClass('opacity-m');
     Metro.storage.setItem('paste_item_obj' , {
         type : 'cut' ,
-        object : 'file' ,
-        path : elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name')
+        object : _elm_type ,
+        path : path
     });
     contextMenu.update('.directory-structure .Directory , .directory-structure li.dir' , [{
         name : 'Paste' ,

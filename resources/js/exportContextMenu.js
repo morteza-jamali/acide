@@ -124,7 +124,7 @@ var ContextMenus = {
         name: 'Cut' ,
         img : 'assets/img/tabler-icons/scissors.png' ,
         fun : function () {
-            window.location.hash = '#!cutdirectory';
+            window.location.hash = '#!cutitem';
         }
     } , {
         name: 'Copy' ,
@@ -155,7 +155,7 @@ var ContextMenus = {
             name: 'Cut' ,
             img : 'assets/img/tabler-icons/scissors.png' ,
             fun : function () {
-                window.location.hash = '#!cutfile';
+                window.location.hash = '#!cutitem';
             }
         } , {
             name: 'Copy' ,
