@@ -6,9 +6,6 @@ doctype html
 html(lang="fa")
     head
         meta(charset="UTF-8")
-        meta(name="description" content="Free Web tutorials")
-        meta(name="keywords" content="HTML,CSS,XML,JavaScript")
-        meta(name="author" content="My name")
         meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
         meta(name="metro4:about" content="false")
         title ACIDE
@@ -42,14 +39,10 @@ html(lang="fa")
                     .terminal-body
                 div.thin-menu.fg-white.bottom-menu#app-bar-2(data-role="appbar" data-expand-point="md")
                     .app-bar-menu
-                        li: a(href="#!") Home
-                        li: a(href="#!") File
                         li: a(ng-click="showTerminal()") Terminal
                 div.thin-menu.fg-white#app-bar-3(data-role="appbar" data-expand-point="md")
                     .app-bar-menu.w-100
                         li.ml-auto: a {{cursor_row}}:{{cursor_col}}
-                        li: a(href="#!") File
-                        li: a(href="#!") View
                 script.
                     var customButtons = [
                         {
