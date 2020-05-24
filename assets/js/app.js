@@ -47052,6 +47052,12 @@ var ContextMenus = {
       window.location.hash = '#!renamefile';
     }
   }, {
+    name: 'Run',
+    img: 'assets/img/tabler-icons/run.png',
+    fun: function fun() {
+      window.location.hash = '#!copyitem';
+    }
+  }, {
     name: 'Delete',
     fun: function fun() {
       window.location.hash = '#!deleteitem';
