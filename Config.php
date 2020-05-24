@@ -11,19 +11,19 @@
                     'views' => __DIR__ . '/resources/views/'
                 ] ,
                 'url' => [
-                    'img' => URL::getAbsolutePath() . 'assets/img/'
+                    'img' => URL::getBaseURL() . 'assets/img/'
                 ] ,
                 'scripts' => [
-                    'app' => URL::getAbsolutePath() . 'assets/js/app.js' ,
-                    'ace' => URL::getAbsolutePath() . 'resources/js/ace-builds/src/ace.js'
+                    'app' => URL::getBaseURL() . 'assets/js/app.js' ,
+                    'ace' => URL::getBaseURL() . 'resources/js/ace-builds/src/ace.js'
                 ] ,
                 'styles' => [
-                    'app' => URL::getAbsolutePath() . 'assets/css/app.css' ,
-                    'context-menu' => URL::getAbsolutePath() . 'assets/css/contextMenu.min.css' ,
-                    'fontawesome' => URL::getAbsolutePath() . 'node_modules/@fortawesome/fontawesome-free/css/all.min.css' ,
-                    'metro4' => URL::getAbsolutePath() . 'node_modules/metro4/build/css/metro-all.min.css' ,
-                    'simplebar' => URL::getAbsolutePath() . 'node_modules/simplebar/dist/simplebar.min.css' ,
-                    'jquery-terminal' => URL::getAbsolutePath() . 'node_modules/jquery.terminal/css/jquery.terminal.min.css'
+                    'app' => URL::getBaseURL() . 'assets/css/app.css' ,
+                    'context-menu' => URL::getBaseURL() . 'assets/css/contextMenu.min.css' ,
+                    'fontawesome' => URL::getBaseURL() . 'node_modules/@fortawesome/fontawesome-free/css/all.min.css' ,
+                    'metro4' => URL::getBaseURL() . 'node_modules/metro4/build/css/metro-all.min.css' ,
+                    'simplebar' => URL::getBaseURL() . 'node_modules/simplebar/dist/simplebar.min.css' ,
+                    'jquery-terminal' => URL::getBaseURL() . 'node_modules/jquery.terminal/css/jquery.terminal.min.css'
                 ] ,
                 'namespaces' => [
                     'controller' => 'ACIDE\\App\\Controllers\\'

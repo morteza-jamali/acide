@@ -174,7 +174,7 @@ var ContextMenus = {
             name : 'Run' ,
             img : 'assets/img/tabler-icons/run.png' ,
             fun : function () {
-                window.location.hash = '#!copyitem';
+                window.location.hash = '#!runfile';
             }
         } ,
         {

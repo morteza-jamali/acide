@@ -45730,6 +45730,9 @@ IDE.config(function ($routeProvider) {
   }).when('/pasteitem', {
     template: '',
     controller: 'pasteItemCtrl'
+  }).when('/runfile', {
+    template: '',
+    controller: 'runFileCtrl'
   });
 });
 IDE.run(function ($rootScope, $templateCache) {
@@ -45758,6 +45761,14 @@ IDE.service('elementHandler', function () {
     }
 
     return 'file';
+  };
+
+  this.getSelectedItemPath = function () {
+    return this.getSelectedItemType() === 'file' ? this.getParentDir().attr('data-path') + '\\' + this.getSelectedElm().attr('data-name') : this.getSelectedDir().attr('data-path');
+  };
+
+  this.getBaseDir = function () {
+    return jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li.Directory').attr('data-slug');
   };
 });
 IDE.service('window', function () {
@@ -46806,17 +46817,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('copyItemCtrl', function (elementHandler, contextMenu) {
-  var _elm_type = elementHandler.getSelectedItemType();
-
-  var path = _elm_type === 'file' ? elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name') : elementHandler.getSelectedDir().attr('data-path');
   _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li').each(function () {
     _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(this).removeClass('opacity-m');
   });
   elementHandler.getSelectedElm().addClass('opacity-m');
   Metro.storage.setItem('paste_item_obj', {
     type: 'copy',
-    object: _elm_type,
-    path: path
+    object: elementHandler.getSelectedItemType(),
+    path: elementHandler.getSelectedItemPath()
   });
   contextMenu.update('.directory-structure .Directory , .directory-structure li.dir', [{
     name: 'Paste',
@@ -46842,17 +46850,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('cutItemCtrl', function (elementHandler, contextMenu) {
-  var _elm_type = elementHandler.getSelectedItemType();
-
-  var path = _elm_type === 'file' ? elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name') : elementHandler.getSelectedDir().attr('data-path');
   _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li').each(function () {
     _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(this).removeClass('opacity-m');
   });
   elementHandler.getSelectedElm().addClass('opacity-m');
   Metro.storage.setItem('paste_item_obj', {
     type: 'cut',
-    object: _elm_type,
-    path: path
+    object: elementHandler.getSelectedItemType(),
+    path: elementHandler.getSelectedItemPath()
   });
   contextMenu.update('.directory-structure .Directory , .directory-structure li.dir', [{
     name: 'Paste',
@@ -46875,12 +46880,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
 _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteItemCtrl', function ($http, directoryStructure, elementHandler) {
-  var _elm_type = elementHandler.getSelectedItemType();
-
-  var path = _elm_type === 'file' ? elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name') : elementHandler.getSelectedDir().attr('data-path');
   $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@deleteItem'), {
-    path: path,
-    type: _elm_type
+    path: elementHandler.getSelectedItemPath(),
+    type: elementHandler.getSelectedItemType()
   }).then(function (response) {
     if (response.data.type === 'success') {
       directoryStructure.refresh();
@@ -47055,7 +47057,7 @@ var ContextMenus = {
     name: 'Run',
     img: 'assets/img/tabler-icons/run.png',
     fun: function fun() {
-      window.location.hash = '#!copyitem';
+      window.location.hash = '#!runfile';
     }
   }, {
     name: 'Delete',
@@ -47750,20 +47752,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
 _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameItemCtrl', function ($scope, $http, window, directoryStructure, elementHandler) {
-  var _elm_type = elementHandler.getSelectedItemType();
-
-  window.title('Rename ' + (_elm_type === 'file' ? 'File' : 'Directory'));
+  window.title('Rename ' + (elementHandler.getSelectedItemType() === 'file' ? 'File' : 'Directory'));
   window.show();
   window.changeSize({
     width: 400,
     height: 300
   });
-  var path = _elm_type === 'file' ? elementHandler.getParentDir().attr('data-path') + '\\' + elementHandler.getSelectedElm().attr('data-name') : elementHandler.getSelectedDir().attr('data-path');
 
   $scope.renameItem = function () {
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@renameItem'), {
       'name': $scope.item_name,
-      'path': path
+      'path': elementHandler.getSelectedItemPath()
     }).then(function (response) {
       if (response.data.type === 'success') {
         window.hide();
@@ -47773,6 +47772,24 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameItemCtrl', function (
       console.log('New Item Name AJAX Error !');
     });
   };
+});
+
+/***/ }),
+
+/***/ "./resources/js/runFile.js":
+/*!*********************************!*\
+  !*** ./resources/js/runFile.js ***!
+  \*********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('runFileCtrl', function (elementHandler) {
+  var path = elementHandler.getSelectedItemPath();
+  window.open(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getWebsiteUrl() + path.slice(path.indexOf('acide') + 'acide'.length, path.length));
 });
 
 /***/ }),
@@ -47875,9 +47892,9 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('directoryValidation', functi
 /***/ }),
 
 /***/ 0:
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./node_modules/jquery.terminal/js/jquery.terminal.min.js ./resources/js/mousetrap.min.js ./resources/js/ideCtrl.js ./resources/js/newProject.js ./resources/js/newRecord.js ./resources/js/newDirectory.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/copyItem.js ./resources/js/cutItem.js ./resources/js/pasteItem.js ./resources/js/deleteItem.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/renameItem.js ./resources/js/app.js ./resources/sass/app.sass ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./node_modules/jquery.terminal/js/jquery.terminal.min.js ./resources/js/mousetrap.min.js ./resources/js/ideCtrl.js ./resources/js/newProject.js ./resources/js/newRecord.js ./resources/js/newDirectory.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/copyItem.js ./resources/js/cutItem.js ./resources/js/pasteItem.js ./resources/js/deleteItem.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/renameItem.js ./resources/js/runFile.js ./resources/js/app.js ./resources/sass/app.sass ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47903,6 +47920,7 @@ __webpack_require__(/*! C:\wamp64\www\acide\resources\js\closeProject.js */"./re
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\contextMenu.min.js */"./resources/js/contextMenu.min.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\validation.js */"./resources/js/validation.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\renameItem.js */"./resources/js/renameItem.js");
+__webpack_require__(/*! C:\wamp64\www\acide\resources\js\runFile.js */"./resources/js/runFile.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\app.js */"./resources/js/app.js");
 module.exports = __webpack_require__(/*! C:\wamp64\www\acide\resources\sass\app.sass */"./resources/sass/app.sass");
 

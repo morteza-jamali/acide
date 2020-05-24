@@ -11,6 +11,7 @@
     use ACFileManager\Src\File as FileManager;
     use Rakit\Validation\Validator;
     use ACIDECore\App\StringFactory;
+    use ACIDECore\App\URL;
 
     class DirectoryStructure {
         private $request = null;

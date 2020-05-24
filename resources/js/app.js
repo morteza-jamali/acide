@@ -75,6 +75,10 @@ IDE.config(function($routeProvider) {
         .when('/pasteitem' , {
             template : '' ,
             controller : 'pasteItemCtrl'
+        })
+        .when('/runfile' , {
+            template : '' ,
+            controller : 'runFileCtrl'
         });
 });
 
@@ -103,6 +107,16 @@ IDE.service('elementHandler' , function () {
             return 'directory';
         }
         return 'file';
+    };
+
+    this.getSelectedItemPath = function () {
+        return this.getSelectedItemType() === 'file' ?
+            this.getParentDir().attr('data-path') + '\\' + this.getSelectedElm().attr('data-name') :
+            this.getSelectedDir().attr('data-path');
+    };
+
+    this.getBaseDir = function () {
+        return $('.directory-structure li.Directory').attr('data-slug');
     };
 });
 
