@@ -11,7 +11,6 @@
     "husky": "^4.2.5",
     "jquery": "^3.4.1",
     "jquery.terminal": "^2.15.4",
-    "js-file-downloader": "^1.1.8",
     "laravel-mix": "^5.0.2",
     "laravel-mix-pug": "^0.3.0",
     "metro4": "^4.3.6",

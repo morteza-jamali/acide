@@ -11,7 +11,8 @@
     use ACFileManager\Src\File as FileManager;
     use Rakit\Validation\Validator;
     use ACIDECore\App\StringFactory;
-    use ACIDECore\App\URL;
+    use PhpZip\ZipFile;
+    use PhpZip\Exception\ZipException;
 
     class DirectoryStructure {
         private $request = null;
@@ -268,6 +269,41 @@
             ;
 
             return (new Response())->success(['File' => 'copied'])->returnMsg();
+        }
+
+        public function createZip() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'path' => 'required'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            $zipFile = new ZipFile();
+            try{
+                if(filetype($this->request['path']) === 'file') {
+                    $zipFile
+                        ->addFile($this->request['path'])
+                        ->outputAsAttachment(
+                            pathinfo(basename($this->request['path']) , PATHINFO_FILENAME) . '.zip'
+                        );
+                } elseif (filetype($this->request['path']) === 'dir') {
+                    $zipFile
+                        ->addDirRecursive($this->request['path'])
+                        ->outputAsAttachment(
+                            basename($this->request['path']) . '.zip'
+                        );
+                }
+            }
+            catch(ZipException $e){
+                echo $e->getMessage();
+            }
+            finally {
+                $zipFile->close();
+            }
         }
     }
 ?>

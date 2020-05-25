@@ -6,7 +6,6 @@ import he from 'he/he';
 import SimpleBar from 'simplebar';
 import ContextMenus from "./exportContextMenu";
 import terminal from 'jquery.terminal/js/jquery.terminal';
-import Downloader from 'js-file-downloader';
 terminal(window, jQ);
 
 var ACIDE = {
@@ -91,12 +90,6 @@ IDE.run(function($rootScope, $templateCache) {
     $rootScope.$on('$viewContentLoaded', function() {
         $templateCache.removeAll();
     });
-});
-
-IDE.service('Downloader' , function () {
-    this.getFileDownloader = function (settings) {
-        return new Downloader(settings);
-    };
 });
 
 IDE.service('elementHandler' , function () {

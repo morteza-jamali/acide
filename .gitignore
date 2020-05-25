@@ -2,4 +2,7 @@
 vendor/
 node_modules/
 work/*
+!work/.gitkeep
+storage/tmp/*
+!storage/tmp/.gitkeep
 !vendor/bin/phinx.php
