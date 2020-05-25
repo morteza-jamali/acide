@@ -6,6 +6,7 @@ import he from 'he/he';
 import SimpleBar from 'simplebar';
 import ContextMenus from "./exportContextMenu";
 import terminal from 'jquery.terminal/js/jquery.terminal';
+import Downloader from 'js-file-downloader';
 terminal(window, jQ);
 
 var ACIDE = {
@@ -79,6 +80,10 @@ IDE.config(function($routeProvider) {
         .when('/runfile' , {
             template : '' ,
             controller : 'runFileCtrl'
+        })
+        .when('/downloaditem' , {
+            template : '' ,
+            controller : 'downloadItemCtrl'
         });
 });
 
@@ -86,6 +91,12 @@ IDE.run(function($rootScope, $templateCache) {
     $rootScope.$on('$viewContentLoaded', function() {
         $templateCache.removeAll();
     });
+});
+
+IDE.service('Downloader' , function () {
+    this.getFileDownloader = function (settings) {
+        return new Downloader(settings);
+    };
 });
 
 IDE.service('elementHandler' , function () {
@@ -113,6 +124,12 @@ IDE.service('elementHandler' , function () {
         return this.getSelectedItemType() === 'file' ?
             this.getParentDir().attr('data-path') + '\\' + this.getSelectedElm().attr('data-name') :
             this.getSelectedDir().attr('data-path');
+    };
+
+    this.getSelectedItemURL = function () {
+        var path = this.getSelectedItemPath();
+        return (ACIDE.getWebsiteUrl() + path.slice(path.indexOf('acide') + 'acide'.length , path.length))
+            .replace(/\\/g, '/');
     };
 
     this.getBaseDir = function () {

@@ -25,6 +25,7 @@ mix.js([
         'resources/js/validation.js',
         'resources/js/renameItem.js' ,
         'resources/js/runFile.js' ,
+        'resources/js/downloadItem.js' ,
         'resources/js/app.js'
     ], 'assets/js/app.js')
     .sass('resources/sass/app.sass', 'assets/css/app.css')

@@ -145,6 +145,12 @@ var ContextMenus = {
             window.location.hash = '#!renamedirectory';
         }
     } , {
+            name : 'Download' ,
+            img : 'assets/img/tabler-icons/download.png' ,
+            fun : function () {
+                window.location.hash = '#!downloaditem';
+            }
+        } , {
         name: 'Delete' ,
         fun : function () {
             window.location.hash = '#!deleteitem';
@@ -175,6 +181,13 @@ var ContextMenus = {
             img : 'assets/img/tabler-icons/run.png' ,
             fun : function () {
                 window.location.hash = '#!runfile';
+            }
+        } ,
+        {
+            name : 'Download' ,
+            img : 'assets/img/tabler-icons/download.png' ,
+            fun : function () {
+                window.location.hash = '#!downloaditem';
             }
         } ,
         {
