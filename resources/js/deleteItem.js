@@ -1,6 +1,6 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('deleteItemCtrl' , function ($http , directoryStructure , elementHandler) {
+IDE.controller('deleteItemCtrl' , function ($http , directoryStructure , elementHandler , Log) {
     $http.post(
         ACIDE.getFullRoute('DirectoryStructure@deleteItem') ,
         {
@@ -13,6 +13,6 @@ IDE.controller('deleteItemCtrl' , function ($http , directoryStructure , element
             }
         } ,
         function (response) {
-            console.log('Delete Item AJAX Error !');
+            Log.report('Delete Item AJAX Error !');
         });
 });

@@ -1,15 +1,14 @@
 import {IDE , ACIDE} from "./app";
-import * as $ from '../../node_modules/jquery/src/jquery';
 
-IDE.service('closeProjectHandler' , function () {
+IDE.service('closeProjectHandler' , function ($) {
     var service_obj = this;
 
     this.getItem = function () {
-        return $('.close_project .database_list li , .close_project .files_list li');
+        return $.$()('.close_project .database_list li , .close_project .files_list li');
     };
 
     this.getActiveItem = function () {
-        return $('.close_project .database_list li.active , .close_project .files_list li.active');
+        return $.$()('.close_project .database_list li.active , .close_project .files_list li.active');
     };
 
     this.validate = function (scope) {
@@ -20,14 +19,14 @@ IDE.service('closeProjectHandler' , function () {
     };
 
     this.init = function () {
-        $(document).on('click' , '.close_project .database_list li , .close_project .files_list li' , function () {
+        $.$()(document).on('click' , '.close_project .database_list li , .close_project .files_list li' , function () {
             service_obj.getItem().removeClass('active');
-            $(this).addClass('active');
+            $.$()(this).addClass('active');
         });
     };
 });
 
-IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closeProjectHandler , directoryStructure) {
+IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closeProjectHandler , directoryStructure , Log) {
     window.title('Open a Project');
     window.show();
     window.changeSize({width : 700 , height : 500});
@@ -50,7 +49,7 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
                     }
                 } ,
                 function (response) {
-                    console.log('Close Project AJAX Error !');
+                    Log.report('Close Project AJAX Error !');
                 });
         }
     };
@@ -74,7 +73,7 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
                     }
                 } ,
                 function (response) {
-                    console.log('Remove Project AJAX Error !');
+                    Log.report('Remove Project AJAX Error !');
                 });
         }
     };
@@ -88,7 +87,7 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
                 }
             } ,
             function (response) {
-                console.log('Close Project AJAX Error !');
+                Log.report('Close Project AJAX Error !');
             });
     };
 
@@ -107,7 +106,7 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
                 }
             } ,
             function (response) {
-                console.log('Close Project AJAX Error !');
+                Log.report('Close Project AJAX Error !');
             });
     };
 

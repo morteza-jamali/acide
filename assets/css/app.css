@@ -292,8 +292,17 @@ a:hover {
 
 /* New Project SASS */
 
+.new_project .repositories_list li {
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: default !important;
+}
+
 .new_project input {
   color: #ffffff !important;
+}
+
+.new_project img {
+  width: 30px;
 }
 
 li[data-text=""] {

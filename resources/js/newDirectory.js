@@ -1,17 +1,17 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('newDirectoryCtrl' , function ($scope , $http , window , directoryStructure, elementHandler) {
+IDE.controller('newDirectoryCtrl' , function ($scope , $http , window , directoryStructure, elementHandler , Log) {
     window.title('New Directory');
     window.show();
     window.changeSize({width : 400 , height : 300});
-    var path = elementHandler.getSelectedDir().attr('data-path');
+    var path = elementHandler.getSelectedItemPath();
 
     $scope.createDirectory = function () {
         $http.post(
             ACIDE.getFullRoute('NewProjectController@createDirectory') ,
             {
-                'name' : $scope.directory_name ,
-                'path' : path
+                name : $scope.directory_name ,
+                path : path
             }
         ).then(function (response) {
                 if(response.data.type === 'success') {
@@ -20,7 +20,7 @@ IDE.controller('newDirectoryCtrl' , function ($scope , $http , window , director
                 }
             } ,
             function (response) {
-                console.log('New Directory AJAX Error !');
+                Log.report('New Directory AJAX Error !');
             });
     };
 });

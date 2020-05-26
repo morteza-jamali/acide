@@ -1,6 +1,6 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('renameItemCtrl' , function ($scope , $http , window , directoryStructure , elementHandler) {
+IDE.controller('renameItemCtrl' , function ($scope , $http , window , directoryStructure , elementHandler , Log) {
     window.title('Rename ' + (elementHandler.getSelectedItemType() === 'file' ? 'File' : 'Directory'));
     window.show();
     window.changeSize({width : 400 , height : 300});
@@ -9,8 +9,8 @@ IDE.controller('renameItemCtrl' , function ($scope , $http , window , directoryS
         $http.post(
             ACIDE.getFullRoute('DirectoryStructure@renameItem') ,
             {
-                'name' : $scope.item_name ,
-                'path' : elementHandler.getSelectedItemPath()
+                name : $scope.item_name ,
+                path : elementHandler.getSelectedItemPath()
             }
         ).then(function (response) {
                 if(response.data.type === 'success') {
@@ -19,7 +19,7 @@ IDE.controller('renameItemCtrl' , function ($scope , $http , window , directoryS
                 }
             } ,
             function (response) {
-                console.log('New Item Name AJAX Error !');
+                Log.report('New Item Name AJAX Error !');
             });
     };
 });

@@ -92,6 +92,18 @@ IDE.run(function($rootScope, $templateCache) {
     });
 });
 
+IDE.service('Log' , function () {
+    this.report = function (log) {
+        console.log(log);
+    };
+});
+
+IDE.service('$' , function () {
+    this.$ = function () {
+        return $;
+    };
+});
+
 IDE.service('UUID' , function () {
     this.getUUID4 = function () {
         return uuidv4();
@@ -162,9 +174,9 @@ IDE.service('window' , function () {
 
 IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , editorContent
                                              , simpleBar , editorTabsHandler , keyBinds , directoryHandler
-                                                , UUID) {
+                                                , UUID , Log) {
     this.refresh = function () {
-        console.log('run !');
+        Log.report('run !');
         $http.post(
             ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')
         ).then(function (response) {
@@ -270,7 +282,7 @@ IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , 
                 }
             } ,
             function (response) {
-                console.log('Directory structure AJAX Error !');
+                Log.report('Directory structure AJAX Error !');
             });
     };
 });
@@ -369,7 +381,7 @@ IDE.service('editorTabs' , function () {
     };
 });
 
-IDE.service('editorHandler' , function ($rootScope , $http) {
+IDE.service('editorHandler' , function ($rootScope , $http , Log) {
     this.init = function (slug , mode) {
         var editor = ace.edit(slug);
         editor.setTheme("ace/theme/monokai");
@@ -407,7 +419,7 @@ IDE.service('editorHandler' , function ($rootScope , $http) {
                             $('.editor-tabs ul li.active span.name').removeClass('font-bold');
                         }
                     } , function (response) {
-                        console.log('Editor saving AJAX error !');
+                        Log.report('Editor saving AJAX error !');
                     });
                 } else {
                     $http.post(
@@ -423,7 +435,7 @@ IDE.service('editorHandler' , function ($rootScope , $http) {
                             $('.editor-tabs ul li.active span.name').removeClass('font-bold');
                         }
                     } , function (response) {
-                        console.log('Editor saving AJAX error !');
+                        Log.report('Editor saving AJAX error !');
                     });
                 }
             },
@@ -451,7 +463,7 @@ IDE.service('editorTabsHandler' , function (editorContent , editorTabs) {
     };
 });
 
-IDE.service('directoryHandler' , function ($http , editorTabs , editorContent) {
+IDE.service('directoryHandler' , function ($http , editorTabs , editorContent , Log) {
     this.reset = function() {
         var _selectors = {
             dblclick : {
@@ -511,7 +523,7 @@ IDE.service('directoryHandler' , function ($http , editorTabs , editorContent) {
                 editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));
                 editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-ext'));
             } , function (response) {
-                console.log('Record AJAX error !');
+                Log.report('Record AJAX error !');
             });
         });
         $(document).on('dblclick' , '.directory-structure .files li' , function () {
@@ -526,7 +538,7 @@ IDE.service('directoryHandler' , function ($http , editorTabs , editorContent) {
                     editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));
                     editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-ext'));
                 } , function (response) {
-                    console.log('File AJAX error !');
+                    Log.report('File AJAX error !');
                 });
             }
         });

@@ -1,8 +1,8 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('pasteItemCtrl' , function ($http , directoryStructure , elementHandler , contextMenu) {
+IDE.controller('pasteItemCtrl' , function ($http , directoryStructure , elementHandler , contextMenu , Log) {
     var paste_item_obj = Metro.storage.getItem('paste_item_obj');
-    var _to_path = elementHandler.getSelectedDir().attr('data-path');
+    var _to_path = elementHandler.getSelectedItemPath();
     var _method = '';
 
     if(paste_item_obj.object === 'file') {
@@ -20,9 +20,7 @@ IDE.controller('pasteItemCtrl' , function ($http , directoryStructure , elementH
     }
 
     $http.post(
-        ACIDE.getFullRoute(
-            'DirectoryStructure@' + _method
-        ) ,
+        ACIDE.getFullRoute('DirectoryStructure@' + _method) ,
         {
             from_path : paste_item_obj.path ,
             to_path : _to_path
@@ -44,6 +42,6 @@ IDE.controller('pasteItemCtrl' , function ($http , directoryStructure , elementH
             }
         } ,
         function (response) {
-            console.log('Copy Or Cut Directory AJAX Error !');
+            Log.report('Copy Or Cut Directory AJAX Error !');
         });
 });

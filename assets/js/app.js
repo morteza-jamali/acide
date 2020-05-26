@@ -45743,6 +45743,16 @@ IDE.run(function ($rootScope, $templateCache) {
     $templateCache.removeAll();
   });
 });
+IDE.service('Log', function () {
+  this.report = function (log) {
+    console.log(log);
+  };
+});
+IDE.service('$', function () {
+  this.$ = function () {
+    return jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__;
+  };
+});
 IDE.service('UUID', function () {
   this.getUUID4 = function () {
     return Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])();
@@ -45810,9 +45820,9 @@ IDE.service('window', function () {
     });
   };
 });
-IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar, editorTabsHandler, keyBinds, directoryHandler, UUID) {
+IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar, editorTabsHandler, keyBinds, directoryHandler, UUID, Log) {
   this.refresh = function () {
-    console.log('run !');
+    Log.report('run !');
     $http.post(ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')).then(function (response) {
       editorTabs.clean();
       editorContent.clean();
@@ -45910,7 +45920,7 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
         directoryHandler.init();
       }
     }, function (response) {
-      console.log('Directory structure AJAX Error !');
+      Log.report('Directory structure AJAX Error !');
     });
   };
 });
@@ -46014,7 +46024,7 @@ IDE.service('editorTabs', function () {
     }
   };
 });
-IDE.service('editorHandler', function ($rootScope, $http) {
+IDE.service('editorHandler', function ($rootScope, $http, Log) {
   this.init = function (slug, mode) {
     var editor = ace.edit(slug);
     editor.setTheme("ace/theme/monokai");
@@ -46054,7 +46064,7 @@ IDE.service('editorHandler', function ($rootScope, $http) {
               jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active span.name').removeClass('font-bold');
             }
           }, function (response) {
-            console.log('Editor saving AJAX error !');
+            Log.report('Editor saving AJAX error !');
           });
         } else {
           $http.post(ACIDE.getFullRoute('EditorController@saveRecordContent'), {
@@ -46067,7 +46077,7 @@ IDE.service('editorHandler', function ($rootScope, $http) {
               jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.editor-tabs ul li.active span.name').removeClass('font-bold');
             }
           }, function (response) {
-            console.log('Editor saving AJAX error !');
+            Log.report('Editor saving AJAX error !');
           });
         }
       },
@@ -46097,7 +46107,7 @@ IDE.service('editorTabsHandler', function (editorContent, editorTabs) {
     });
   };
 });
-IDE.service('directoryHandler', function ($http, editorTabs, editorContent) {
+IDE.service('directoryHandler', function ($http, editorTabs, editorContent, Log) {
   this.reset = function () {
     var _selectors = {
       dblclick: {
@@ -46153,7 +46163,7 @@ IDE.service('directoryHandler', function ($http, editorTabs, editorContent) {
         editorTabs.append(_elm.attr('data-name'), _elm.find('img').attr('src'), _elm.attr('data-slug'));
         editorContent.append(_elm.attr('data-slug'), response.data.message.content, _elm.attr('data-ext'));
       }, function (response) {
-        console.log('Record AJAX error !');
+        Log.report('Record AJAX error !');
       });
     });
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__(document).on('dblclick', '.directory-structure .files li', function () {
@@ -46166,7 +46176,7 @@ IDE.service('directoryHandler', function ($http, editorTabs, editorContent) {
           editorTabs.append(_elm.attr('data-name'), _elm.find('img').attr('src'), _elm.attr('data-slug'));
           editorContent.append(_elm.attr('data-slug'), response.data.message.content, _elm.attr('data-ext'));
         }, function (response) {
-          console.log('File AJAX error !');
+          Log.report('File AJAX error !');
         });
       }
     });
@@ -46302,19 +46312,16 @@ IDE.service('terminalHandler', function (UUID) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
 
-
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].service('closeProjectHandler', function () {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].service('closeProjectHandler', function ($) {
   var service_obj = this;
 
   this.getItem = function () {
-    return _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.close_project .database_list li , .close_project .files_list li');
+    return $.$()('.close_project .database_list li , .close_project .files_list li');
   };
 
   this.getActiveItem = function () {
-    return _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.close_project .database_list li.active , .close_project .files_list li.active');
+    return $.$()('.close_project .database_list li.active , .close_project .files_list li.active');
   };
 
   this.validate = function (scope) {
@@ -46326,13 +46333,13 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].service('closeProjectHandler', function
   };
 
   this.init = function () {
-    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(document).on('click', '.close_project .database_list li , .close_project .files_list li', function () {
+    $.$()(document).on('click', '.close_project .database_list li , .close_project .files_list li', function () {
       service_obj.getItem().removeClass('active');
-      _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(this).addClass('active');
+      $.$()(this).addClass('active');
     });
   };
 });
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function ($scope, window, $http, closeProjectHandler, directoryStructure) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function ($scope, window, $http, closeProjectHandler, directoryStructure, Log) {
   window.title('Open a Project');
   window.show();
   window.changeSize({
@@ -46355,7 +46362,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
           directoryStructure.refresh();
         }
       }, function (response) {
-        console.log('Close Project AJAX Error !');
+        Log.report('Close Project AJAX Error !');
       });
     }
   };
@@ -46376,7 +46383,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
           $scope.getAllFileProjects();
         }
       }, function (response) {
-        console.log('Remove Project AJAX Error !');
+        Log.report('Remove Project AJAX Error !');
       });
     }
   };
@@ -46387,7 +46394,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
         $scope.database_projects = response.data.message;
       }
     }, function (response) {
-      console.log('Close Project AJAX Error !');
+      Log.report('Close Project AJAX Error !');
     });
   };
 
@@ -46403,7 +46410,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
         });
       }
     }, function (response) {
-      console.log('Close Project AJAX Error !');
+      Log.report('Close Project AJAX Error !');
     });
   };
 
@@ -46825,13 +46832,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
 
-
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('copyItemCtrl', function (elementHandler, contextMenu) {
-  _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li').each(function () {
-    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(this).removeClass('opacity-m');
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('copyItemCtrl', function ($, elementHandler, contextMenu) {
+  $.$()('.directory-structure li').each(function () {
+    $.$()(this).removeClass('opacity-m');
   });
   elementHandler.getSelectedElm().addClass('opacity-m');
   Metro.storage.setItem('paste_item_obj', {
@@ -46858,13 +46862,10 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('copyItemCtrl', function (el
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
-/* harmony import */ var _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__);
 
-
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('cutItemCtrl', function (elementHandler, contextMenu) {
-  _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__('.directory-structure li').each(function () {
-    _node_modules_jquery_src_jquery__WEBPACK_IMPORTED_MODULE_1__(this).removeClass('opacity-m');
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('cutItemCtrl', function ($, elementHandler, contextMenu) {
+  $.$()('.directory-structure li').each(function () {
+    $.$()(this).removeClass('opacity-m');
   });
   elementHandler.getSelectedElm().addClass('opacity-m');
   Metro.storage.setItem('paste_item_obj', {
@@ -46892,7 +46893,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('cutItemCtrl', function (ele
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteItemCtrl', function ($http, directoryStructure, elementHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteItemCtrl', function ($http, directoryStructure, elementHandler, Log) {
   $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@deleteItem'), {
     path: elementHandler.getSelectedItemPath(),
     type: elementHandler.getSelectedItemType()
@@ -46901,7 +46902,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteItemCtrl', function (
       directoryStructure.refresh();
     }
   }, function (response) {
-    console.log('Delete Item AJAX Error !');
+    Log.report('Delete Item AJAX Error !');
   });
 });
 
@@ -46918,11 +46919,11 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteItemCtrl', function (
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('downloadItemCtrl', function ($http, elementHandler, UUID) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('downloadItemCtrl', function ($http, elementHandler, UUID, Log) {
   $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@createZip?rand=' + UUID.getUUID4()), {
     path: elementHandler.getSelectedItemPath()
   }).then(function (response) {}, function (response) {
-    console.log('Download Item AJAX Error !');
+    Log.report('Download Item AJAX Error !');
   });
 });
 
@@ -47113,6 +47114,36 @@ var ContextMenus = {
   }]
 };
 /* harmony default export */ __webpack_exports__["default"] = (ContextMenus);
+
+/***/ }),
+
+/***/ "./resources/js/exportRepositories.js":
+/*!********************************************!*\
+  !*** ./resources/js/exportRepositories.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var repositories = {
+  0: {
+    url: 'https://github.com/morteza-jamali/bootstrap-boilerplate/archive/master.zip',
+    img: 'assets/img/icons/bootstrap.svg',
+    name: 'Bootstrap'
+  },
+  1: {
+    url: 'https://github.com/morteza-jamali/wordpress-plugin-boilerplate/archive/master.zip',
+    img: 'assets/img/icons/wordpress.svg',
+    name: 'Wordpress'
+  },
+  2: {
+    url: 'https://github.com/morteza-jamali/angularjs-project/archive/master.zip',
+    img: 'assets/img/icons/angular.svg',
+    name: 'AngularJS'
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (repositories);
 
 /***/ }),
 
@@ -47548,26 +47579,26 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* mousetrap v1.6.5 craig.is/killing/mice */
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newDirectoryCtrl', function ($scope, $http, window, directoryStructure, elementHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newDirectoryCtrl', function ($scope, $http, window, directoryStructure, elementHandler, Log) {
   window.title('New Directory');
   window.show();
   window.changeSize({
     width: 400,
     height: 300
   });
-  var path = elementHandler.getSelectedDir().attr('data-path');
+  var path = elementHandler.getSelectedItemPath();
 
   $scope.createDirectory = function () {
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createDirectory'), {
-      'name': $scope.directory_name,
-      'path': path
+      name: $scope.directory_name,
+      path: path
     }).then(function (response) {
       if (response.data.type === 'success') {
         window.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
-      console.log('New Directory AJAX Error !');
+      Log.report('New Directory AJAX Error !');
     });
   };
 });
@@ -47585,27 +47616,27 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newDirectoryCtrl', function
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function ($scope, $http, window, directoryStructure, storageHandler, elementHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function ($scope, $http, window, directoryStructure, storageHandler, elementHandler, Log) {
   window.title('New ' + storageHandler.get('new_file_name') + ' File');
   window.show();
   window.changeSize({
     width: 400,
     height: 300
   });
-  var path = elementHandler.getSelectedDir().attr('data-path');
+  var path = elementHandler.getSelectedItemPath();
 
   $scope.createExeFile = function () {
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
-      'name': $scope.file_name,
-      'path': path,
-      'ext': storageHandler.get('new_file_type')
+      name: $scope.file_name,
+      path: path,
+      ext: storageHandler.get('new_file_type')
     }).then(function (response) {
       if (response.data.type === 'success') {
         window.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
-      console.log('New Exe File AJAX Error !');
+      Log.report('New Exe File AJAX Error !');
     });
   };
 });
@@ -47623,28 +47654,28 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function (
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($scope, $http, window, directoryStructure, elementHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($scope, $http, window, directoryStructure, elementHandler, Log) {
   window.title('New File');
   window.show();
   window.changeSize({
     width: 400,
     height: 300
   });
-  var path = elementHandler.getSelectedDir().attr('data-path');
+  var path = elementHandler.getSelectedItemPath();
 
   $scope.createFile = function () {
     var ext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
-      'name': $scope.file_name,
-      'path': path,
-      'ext': ext
+      name: $scope.file_name,
+      path: path,
+      ext: ext
     }).then(function (response) {
       if (response.data.type === 'success') {
         window.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
-      console.log('New File AJAX Error !');
+      Log.report('New File AJAX Error !');
     });
   };
 });
@@ -47661,8 +47692,10 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($sc
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+/* harmony import */ var _exportRepositories__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./exportRepositories */ "./resources/js/exportRepositories.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function ($scope, $http, window, directoryStructure) {
+
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function ($, $scope, $http, window, directoryStructure, Log) {
   window.title('New Project');
   window.show();
   window.changeSize({
@@ -47671,11 +47704,15 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function (
   });
   $scope.project_duplicated = true;
 
+  $scope.selectChanged = function () {
+    if ($scope.project_type == 1) {} else {}
+  };
+
   $scope.createProject = function () {
     if ($scope.project_type == 1) {
       $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createDatabaseProject'), {
-        'name': $scope.project_name,
-        'slug': $scope.project_slug
+        name: $scope.project_name,
+        slug: $scope.project_slug
       }).then(function (response) {
         if (response.data.message.project !== undefined && response.data.type === 'error') {
           $scope.project_duplicated = false;
@@ -47686,10 +47723,23 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function (
           directoryStructure.refresh();
         }
       }, function (response) {
-        console.log('New Project AJAX Error !');
+        Log.report('New Project AJAX Error !');
       });
     }
   };
+
+  $scope.getAllBoilerPlates = function () {
+    $scope.repositories_list = [];
+    Object.keys(_exportRepositories__WEBPACK_IMPORTED_MODULE_1__["default"]).forEach(function (value) {
+      $scope.repositories_list.push({
+        name: _exportRepositories__WEBPACK_IMPORTED_MODULE_1__["default"][value].name,
+        url: _exportRepositories__WEBPACK_IMPORTED_MODULE_1__["default"][value].url,
+        img: _exportRepositories__WEBPACK_IMPORTED_MODULE_1__["default"][value].img
+      });
+    });
+  };
+
+  $scope.getAllBoilerPlates();
 });
 
 /***/ }),
@@ -47705,7 +47755,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function (
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newRecordCtrl', function ($scope, $http, window, directoryStructure) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newRecordCtrl', function ($scope, $http, window, directoryStructure, Log) {
   window.title('New Record');
   window.show();
   window.changeSize({
@@ -47716,15 +47766,15 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newRecordCtrl', function ($
   $scope.createRecord = function () {
     var ext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createRecord'), {
-      'name': $scope.record_name,
-      'ext': ext
+      name: $scope.record_name,
+      ext: ext
     }).then(function (response) {
       if (response.data.type === 'success') {
         window.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
-      console.log('New Record AJAX Error !');
+      Log.report('New Record AJAX Error !');
     });
   };
 });
@@ -47742,10 +47792,10 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newRecordCtrl', function ($
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('pasteItemCtrl', function ($http, directoryStructure, elementHandler, contextMenu) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('pasteItemCtrl', function ($http, directoryStructure, elementHandler, contextMenu, Log) {
   var paste_item_obj = Metro.storage.getItem('paste_item_obj');
 
-  var _to_path = elementHandler.getSelectedDir().attr('data-path');
+  var _to_path = elementHandler.getSelectedItemPath();
 
   var _method = '';
 
@@ -47780,7 +47830,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('pasteItemCtrl', function ($
       });
     }
   }, function (response) {
-    console.log('Copy Or Cut Directory AJAX Error !');
+    Log.report('Copy Or Cut Directory AJAX Error !');
   });
 });
 
@@ -47797,7 +47847,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('pasteItemCtrl', function ($
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameItemCtrl', function ($scope, $http, window, directoryStructure, elementHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameItemCtrl', function ($scope, $http, window, directoryStructure, elementHandler, Log) {
   window.title('Rename ' + (elementHandler.getSelectedItemType() === 'file' ? 'File' : 'Directory'));
   window.show();
   window.changeSize({
@@ -47807,15 +47857,15 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameItemCtrl', function (
 
   $scope.renameItem = function () {
     $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@renameItem'), {
-      'name': $scope.item_name,
-      'path': elementHandler.getSelectedItemPath()
+      name: $scope.item_name,
+      path: elementHandler.getSelectedItemPath()
     }).then(function (response) {
       if (response.data.type === 'success') {
         window.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
-      console.log('New Item Name AJAX Error !');
+      Log.report('New Item Name AJAX Error !');
     });
   };
 });

@@ -1,6 +1,6 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('downloadItemCtrl' , function ($http , elementHandler , UUID) {
+IDE.controller('downloadItemCtrl' , function ($http , elementHandler , UUID , Log) {
     $http.post(
         ACIDE.getFullRoute('DirectoryStructure@createZip?rand=' + UUID.getUUID4()) ,
         {
@@ -8,6 +8,6 @@ IDE.controller('downloadItemCtrl' , function ($http , elementHandler , UUID) {
         }
     ).then(function (response) {} ,
         function (response) {
-            console.log('Download Item AJAX Error !');
+            Log.report('Download Item AJAX Error !');
         });
 });

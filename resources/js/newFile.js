@@ -1,18 +1,18 @@
 import {IDE , ACIDE} from "./app";
 
-IDE.controller('newFileCtrl' , function ($scope , $http , window , directoryStructure , elementHandler) {
+IDE.controller('newFileCtrl' , function ($scope , $http , window , directoryStructure , elementHandler , Log) {
     window.title('New File');
     window.show();
     window.changeSize({width : 400 , height : 300});
-    var path = elementHandler.getSelectedDir().attr('data-path');
+    var path = elementHandler.getSelectedItemPath();
 
     $scope.createFile = function (ext = '') {
         $http.post(
             ACIDE.getFullRoute('NewProjectController@createFile') ,
             {
-                'name' : $scope.file_name ,
-                'path' : path ,
-                'ext' : ext
+                name : $scope.file_name ,
+                path : path ,
+                ext : ext
             }
         ).then(function (response) {
                 if(response.data.type === 'success') {
@@ -21,7 +21,7 @@ IDE.controller('newFileCtrl' , function ($scope , $http , window , directoryStru
                 }
             } ,
             function (response) {
-                console.log('New File AJAX Error !');
+                Log.report('New File AJAX Error !');
             });
     };
 });

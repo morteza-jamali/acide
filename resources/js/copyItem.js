@@ -1,9 +1,8 @@
 import {IDE , ACIDE} from "./app";
-import * as $ from '../../node_modules/jquery/src/jquery';
 
-IDE.controller('copyItemCtrl' , function (elementHandler , contextMenu) {
-    $('.directory-structure li').each(function() {
-        $(this).removeClass('opacity-m');
+IDE.controller('copyItemCtrl' , function ($ , elementHandler , contextMenu) {
+    $.$()('.directory-structure li').each(function() {
+        $.$()(this).removeClass('opacity-m');
     });
     elementHandler.getSelectedElm().addClass('opacity-m');
     Metro.storage.setItem('paste_item_obj' , {
