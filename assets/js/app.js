@@ -45743,6 +45743,11 @@ IDE.run(function ($rootScope, $templateCache) {
     $templateCache.removeAll();
   });
 });
+IDE.service('UUID', function () {
+  this.getUUID4 = function () {
+    return Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])();
+  };
+});
 IDE.service('elementHandler', function () {
   this.getSelectedElm = function () {
     return jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li.li-selected');
@@ -45805,7 +45810,7 @@ IDE.service('window', function () {
     });
   };
 });
-IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar, editorTabsHandler, keyBinds, directoryHandler) {
+IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar, editorTabsHandler, keyBinds, directoryHandler, UUID) {
   this.refresh = function () {
     console.log('run !');
     $http.post(ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')).then(function (response) {
@@ -45825,7 +45830,7 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
                 _icon = 'record';
               }
 
-              html += '<li class="pt-1" data-name="' + value.name + '.' + value.ext + '" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])() + '" data-ext="' + value.ext + '"><img src="assets/img/icons/' + _icon + '.svg" class="mr-1">' + value.name + '.' + value.ext + '</li>';
+              html += '<li class="pt-1" data-name="' + value.name + '.' + value.ext + '" data-slug="' + UUID.getUUID4() + '" data-ext="' + value.ext + '"><img src="assets/img/icons/' + _icon + '.svg" class="mr-1">' + value.name + '.' + value.ext + '</li>';
             });
           }
 
@@ -45863,11 +45868,11 @@ IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, edit
                     _icon = 'file';
                   }
 
-                  _content += '<li class="pt-1 d-flex" data-name="' + val + '" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])() + '" data-ext="' + val.split('.').pop() + '">' + '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1"><span>' + val + '</span></li>';
+                  _content += '<li class="pt-1 d-flex" data-name="' + val + '" data-slug="' + UUID.getUUID4() + '" data-ext="' + val.split('.').pop() + '">' + '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1"><span>' + val + '</span></li>';
                 }
 
                 if (response.data.message.files[value][val] === 'directory') {
-                  _content += '<li class="pt-1 dir d-flex" data-slug="' + Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])() + '">' + '<i class="mif-chevron-thin-right mr-1"></i><i class="mif-chevron-thin-down mr-1"></i>' + '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + val + '</li><ul class="list-style-none mr-0 files d-none" data-path="' + value + '\\' + val + '"></ul>';
+                  _content += '<li class="pt-1 dir d-flex" data-slug="' + UUID.getUUID4() + '">' + '<i class="mif-chevron-thin-right mr-1"></i><i class="mif-chevron-thin-down mr-1"></i>' + '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + val + '</li><ul class="list-style-none mr-0 files d-none" data-path="' + value + '\\' + val + '"></ul>';
                 }
               });
               jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure ul.files').each(function () {
@@ -46201,7 +46206,7 @@ IDE.service('storageHandler', function () {
     }
   };
 });
-IDE.service('terminalHandler', function () {
+IDE.service('terminalHandler', function (UUID) {
   var service_object = this;
 
   var _counter = -1;
@@ -46239,7 +46244,7 @@ IDE.service('terminalHandler', function () {
   };
 
   this.append = function () {
-    var _terminal_slug = Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])();
+    var _terminal_slug = UUID.getUUID4();
 
     var _counter_slug = '';
     ++_counter;
@@ -46913,8 +46918,8 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteItemCtrl', function (
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('downloadItemCtrl', function ($http, elementHandler) {
-  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@createZip'), {
+_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('downloadItemCtrl', function ($http, elementHandler, UUID) {
+  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@createZip?rand=' + UUID.getUUID4()), {
     path: elementHandler.getSelectedItemPath()
   }).then(function (response) {}, function (response) {
     console.log('Download Item AJAX Error !');

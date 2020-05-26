@@ -304,6 +304,8 @@
             finally {
                 $zipFile->close();
             }
+
+            return (new Response())->success(['Zip' => 'created'])->returnMsg();
         }
     }
 ?>
