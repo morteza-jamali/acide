@@ -62,7 +62,7 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
             $http.post(
                 ACIDE.getFullRoute('DirectoryStructure@deleteItem') ,
                 {
-                    type : _elm.parent().hasClass('database_list') ? 'Database' : 'File' ,
+                    type : _elm.parent().hasClass('database_list') ? 'Database' : 'directory' ,
                     path : _elm.attr('data-slug')
                 }
             ).then(function (response) {

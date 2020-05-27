@@ -10,7 +10,8 @@
         "rakit/validation": "^1.2",
         "illuminate/console": "*",
         "acide/acfilemanager" : "*",
-        "nelexa/zip": "^3.3"
+        "nelexa/zip": "^3.3",
+        "guzzlehttp/guzzle": "~6.0"
     } ,
     "autoload": {
         "psr-4": {

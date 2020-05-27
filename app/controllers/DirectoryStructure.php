@@ -139,10 +139,8 @@
 
                 FileManager::deleteDirectory($this->request['path']);
 
-                if($path == $this->request['path']) {
-                    FileProject::where('path' , $path)->delete();
-                    File::where('project' , $path)->delete();
-                }
+                FileProject::where('path' , $path)->delete();
+                File::where('project' , $path)->delete();
             }
 
             if($this->request['type'] == 'Database') {

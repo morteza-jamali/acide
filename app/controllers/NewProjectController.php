@@ -4,12 +4,18 @@
     use ACIDECore\App\Response;
     use ACIDECore\App\Database;
     use ACIDE\App\Models\DatabaseProject;
+    use GuzzleHttp\Exception\GuzzleException;
     use Rakit\Validation\Validator;
     use ACIDE\App\Models\Record;
     use ACIDE\App\Models\Setting;
     use ACIDE\App\Models\FileProject;
     use ACIDE\App\Models\File;
     use ACFileManager\Src\File as FileManager;
+    use ACIDECore\App\Config;
+    use GuzzleHttp\Client;
+    use GuzzleHttp\Psr7;
+    use PhpZip\ZipFile;
+    use PhpZip\Exception\ZipException;
 
     class NewProjectController {
         private $request = null;
@@ -189,6 +195,71 @@
             }
 
             return (new Response())->success(['project' , 'opened'])->returnMsg();
+        }
+
+        public function createFileProject() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'name' => 'required' ,
+                'url' => 'url'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            $result = FileProject::where('name' , $this->request['name'])
+                ->where('type' , 'project')->get()->toArray();
+            if(!empty($result)) {
+                return (new Response())->error(['project' => 'is duplicated'])->returnMsg();
+            }
+
+            $path = Config::get('path.work') . $this->request['name'];
+
+            FileProject::create([
+                'name' => $this->request['name'] ,
+                'path' => $path
+            ]);
+
+            FileProject::updateOrCreate([
+                'name' => '_active_project_' ,
+                'type' => 'label'
+            ] , [
+                'path' => $path
+            ]);
+
+            if(isset($this->request['url']) && !empty($this->request['url'])) {
+                try {
+                    $client = new Client();
+                    $resource = fopen(Config::get('path.tmp') . md5($this->request['name']) . '.zip', 'w');
+                    $stream = Psr7\stream_for($resource);
+                    $client->request('GET', $this->request['url'] , ['save_to' => $stream]);
+                    fclose($resource);
+                } catch (GuzzleException $ex) {
+                    echo $ex->getMessage();
+                }
+
+                $zipFile = new ZipFile();
+
+                try{
+                    $zipFile
+                        ->openFile(Config::get('path.tmp') . md5($this->request['name']) . '.zip')
+                        ->extractTo(Config::get('path.work'));
+                    foreach($zipFile as $entryName => $contents){
+                        FileManager::rename(Config::get('path.work') . $entryName , $this->request['name']);
+                        break;
+                    }
+                    $zipFile->close();
+                }
+                catch(ZipException $e){
+                    echo $e->getMessage();
+                }
+            } else {
+                FileManager::makeDirectory($path);
+            }
+
+            return (new Response())->success(['project' => 'created'])->returnMsg();
         }
     }
 ?>

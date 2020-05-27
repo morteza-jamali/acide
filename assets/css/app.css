@@ -297,8 +297,16 @@ a:hover {
   cursor: default !important;
 }
 
+.new_project .repositories_list li.active {
+  background-color: #117ae3 !important;
+}
+
 .new_project input {
   color: #ffffff !important;
+}
+
+.new_project div[disabled=disabled] {
+  opacity: 0.4;
 }
 
 .new_project img {

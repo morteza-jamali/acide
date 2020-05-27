@@ -8,7 +8,9 @@
         protected function getDefaults() {
             return [
                 'path' => [
-                    'views' => __DIR__ . '/resources/views/'
+                    'views' => __DIR__ . '/resources/views/' ,
+                    'work' => __DIR__ . '/work/' ,
+                    'tmp' => __DIR__ . '/storage/tmp/'
                 ] ,
                 'url' => [
                     'img' => URL::getBaseURL() . 'assets/img/'
