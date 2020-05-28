@@ -1,11 +1,11 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('cutItemCtrl' , function ($ , elementHandler , contextMenu) {
+IDE.controller('cutItemCtrl' , function ($ , elementHandler , contextMenu , storageHandler) {
     $.$()('.directory-structure li').each(function() {
         $.$()(this).removeClass('opacity-m');
     });
     elementHandler.getSelectedElm().addClass('opacity-m');
-    Metro.storage.setItem('paste_item_obj' , {
+    storageHandler.set('paste_item_obj' , {
         type : 'cut' ,
         object : elementHandler.getSelectedItemType() ,
         path : elementHandler.getSelectedItemPath()

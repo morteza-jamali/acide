@@ -8,12 +8,12 @@ import ContextMenus from "./exportContextMenu";
 import terminal from 'jquery.terminal/js/jquery.terminal';
 terminal(window, jQ);
 
-var ACIDE = {
+var _ACIDE = {
     getWebsiteUrl : function () {
-        if(location.host === 'localhost') {
-            return (location.origin + '/' + 'acide').toLowerCase();
+        if(window.location.host === 'localhost') {
+            return (window.location.origin + '/' + 'acide').toLowerCase();
         } else {
-            return location.origin;
+            return window.location.origin;
         }
     } ,
     getTemplateURL : function (name) {
@@ -29,23 +29,23 @@ var IDE = angular.module('ideApp' , ['ngRoute']);
 IDE.config(function($routeProvider) {
     $routeProvider
         .when("/newproject", {
-            templateUrl : ACIDE.getTemplateURL('windows/html/new_project') ,
+            templateUrl : _ACIDE.getTemplateURL('windows/html/new_project') ,
             controller : 'newProjectCtrl'
         })
         .when('/newrecord' , {
-            templateUrl : ACIDE.getTemplateURL('windows/html/new_record') ,
+            templateUrl : _ACIDE.getTemplateURL('windows/html/new_record') ,
             controller : 'newRecordCtrl'
         })
         .when('/closeproject' , {
-            templateUrl : ACIDE.getTemplateURL('windows/html/close_project') ,
+            templateUrl : _ACIDE.getTemplateURL('windows/html/close_project') ,
             controller : 'closeProjectCtrl'
         })
         .when('/newfile' , {
-            templateUrl : ACIDE.getTemplateURL('windows/html/new_file') ,
+            templateUrl : _ACIDE.getTemplateURL('windows/html/new_file') ,
             controller : 'newFileCtrl'
         })
         .when('/newexefile' , {
-            templateUrl : ACIDE.getTemplateURL('windows/html/new_exe_file') ,
+            templateUrl : _ACIDE.getTemplateURL('windows/html/new_exe_file') ,
             controller : 'newExeFileCtrl'
         })
         .when('/deleteitem' , {
@@ -53,15 +53,15 @@ IDE.config(function($routeProvider) {
             controller : 'deleteItemCtrl'
         })
         .when('/newdirectory' , {
-            templateUrl : ACIDE.getTemplateURL('windows/html/new_directory') ,
+            templateUrl : _ACIDE.getTemplateURL('windows/html/new_directory') ,
             controller : 'newDirectoryCtrl'
         })
         .when('/renamedirectory' , {
-            templateUrl : ACIDE.getTemplateURL('windows/html/rename_directory') ,
+            templateUrl : _ACIDE.getTemplateURL('windows/html/rename_directory') ,
             controller : 'renameItemCtrl'
         })
         .when('/renamefile' , {
-            templateUrl : ACIDE.getTemplateURL('windows/html/rename_file') ,
+            templateUrl : _ACIDE.getTemplateURL('windows/html/rename_file') ,
             controller : 'renameItemCtrl'
         })
         .when('/cutitem' , {
@@ -83,6 +83,10 @@ IDE.config(function($routeProvider) {
         .when('/downloaditem' , {
             template : '' ,
             controller : 'downloadItemCtrl'
+        })
+        .when('/popup' , {
+            templateUrl : _ACIDE.getTemplateURL('windows/html/popup') ,
+            controller : 'popupCtrl'
         });
 });
 
@@ -90,6 +94,20 @@ IDE.run(function($rootScope, $templateCache) {
     $rootScope.$on('$viewContentLoaded', function() {
         $templateCache.removeAll();
     });
+});
+
+IDE.service('ACIDE' , function () {
+    this.getWebsiteUrl = function () {
+        return _ACIDE.getWebsiteUrl();
+    };
+
+    this.getTemplateURL = function (name) {
+        return _ACIDE.getTemplateURL(name);
+    };
+
+    this.getFullRoute = function (controller) {
+        return _ACIDE.getFullRoute(controller);
+    };
 });
 
 IDE.service('Log' , function () {
@@ -110,7 +128,7 @@ IDE.service('UUID' , function () {
     };
 });
 
-IDE.service('elementHandler' , function () {
+IDE.service('elementHandler' , function (ACIDE) {
     this.getSelectedElm = function () {
         return $('.directory-structure li.li-selected');
     };
@@ -148,33 +166,63 @@ IDE.service('elementHandler' , function () {
     };
 });
 
-IDE.service('window' , function () {
+IDE.service('FloatWindow' , function ($location) {
+    var _this = this;
+
+    this.path = function (path = '') {
+        $location.path('/' + path);
+    };
+
     this.show = function () {
+        _this.popUp(false);
         $('.window').removeClass('size-0');
     };
+
     this.hide = function () {
         $('.window').addClass('size-0');
-        window.location.hash = '/';
+        _this.path();
     };
+
     this.title = function (title) {
         $('.window .window-caption .title').html(title);
     };
-    this.changeSize = function (size) {
-        $('.window').css({
-            'width' : size.width ,
-            'height' : size.height ,
-            'top' : 0 ,
-            'bottom' : 0 ,
-            'left' : 0 ,
-            'right' : 0 ,
-            'margin' : 'auto'
-        });
+
+    this.changeProperty = function (properties) {
+        if(properties.size !== undefined) {
+            $('.window').css({
+                'width' : properties.size.width ,
+                'height' : properties.size.height ,
+                'top' : 0 ,
+                'bottom' : 0 ,
+                'left' : 0 ,
+                'right' : 0 ,
+                'margin' : 'auto'
+            });
+        }
+
+        if(properties.resizable !== undefined) {
+            if(properties.resizable) {
+                $('.window .resize-element').removeClass('d-none');
+            } else {
+                $('.window .resize-element').addClass('d-none');
+            }
+        }
+    };
+
+    this.popUp = function (value) {
+        if(value) {
+            $('.window .window-caption .buttons').addClass('d-none');
+            $('.window .window-caption .title').css('text-align' , 'center');
+        } else {
+            $('.window .window-caption .buttons').removeClass('d-none');
+            $('.window .window-caption .title').css('text-align' , '');
+        }
     };
 });
 
 IDE.service('directoryStructure' , function ($http , contextMenu , editorTabs , editorContent
                                              , simpleBar , editorTabsHandler , keyBinds , directoryHandler
-                                                , UUID , Log) {
+                                                , UUID , Log , ACIDE) {
     this.refresh = function () {
         Log.report('run !');
         $http.post(
@@ -381,7 +429,7 @@ IDE.service('editorTabs' , function () {
     };
 });
 
-IDE.service('editorHandler' , function ($rootScope , $http , Log) {
+IDE.service('editorHandler' , function ($rootScope , $http , Log , ACIDE) {
     this.init = function (slug , mode) {
         var editor = ace.edit(slug);
         editor.setTheme("ace/theme/monokai");
@@ -463,7 +511,7 @@ IDE.service('editorTabsHandler' , function (editorContent , editorTabs) {
     };
 });
 
-IDE.service('directoryHandler' , function ($http , editorTabs , editorContent , Log) {
+IDE.service('directoryHandler' , function ($http , editorTabs , editorContent , Log , ACIDE) {
     this.reset = function() {
         var _selectors = {
             dblclick : {
@@ -554,6 +602,8 @@ IDE.service('keyBinds' , function () {
 });
 
 IDE.service('storageHandler' , function () {
+    var _this = this;
+
     this.init = function () {
         Metro.storage.setKey('ACIDE');
     };
@@ -573,11 +623,12 @@ IDE.service('storageHandler' , function () {
             var _keys = [
                 'new_file_type' ,
                 'new_file_name' ,
-                'paste_item_obj'
+                'paste_item_obj' ,
+                'popup_window_storage'
             ];
 
             _keys.forEach(function (value) {
-                Metro.storage.delItem(value);
+                _this.reset(value);
             });
         }
     };
@@ -666,4 +717,4 @@ IDE.service('terminalHandler' , function (UUID) {
     };
 });
 
-export {ACIDE , IDE};
+export default IDE;

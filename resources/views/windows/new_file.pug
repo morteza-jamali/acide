@@ -6,5 +6,5 @@
         small.fg-red(ng-show="newFileForm.name.$dirty && newFileForm.name.$error.required") Name can not be empty
         br
         small.fg-red(ng-show="newFileForm.name.$dirty && newFileForm.name.$invalid") Name is invalid
-    button.button.primary.mt-5.float-right(ng-click="createFile()"
+    button.button.primary.mt-5.float-right.rounded(ng-click="createFile()"
         ng-disabled="newFileForm.name.$invalid") Create

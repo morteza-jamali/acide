@@ -1,9 +1,15 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('renameItemCtrl' , function ($scope , $http , window , directoryStructure , elementHandler , Log) {
-    window.title('Rename ' + (elementHandler.getSelectedItemType() === 'file' ? 'File' : 'Directory'));
-    window.show();
-    window.changeSize({width : 400 , height : 300});
+IDE.controller('renameItemCtrl' , function ($scope , $http , FloatWindow , directoryStructure
+                                            , elementHandler , Log , ACIDE) {
+    FloatWindow.title('Rename ' + (elementHandler.getSelectedItemType() === 'file' ? 'File' : 'Directory'));
+    FloatWindow.show();
+    FloatWindow.changeProperty({
+        size : {
+            width : 400 ,
+            height : 300
+        }
+    });
 
     $scope.renameItem = function () {
         $http.post(
@@ -14,7 +20,7 @@ IDE.controller('renameItemCtrl' , function ($scope , $http , window , directoryS
             }
         ).then(function (response) {
                 if(response.data.type === 'success') {
-                    window.hide();
+                    FloatWindow.hide();
                     directoryStructure.refresh();
                 }
             } ,

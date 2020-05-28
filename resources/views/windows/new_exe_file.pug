@@ -6,5 +6,5 @@
         small.fg-red(ng-show="newExeFileForm.name.$dirty && newExeFileForm.name.$error.required") Name can not be empty
         br
         small.fg-red(ng-show="newExeFileForm.name.$dirty && newExeFileForm.name.$invalid") Name is invalid
-    button.button.primary.mt-5.float-right(ng-click="createExeFile()"
+    button.button.primary.mt-5.float-right.rounded(ng-click="createExeFile()"
         ng-disabled="newExeFileForm.name.$invalid") Create

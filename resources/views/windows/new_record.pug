@@ -6,5 +6,5 @@
         small.fg-red(ng-show="newRecordForm.name.$dirty && newRecordForm.name.$error.required") Name can not be empty
         br
         small.fg-red(ng-show="newRecordForm.name.$dirty && newRecordForm.name.$invalid") Name is invalid
-    button.button.primary.mt-5.float-right(ng-click="createRecord()"
+    button.button.primary.mt-5.float-right.rounded(ng-click="createRecord()"
         ng-disabled="newRecordForm.name.$invalid") Create

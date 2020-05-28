@@ -1,9 +1,15 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('newRecordCtrl' , function ($scope , $http , window , directoryStructure , Log) {
-    window.title('New Record');
-    window.show();
-    window.changeSize({width : 400 , height : 300});
+IDE.controller('newRecordCtrl' , function ($scope , $http , FloatWindow , directoryStructure
+                                           , Log , ACIDE) {
+    FloatWindow.title('New Record');
+    FloatWindow.show();
+    FloatWindow.changeProperty({
+        size : {
+            width : 400 ,
+            height : 300
+        }
+    });
 
     $scope.createRecord = function (ext = '') {
         $http.post(
@@ -14,7 +20,7 @@ IDE.controller('newRecordCtrl' , function ($scope , $http , window , directorySt
             }
         ).then(function (response) {
                 if(response.data.type === 'success') {
-                    window.hide();
+                    FloatWindow.hide();
                     directoryStructure.refresh();
                 }
             } ,

@@ -1,4 +1,4 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
 IDE.service('closeProjectHandler' , function ($) {
     var service_obj = this;
@@ -26,10 +26,16 @@ IDE.service('closeProjectHandler' , function ($) {
     };
 });
 
-IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closeProjectHandler , directoryStructure , Log) {
-    window.title('Open a Project');
-    window.show();
-    window.changeSize({width : 700 , height : 500});
+IDE.controller('closeProjectCtrl' , function ($scope , FloatWindow , $http , closeProjectHandler
+                                              , directoryStructure , Log , ACIDE) {
+    FloatWindow.title('Open a Project');
+    FloatWindow.show();
+    FloatWindow.changeProperty({
+        size : {
+            width : 700 ,
+            height : 500
+        }
+    });
 
     $scope.openProject = function() {
         closeProjectHandler.validate($scope);
@@ -44,7 +50,7 @@ IDE.controller('closeProjectCtrl' , function ($scope , window , $http , closePro
                 }
             ).then(function (response) {
                     if(response.data.type === 'success') {
-                        window.hide();
+                        FloatWindow.hide();
                         directoryStructure.refresh();
                     }
                 } ,

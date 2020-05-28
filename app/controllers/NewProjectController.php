@@ -232,7 +232,7 @@
             if(isset($this->request['url']) && !empty($this->request['url'])) {
                 try {
                     $client = new Client();
-                    $resource = fopen(Config::get('path.tmp') . md5($this->request['name']) . '.zip', 'w');
+                    $resource = fopen(Config::get('path.tmp') . md5($this->request['url']) . '.zip', 'w');
                     $stream = Psr7\stream_for($resource);
                     $client->request('GET', $this->request['url'] , ['save_to' => $stream]);
                     fclose($resource);
@@ -244,7 +244,7 @@
 
                 try{
                     $zipFile
-                        ->openFile(Config::get('path.tmp') . md5($this->request['name']) . '.zip')
+                        ->openFile(Config::get('path.tmp') . md5($this->request['url']) . '.zip')
                         ->extractTo(Config::get('path.work'));
                     foreach($zipFile as $entryName => $contents){
                         FileManager::rename(Config::get('path.work') . $entryName , $this->request['name']);

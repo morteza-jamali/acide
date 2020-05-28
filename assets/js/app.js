@@ -45649,13 +45649,11 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! exports provided: ACIDE, IDE */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACIDE", function() { return ACIDE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IDE", function() { return IDE; });
 /* harmony import */ var jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery/src/jquery */ "./node_modules/jquery/src/jquery.js");
 /* harmony import */ var jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
@@ -45677,12 +45675,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 jquery_terminal_js_jquery_terminal__WEBPACK_IMPORTED_MODULE_7___default()(window, jquery__WEBPACK_IMPORTED_MODULE_1__);
-var ACIDE = {
+var _ACIDE = {
   getWebsiteUrl: function getWebsiteUrl() {
-    if (location.host === 'localhost') {
-      return (location.origin + '/' + 'acide').toLowerCase();
+    if (window.location.host === 'localhost') {
+      return (window.location.origin + '/' + 'acide').toLowerCase();
     } else {
-      return location.origin;
+      return window.location.origin;
     }
   },
   getTemplateURL: function getTemplateURL(name) {
@@ -45695,31 +45693,31 @@ var ACIDE = {
 var IDE = angular.module('ideApp', ['ngRoute']);
 IDE.config(function ($routeProvider) {
   $routeProvider.when("/newproject", {
-    templateUrl: ACIDE.getTemplateURL('windows/html/new_project'),
+    templateUrl: _ACIDE.getTemplateURL('windows/html/new_project'),
     controller: 'newProjectCtrl'
   }).when('/newrecord', {
-    templateUrl: ACIDE.getTemplateURL('windows/html/new_record'),
+    templateUrl: _ACIDE.getTemplateURL('windows/html/new_record'),
     controller: 'newRecordCtrl'
   }).when('/closeproject', {
-    templateUrl: ACIDE.getTemplateURL('windows/html/close_project'),
+    templateUrl: _ACIDE.getTemplateURL('windows/html/close_project'),
     controller: 'closeProjectCtrl'
   }).when('/newfile', {
-    templateUrl: ACIDE.getTemplateURL('windows/html/new_file'),
+    templateUrl: _ACIDE.getTemplateURL('windows/html/new_file'),
     controller: 'newFileCtrl'
   }).when('/newexefile', {
-    templateUrl: ACIDE.getTemplateURL('windows/html/new_exe_file'),
+    templateUrl: _ACIDE.getTemplateURL('windows/html/new_exe_file'),
     controller: 'newExeFileCtrl'
   }).when('/deleteitem', {
     template: '',
     controller: 'deleteItemCtrl'
   }).when('/newdirectory', {
-    templateUrl: ACIDE.getTemplateURL('windows/html/new_directory'),
+    templateUrl: _ACIDE.getTemplateURL('windows/html/new_directory'),
     controller: 'newDirectoryCtrl'
   }).when('/renamedirectory', {
-    templateUrl: ACIDE.getTemplateURL('windows/html/rename_directory'),
+    templateUrl: _ACIDE.getTemplateURL('windows/html/rename_directory'),
     controller: 'renameItemCtrl'
   }).when('/renamefile', {
-    templateUrl: ACIDE.getTemplateURL('windows/html/rename_file'),
+    templateUrl: _ACIDE.getTemplateURL('windows/html/rename_file'),
     controller: 'renameItemCtrl'
   }).when('/cutitem', {
     template: '',
@@ -45736,12 +45734,28 @@ IDE.config(function ($routeProvider) {
   }).when('/downloaditem', {
     template: '',
     controller: 'downloadItemCtrl'
+  }).when('/popup', {
+    templateUrl: _ACIDE.getTemplateURL('windows/html/popup'),
+    controller: 'popupCtrl'
   });
 });
 IDE.run(function ($rootScope, $templateCache) {
   $rootScope.$on('$viewContentLoaded', function () {
     $templateCache.removeAll();
   });
+});
+IDE.service('ACIDE', function () {
+  this.getWebsiteUrl = function () {
+    return _ACIDE.getWebsiteUrl();
+  };
+
+  this.getTemplateURL = function (name) {
+    return _ACIDE.getTemplateURL(name);
+  };
+
+  this.getFullRoute = function (controller) {
+    return _ACIDE.getFullRoute(controller);
+  };
 });
 IDE.service('Log', function () {
   this.report = function (log) {
@@ -45758,7 +45772,7 @@ IDE.service('UUID', function () {
     return Object(uuid__WEBPACK_IMPORTED_MODULE_3__["v4"])();
   };
 });
-IDE.service('elementHandler', function () {
+IDE.service('elementHandler', function (ACIDE) {
   this.getSelectedElm = function () {
     return jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li.li-selected');
   };
@@ -45794,33 +45808,63 @@ IDE.service('elementHandler', function () {
     return jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.directory-structure li.Directory').attr('data-slug');
   };
 });
-IDE.service('window', function () {
+IDE.service('FloatWindow', function ($location) {
+  var _this = this;
+
+  this.path = function () {
+    var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    $location.path('/' + path);
+  };
+
   this.show = function () {
+    _this.popUp(false);
+
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window').removeClass('size-0');
   };
 
   this.hide = function () {
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window').addClass('size-0');
-    window.location.hash = '/';
+
+    _this.path();
   };
 
   this.title = function (title) {
     jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window .window-caption .title').html(title);
   };
 
-  this.changeSize = function (size) {
-    jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window').css({
-      'width': size.width,
-      'height': size.height,
-      'top': 0,
-      'bottom': 0,
-      'left': 0,
-      'right': 0,
-      'margin': 'auto'
-    });
+  this.changeProperty = function (properties) {
+    if (properties.size !== undefined) {
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window').css({
+        'width': properties.size.width,
+        'height': properties.size.height,
+        'top': 0,
+        'bottom': 0,
+        'left': 0,
+        'right': 0,
+        'margin': 'auto'
+      });
+    }
+
+    if (properties.resizable !== undefined) {
+      if (properties.resizable) {
+        jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window .resize-element').removeClass('d-none');
+      } else {
+        jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window .resize-element').addClass('d-none');
+      }
+    }
+  };
+
+  this.popUp = function (value) {
+    if (value) {
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window .window-caption .buttons').addClass('d-none');
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window .window-caption .title').css('text-align', 'center');
+    } else {
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window .window-caption .buttons').removeClass('d-none');
+      jquery_src_jquery__WEBPACK_IMPORTED_MODULE_0__('.window .window-caption .title').css('text-align', '');
+    }
   };
 });
-IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar, editorTabsHandler, keyBinds, directoryHandler, UUID, Log) {
+IDE.service('directoryStructure', function ($http, contextMenu, editorTabs, editorContent, simpleBar, editorTabsHandler, keyBinds, directoryHandler, UUID, Log, ACIDE) {
   this.refresh = function () {
     Log.report('run !');
     $http.post(ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')).then(function (response) {
@@ -46024,7 +46068,7 @@ IDE.service('editorTabs', function () {
     }
   };
 });
-IDE.service('editorHandler', function ($rootScope, $http, Log) {
+IDE.service('editorHandler', function ($rootScope, $http, Log, ACIDE) {
   this.init = function (slug, mode) {
     var editor = ace.edit(slug);
     editor.setTheme("ace/theme/monokai");
@@ -46107,7 +46151,7 @@ IDE.service('editorTabsHandler', function (editorContent, editorTabs) {
     });
   };
 });
-IDE.service('directoryHandler', function ($http, editorTabs, editorContent, Log) {
+IDE.service('directoryHandler', function ($http, editorTabs, editorContent, Log, ACIDE) {
   this.reset = function () {
     var _selectors = {
       dblclick: {
@@ -46190,6 +46234,8 @@ IDE.service('keyBinds', function () {
   };
 });
 IDE.service('storageHandler', function () {
+  var _this = this;
+
   this.init = function () {
     Metro.storage.setKey('ACIDE');
   };
@@ -46208,10 +46254,10 @@ IDE.service('storageHandler', function () {
     if (key !== undefined) {
       Metro.storage.delItem(key);
     } else {
-      var _keys = ['new_file_type', 'new_file_name', 'paste_item_obj'];
+      var _keys = ['new_file_type', 'new_file_name', 'paste_item_obj', 'popup_window_storage'];
 
       _keys.forEach(function (value) {
-        Metro.storage.delItem(value);
+        _this.reset(value);
       });
     }
   };
@@ -46298,7 +46344,7 @@ IDE.service('terminalHandler', function (UUID) {
     });
   };
 });
-
+/* harmony default export */ __webpack_exports__["default"] = (IDE);
 
 /***/ }),
 
@@ -46313,7 +46359,7 @@ IDE.service('terminalHandler', function (UUID) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].service('closeProjectHandler', function ($) {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].service('closeProjectHandler', function ($) {
   var service_obj = this;
 
   this.getItem = function () {
@@ -46339,12 +46385,14 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].service('closeProjectHandler', function
     });
   };
 });
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function ($scope, window, $http, closeProjectHandler, directoryStructure, Log) {
-  window.title('Open a Project');
-  window.show();
-  window.changeSize({
-    width: 700,
-    height: 500
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('closeProjectCtrl', function ($scope, FloatWindow, $http, closeProjectHandler, directoryStructure, Log, ACIDE) {
+  FloatWindow.title('Open a Project');
+  FloatWindow.show();
+  FloatWindow.changeProperty({
+    size: {
+      width: 700,
+      height: 500
+    }
   });
 
   $scope.openProject = function () {
@@ -46353,12 +46401,12 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
     var _elm = closeProjectHandler.getActiveItem();
 
     if (_elm.length) {
-      $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@openProject'), {
+      $http.post(ACIDE.getFullRoute('NewProjectController@openProject'), {
         type: _elm.parent().hasClass('database_list') ? 'Database' : 'File',
         slug: _elm.attr('data-slug')
       }).then(function (response) {
         if (response.data.type === 'success') {
-          window.hide();
+          FloatWindow.hide();
           directoryStructure.refresh();
         }
       }, function (response) {
@@ -46373,7 +46421,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
     var _elm = closeProjectHandler.getActiveItem();
 
     if (_elm.length) {
-      $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@deleteItem'), {
+      $http.post(ACIDE.getFullRoute('DirectoryStructure@deleteItem'), {
         type: _elm.parent().hasClass('database_list') ? 'Database' : 'directory',
         path: _elm.attr('data-slug')
       }).then(function (response) {
@@ -46389,7 +46437,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
   };
 
   $scope.getAllDBProjects = function () {
-    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllDatabaseProjects')).then(function (response) {
+    $http.post(ACIDE.getFullRoute('DirectoryStructure@getAllDatabaseProjects')).then(function (response) {
       if (response.data.type === 'success') {
         $scope.database_projects = response.data.message;
       }
@@ -46399,7 +46447,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('closeProjectCtrl', function
   };
 
   $scope.getAllFileProjects = function () {
-    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@getAllFileProjects')).then(function (response) {
+    $http.post(ACIDE.getFullRoute('DirectoryStructure@getAllFileProjects')).then(function (response) {
       if (response.data.type === 'success') {
         $scope.files_projects = [];
         Object.keys(response.data.message).forEach(function (value) {
@@ -46833,12 +46881,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('copyItemCtrl', function ($, elementHandler, contextMenu) {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('copyItemCtrl', function ($, elementHandler, contextMenu, storageHandler) {
   $.$()('.directory-structure li').each(function () {
     $.$()(this).removeClass('opacity-m');
   });
   elementHandler.getSelectedElm().addClass('opacity-m');
-  Metro.storage.setItem('paste_item_obj', {
+  storageHandler.set('paste_item_obj', {
     type: 'copy',
     object: elementHandler.getSelectedItemType(),
     path: elementHandler.getSelectedItemPath()
@@ -46863,12 +46911,12 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('copyItemCtrl', function ($,
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('cutItemCtrl', function ($, elementHandler, contextMenu) {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('cutItemCtrl', function ($, elementHandler, contextMenu, storageHandler) {
   $.$()('.directory-structure li').each(function () {
     $.$()(this).removeClass('opacity-m');
   });
   elementHandler.getSelectedElm().addClass('opacity-m');
-  Metro.storage.setItem('paste_item_obj', {
+  storageHandler.set('paste_item_obj', {
     type: 'cut',
     object: elementHandler.getSelectedItemType(),
     path: elementHandler.getSelectedItemPath()
@@ -46893,8 +46941,8 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('cutItemCtrl', function ($, 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteItemCtrl', function ($http, directoryStructure, elementHandler, Log) {
-  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@deleteItem'), {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('deleteItemCtrl', function ($http, directoryStructure, elementHandler, Log, ACIDE) {
+  $http.post(ACIDE.getFullRoute('DirectoryStructure@deleteItem'), {
     path: elementHandler.getSelectedItemPath(),
     type: elementHandler.getSelectedItemType()
   }).then(function (response) {
@@ -46919,8 +46967,8 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('deleteItemCtrl', function (
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('downloadItemCtrl', function ($http, elementHandler, UUID, Log) {
-  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@createZip?rand=' + UUID.getUUID4()), {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('downloadItemCtrl', function ($http, elementHandler, UUID, Log, ACIDE) {
+  $http.post(ACIDE.getFullRoute('DirectoryStructure@createZip?rand=' + UUID.getUUID4()), {
     path: elementHandler.getSelectedItemPath()
   }).then(function (response) {}, function (response) {
     Log.report('Download Item AJAX Error !');
@@ -47189,7 +47237,7 @@ var extensions = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('ideCtrl', function ($scope, $location, directoryStructure, storageHandler, terminalHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('ideCtrl', function ($scope, $location, directoryStructure, storageHandler, terminalHandler) {
   storageHandler.init();
   storageHandler.reset();
   $location.path('');
@@ -47579,22 +47627,24 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* mousetrap v1.6.5 craig.is/killing/mice */
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newDirectoryCtrl', function ($scope, $http, window, directoryStructure, elementHandler, Log) {
-  window.title('New Directory');
-  window.show();
-  window.changeSize({
-    width: 400,
-    height: 300
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('newDirectoryCtrl', function ($scope, $http, FloatWindow, directoryStructure, elementHandler, Log, ACIDE) {
+  FloatWindow.title('New Directory');
+  FloatWindow.show();
+  FloatWindow.changeProperty({
+    size: {
+      width: 400,
+      height: 300
+    }
   });
   var path = elementHandler.getSelectedItemPath();
 
   $scope.createDirectory = function () {
-    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createDirectory'), {
+    $http.post(ACIDE.getFullRoute('NewProjectController@createDirectory'), {
       name: $scope.directory_name,
       path: path
     }).then(function (response) {
       if (response.data.type === 'success') {
-        window.hide();
+        FloatWindow.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
@@ -47616,23 +47666,25 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newDirectoryCtrl', function
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function ($scope, $http, window, directoryStructure, storageHandler, elementHandler, Log) {
-  window.title('New ' + storageHandler.get('new_file_name') + ' File');
-  window.show();
-  window.changeSize({
-    width: 400,
-    height: 300
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('newExeFileCtrl', function ($scope, $http, FloatWindow, directoryStructure, storageHandler, elementHandler, Log, ACIDE) {
+  FloatWindow.title('New ' + storageHandler.get('new_file_name') + ' File');
+  FloatWindow.show();
+  FloatWindow.changeProperty({
+    size: {
+      width: 400,
+      height: 300
+    }
   });
   var path = elementHandler.getSelectedItemPath();
 
   $scope.createExeFile = function () {
-    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
+    $http.post(ACIDE.getFullRoute('NewProjectController@createFile'), {
       name: $scope.file_name,
       path: path,
       ext: storageHandler.get('new_file_type')
     }).then(function (response) {
       if (response.data.type === 'success') {
-        window.hide();
+        FloatWindow.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
@@ -47654,24 +47706,26 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newExeFileCtrl', function (
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newFileCtrl', function ($scope, $http, window, directoryStructure, elementHandler, Log) {
-  window.title('New File');
-  window.show();
-  window.changeSize({
-    width: 400,
-    height: 300
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('newFileCtrl', function ($scope, $http, FloatWindow, directoryStructure, elementHandler, Log, ACIDE) {
+  FloatWindow.title('New File');
+  FloatWindow.show();
+  FloatWindow.changeProperty({
+    size: {
+      width: 400,
+      height: 300
+    }
   });
   var path = elementHandler.getSelectedItemPath();
 
   $scope.createFile = function () {
     var ext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFile'), {
+    $http.post(ACIDE.getFullRoute('NewProjectController@createFile'), {
       name: $scope.file_name,
       path: path,
       ext: ext
     }).then(function (response) {
       if (response.data.type === 'success') {
-        window.hide();
+        FloatWindow.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
@@ -47695,22 +47749,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _exportRepositories__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./exportRepositories */ "./resources/js/exportRepositories.js");
 
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function ($, $scope, $http, window, directoryStructure, Log) {
-  window.title('New Project');
-  window.show();
-  window.changeSize({
-    width: 700,
-    height: 500
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('newProjectCtrl', function ($, $scope, $http, FloatWindow, directoryStructure, Log, storageHandler, ACIDE) {
+  FloatWindow.title('New Project');
+  FloatWindow.show();
+  FloatWindow.changeProperty({
+    size: {
+      width: 700,
+      height: 500
+    }
   });
   $scope.project_duplicated = true;
 
-  $scope.selectChanged = function () {
-    if ($scope.project_type == 1) {} else {}
-  };
-
   $scope.createProject = function () {
     if ($scope.project_type == 1) {
-      $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createDatabaseProject'), {
+      $http.post(ACIDE.getFullRoute('NewProjectController@createDatabaseProject'), {
         name: $scope.project_name,
         slug: $scope.project_slug
       }).then(function (response) {
@@ -47719,23 +47771,30 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function (
         }
 
         if (response.data.type === 'success') {
-          window.hide();
+          FloatWindow.hide();
           directoryStructure.refresh();
         }
       }, function (response) {
         Log.report('New Project AJAX Error !');
       });
     } else if ($scope.project_type == 2) {
-      $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createFileProject'), {
+      var url = $.$()('.new_project .repositories_list li.active').attr('data-url');
+      storageHandler.set('popup_window_storage', {
+        title: 'Downloading New Project',
+        message: 'Downloading from ' + url
+      });
+      FloatWindow.path('popup');
+      $http.post(ACIDE.getFullRoute('NewProjectController@createFileProject'), {
         name: $scope.project_file_name,
-        url: $.$()('.new_project .repositories_list li.active').attr('data-url')
+        url: url
       }).then(function (response) {
         if (response.data.message.project !== undefined && response.data.type === 'error') {
+          FloatWindow.path('newproject');
           $scope.project_duplicated = false;
         }
 
         if (response.data.type === 'success') {
-          window.hide();
+          FloatWindow.hide();
           directoryStructure.refresh();
         }
       }, function (response) {
@@ -47786,22 +47845,24 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newProjectCtrl', function (
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newRecordCtrl', function ($scope, $http, window, directoryStructure, Log) {
-  window.title('New Record');
-  window.show();
-  window.changeSize({
-    width: 400,
-    height: 300
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('newRecordCtrl', function ($scope, $http, FloatWindow, directoryStructure, Log, ACIDE) {
+  FloatWindow.title('New Record');
+  FloatWindow.show();
+  FloatWindow.changeProperty({
+    size: {
+      width: 400,
+      height: 300
+    }
   });
 
   $scope.createRecord = function () {
     var ext = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('NewProjectController@createRecord'), {
+    $http.post(ACIDE.getFullRoute('NewProjectController@createRecord'), {
       name: $scope.record_name,
       ext: ext
     }).then(function (response) {
       if (response.data.type === 'success') {
-        window.hide();
+        FloatWindow.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
@@ -47823,8 +47884,8 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('newRecordCtrl', function ($
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('pasteItemCtrl', function ($http, directoryStructure, elementHandler, contextMenu, Log) {
-  var paste_item_obj = Metro.storage.getItem('paste_item_obj');
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('pasteItemCtrl', function ($http, directoryStructure, elementHandler, contextMenu, Log, storageHandler, ACIDE) {
+  var paste_item_obj = storageHandler.get('paste_item_obj');
 
   var _to_path = elementHandler.getSelectedItemPath();
 
@@ -47844,7 +47905,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('pasteItemCtrl', function ($
     }
   }
 
-  $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@' + _method), {
+  $http.post(ACIDE.getFullRoute('DirectoryStructure@' + _method), {
     from_path: paste_item_obj.path,
     to_path: _to_path
   }).then(function (response) {
@@ -47867,6 +47928,59 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('pasteItemCtrl', function ($
 
 /***/ }),
 
+/***/ "./resources/js/popup.js":
+/*!*******************************!*\
+  !*** ./resources/js/popup.js ***!
+  \*******************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
+
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('popupCtrl', function ($scope, FloatWindow, storageHandler) {
+  var storage = storageHandler.get('popup_window_storage');
+  FloatWindow.title('This is title');
+  $scope.message = 'This is message';
+  $scope.caption = 'This is caption';
+  FloatWindow.show();
+  FloatWindow.popUp(true);
+  FloatWindow.changeProperty({
+    size: {
+      width: 600,
+      height: 150
+    },
+    resizable: false
+  });
+
+  $scope.cancelProc = function () {
+    try {
+      throw new Error('Whoops!');
+    } catch (e) {
+      console.error(e.name + ': ' + e.message);
+    }
+  };
+  /*if(storage !== undefined) {
+      FloatWindow.title(storage.title);
+      $scope.message = storage.message;
+      FloatWindow.show();
+      FloatWindow.popUp(true);
+      FloatWindow.changeProperty({
+          size : {
+              width : 600 ,
+              height : 100
+          } ,
+          resizable : false
+      });
+  } else {
+      FloatWindow.path();
+  }*/
+
+});
+
+/***/ }),
+
 /***/ "./resources/js/renameItem.js":
 /*!************************************!*\
   !*** ./resources/js/renameItem.js ***!
@@ -47878,21 +47992,23 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('pasteItemCtrl', function ($
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameItemCtrl', function ($scope, $http, window, directoryStructure, elementHandler, Log) {
-  window.title('Rename ' + (elementHandler.getSelectedItemType() === 'file' ? 'File' : 'Directory'));
-  window.show();
-  window.changeSize({
-    width: 400,
-    height: 300
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('renameItemCtrl', function ($scope, $http, FloatWindow, directoryStructure, elementHandler, Log, ACIDE) {
+  FloatWindow.title('Rename ' + (elementHandler.getSelectedItemType() === 'file' ? 'File' : 'Directory'));
+  FloatWindow.show();
+  FloatWindow.changeProperty({
+    size: {
+      width: 400,
+      height: 300
+    }
   });
 
   $scope.renameItem = function () {
-    $http.post(_app__WEBPACK_IMPORTED_MODULE_0__["ACIDE"].getFullRoute('DirectoryStructure@renameItem'), {
+    $http.post(ACIDE.getFullRoute('DirectoryStructure@renameItem'), {
       name: $scope.item_name,
       path: elementHandler.getSelectedItemPath()
     }).then(function (response) {
       if (response.data.type === 'success') {
-        window.hide();
+        FloatWindow.hide();
         directoryStructure.refresh();
       }
     }, function (response) {
@@ -47914,7 +48030,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('renameItemCtrl', function (
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('runFileCtrl', function (elementHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('runFileCtrl', function (elementHandler) {
   window.open(elementHandler.getSelectedItemURL());
 });
 
@@ -47931,7 +48047,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].controller('runFileCtrl', function (ele
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('slugValidation', function () {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].directive('slugValidation', function () {
   return {
     require: 'ngModel',
     link: function link(scope, element, attr, mCtrl) {
@@ -47949,7 +48065,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('slugValidation', function ()
     }
   };
 });
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('recordValidation', function () {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].directive('recordValidation', function () {
   return {
     require: 'ngModel',
     link: function link(scope, element, attr, mCtrl) {
@@ -47967,7 +48083,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('recordValidation', function 
     }
   };
 });
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('fileValidation', function () {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].directive('fileValidation', function () {
   return {
     require: 'ngModel',
     link: function link(scope, element, attr, mCtrl) {
@@ -47985,7 +48101,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('fileValidation', function ()
     }
   };
 });
-_app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('directoryValidation', function () {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].directive('directoryValidation', function () {
   return {
     require: 'ngModel',
     link: function link(scope, element, attr, mCtrl) {
@@ -48018,9 +48134,9 @@ _app__WEBPACK_IMPORTED_MODULE_0__["IDE"].directive('directoryValidation', functi
 /***/ }),
 
 /***/ 0:
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./node_modules/jquery.terminal/js/jquery.terminal.min.js ./resources/js/mousetrap.min.js ./resources/js/ideCtrl.js ./resources/js/newProject.js ./resources/js/newRecord.js ./resources/js/newDirectory.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/copyItem.js ./resources/js/cutItem.js ./resources/js/pasteItem.js ./resources/js/deleteItem.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/renameItem.js ./resources/js/runFile.js ./resources/js/downloadItem.js ./resources/js/app.js ./resources/sass/app.sass ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./node_modules/simplebar/dist/simplebar.min.js ./node_modules/jquery/dist/jquery.js ./node_modules/angular/angular.min.js ./node_modules/angular-route/angular-route.min.js ./node_modules/metro4/build/js/metro.min.js ./node_modules/he/he.js ./node_modules/jquery.terminal/js/jquery.terminal.min.js ./resources/js/mousetrap.min.js ./resources/js/ideCtrl.js ./resources/js/newProject.js ./resources/js/newRecord.js ./resources/js/newDirectory.js ./resources/js/newFile.js ./resources/js/newExeFile.js ./resources/js/copyItem.js ./resources/js/cutItem.js ./resources/js/pasteItem.js ./resources/js/deleteItem.js ./resources/js/closeProject.js ./resources/js/contextMenu.min.js ./resources/js/validation.js ./resources/js/renameItem.js ./resources/js/runFile.js ./resources/js/popup.js ./resources/js/downloadItem.js ./resources/js/app.js ./resources/sass/app.sass ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -48047,6 +48163,7 @@ __webpack_require__(/*! C:\wamp64\www\acide\resources\js\contextMenu.min.js */".
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\validation.js */"./resources/js/validation.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\renameItem.js */"./resources/js/renameItem.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\runFile.js */"./resources/js/runFile.js");
+__webpack_require__(/*! C:\wamp64\www\acide\resources\js\popup.js */"./resources/js/popup.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\downloadItem.js */"./resources/js/downloadItem.js");
 __webpack_require__(/*! C:\wamp64\www\acide\resources\js\app.js */"./resources/js/app.js");
 module.exports = __webpack_require__(/*! C:\wamp64\www\acide\resources\sass\app.sass */"./resources/sass/app.sass");

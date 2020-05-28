@@ -6,5 +6,5 @@
         small.fg-red(ng-show="newDirectoryForm.name.$dirty && newDirectoryForm.name.$error.required") Name can not be empty
         br
         small.fg-red(ng-show="newDirectoryForm.name.$dirty && newDirectoryForm.name.$invalid") Name is invalid
-    button.button.primary.mt-5.float-right(ng-click="createDirectory()"
+    button.button.primary.mt-5.float-right.rounded(ng-click="createDirectory()"
         ng-disabled="newDirectoryForm.name.$invalid") Create

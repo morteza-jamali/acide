@@ -1,19 +1,17 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 import repositories from "./exportRepositories";
 
-IDE.controller('newProjectCtrl' , function ($ , $scope , $http , window , directoryStructure , Log) {
-    window.title('New Project');
-    window.show();
-    window.changeSize({width : 700 , height: 500});
-    $scope.project_duplicated = true;
-
-    $scope.selectChanged = function() {
-        if($scope.project_type == 1) {
-
-        } else {
-
+IDE.controller('newProjectCtrl' , function ($ , $scope , $http , FloatWindow , directoryStructure
+                                            , Log , storageHandler , ACIDE) {
+    FloatWindow.title('New Project');
+    FloatWindow.show();
+    FloatWindow.changeProperty({
+        size : {
+            width : 700 ,
+            height: 500
         }
-    };
+    });
+    $scope.project_duplicated = true;
 
     $scope.createProject = function () {
         if($scope.project_type == 1) {
@@ -29,7 +27,7 @@ IDE.controller('newProjectCtrl' , function ($ , $scope , $http , window , direct
                 }
 
                 if(response.data.type === 'success') {
-                    window.hide();
+                    FloatWindow.hide();
                     directoryStructure.refresh();
                 }
                 } ,
@@ -37,19 +35,26 @@ IDE.controller('newProjectCtrl' , function ($ , $scope , $http , window , direct
                     Log.report('New Project AJAX Error !');
                 });
         } else if($scope.project_type == 2) {
+            var url = $.$()('.new_project .repositories_list li.active').attr('data-url');
+            storageHandler.set('popup_window_storage' , {
+                title : 'Downloading New Project' ,
+                message : 'Downloading from ' + url
+            });
+            FloatWindow.path('popup');
             $http.post(
                 ACIDE.getFullRoute('NewProjectController@createFileProject') ,
                 {
                     name : $scope.project_file_name ,
-                    url : $.$()('.new_project .repositories_list li.active').attr('data-url')
+                    url : url
                 }
             ).then(function (response) {
                     if(response.data.message.project !== undefined && response.data.type === 'error') {
+                        FloatWindow.path('newproject');
                         $scope.project_duplicated = false;
                     }
 
                     if(response.data.type === 'success') {
-                        window.hide();
+                        FloatWindow.hide();
                         directoryStructure.refresh();
                     }
                 } ,

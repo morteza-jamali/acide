@@ -7,6 +7,7 @@
     "/resources/views/windows/html/new_file.html": "/resources/views/windows/html/new_file.html",
     "/resources/views/windows/html/new_project.html": "/resources/views/windows/html/new_project.html",
     "/resources/views/windows/html/new_record.html": "/resources/views/windows/html/new_record.html",
+    "/resources/views/windows/html/popup.html": "/resources/views/windows/html/popup.html",
     "/resources/views/windows/html/rename_directory.html": "/resources/views/windows/html/rename_directory.html",
     "/resources/views/windows/html/rename_file.html": "/resources/views/windows/html/rename_file.html"
 }

@@ -1,7 +1,8 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('pasteItemCtrl' , function ($http , directoryStructure , elementHandler , contextMenu , Log) {
-    var paste_item_obj = Metro.storage.getItem('paste_item_obj');
+IDE.controller('pasteItemCtrl' , function ($http , directoryStructure , elementHandler , contextMenu
+                                           , Log , storageHandler , ACIDE) {
+    var paste_item_obj = storageHandler.get('paste_item_obj');
     var _to_path = elementHandler.getSelectedItemPath();
     var _method = '';
 

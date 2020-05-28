@@ -1,9 +1,15 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('newDirectoryCtrl' , function ($scope , $http , window , directoryStructure, elementHandler , Log) {
-    window.title('New Directory');
-    window.show();
-    window.changeSize({width : 400 , height : 300});
+IDE.controller('newDirectoryCtrl' , function ($scope , $http , FloatWindow , directoryStructure
+                                              , elementHandler , Log , ACIDE) {
+    FloatWindow.title('New Directory');
+    FloatWindow.show();
+    FloatWindow.changeProperty({
+        size : {
+            width : 400 ,
+            height : 300
+        }
+    });
     var path = elementHandler.getSelectedItemPath();
 
     $scope.createDirectory = function () {
@@ -15,7 +21,7 @@ IDE.controller('newDirectoryCtrl' , function ($scope , $http , window , director
             }
         ).then(function (response) {
                 if(response.data.type === 'success') {
-                    window.hide();
+                    FloatWindow.hide();
                     directoryStructure.refresh();
                 }
             } ,

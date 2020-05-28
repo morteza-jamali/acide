@@ -1,6 +1,6 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('deleteItemCtrl' , function ($http , directoryStructure , elementHandler , Log) {
+IDE.controller('deleteItemCtrl' , function ($http , directoryStructure , elementHandler , Log , ACIDE) {
     $http.post(
         ACIDE.getFullRoute('DirectoryStructure@deleteItem') ,
         {

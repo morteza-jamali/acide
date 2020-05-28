@@ -1,4 +1,4 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
 IDE.directive('slugValidation', function() {
     return {

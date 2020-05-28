@@ -1,9 +1,15 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('newFileCtrl' , function ($scope , $http , window , directoryStructure , elementHandler , Log) {
-    window.title('New File');
-    window.show();
-    window.changeSize({width : 400 , height : 300});
+IDE.controller('newFileCtrl' , function ($scope , $http , FloatWindow , directoryStructure
+                                         , elementHandler , Log , ACIDE) {
+    FloatWindow.title('New File');
+    FloatWindow.show();
+    FloatWindow.changeProperty({
+        size : {
+            width : 400 ,
+            height : 300
+        }
+    });
     var path = elementHandler.getSelectedItemPath();
 
     $scope.createFile = function (ext = '') {
@@ -16,7 +22,7 @@ IDE.controller('newFileCtrl' , function ($scope , $http , window , directoryStru
             }
         ).then(function (response) {
                 if(response.data.type === 'success') {
-                    window.hide();
+                    FloatWindow.hide();
                     directoryStructure.refresh();
                 }
             } ,

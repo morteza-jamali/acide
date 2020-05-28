@@ -33,7 +33,7 @@
                 option(value="1" data-template="<span class='mif-database icon'></span> $1") Database
                 option(value="2" data-template="<span class='mif-insert-drive-file icon'></span> $1") File
             small.fg-red(ng-hide="project_duplicated") Project is duplicated
-            button.button.primary.mt-5.float-right(ng-click="createProject()" ng-show="project_type == 1"
+            button.button.primary.mt-5.float-right.rounded(ng-click="createProject()" ng-show="project_type == 1"
                 ng-disabled="newProjectForm.slug.$invalid || newProjectForm.name.$invalid") Create
-            button.button.primary.mt-5.float-right(ng-click="createProject()" ng-hide="project_type == 1"
+            button.button.primary.mt-5.float-right.rounded(ng-click="createProject()" ng-hide="project_type == 1"
                 ng-disabled="newProjectForm.fileName.$invalid") Create

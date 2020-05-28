@@ -6,5 +6,5 @@
         small.fg-red(ng-show="renameFileForm.name.$dirty && renameFileForm.name.$error.required") Name can not be empty
         br
         small.fg-red(ng-show="renameFileForm.name.$dirty && renameFileForm.name.$invalid") Name is invalid
-    button.button.primary.mt-5.float-right(ng-click="renameItem()"
+    button.button.primary.mt-5.float-right.rounded(ng-click="renameItem()"
         ng-disabled="renameFileForm.name.$invalid") Rename

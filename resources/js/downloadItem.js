@@ -1,6 +1,6 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('downloadItemCtrl' , function ($http , elementHandler , UUID , Log) {
+IDE.controller('downloadItemCtrl' , function ($http , elementHandler , UUID , Log , ACIDE) {
     $http.post(
         ACIDE.getFullRoute('DirectoryStructure@createZip?rand=' + UUID.getUUID4()) ,
         {

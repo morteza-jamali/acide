@@ -1,10 +1,15 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('newExeFileCtrl' , function ($scope , $http , window , directoryStructure
-                                            , storageHandler , elementHandler , Log) {
-    window.title('New ' + storageHandler.get('new_file_name') + ' File');
-    window.show();
-    window.changeSize({width : 400 , height : 300});
+IDE.controller('newExeFileCtrl' , function ($scope , $http , FloatWindow , directoryStructure
+                                            , storageHandler , elementHandler , Log , ACIDE) {
+    FloatWindow.title('New ' + storageHandler.get('new_file_name') + ' File');
+    FloatWindow.show();
+    FloatWindow.changeProperty({
+        size : {
+            width : 400 ,
+            height : 300
+        }
+    });
     var path = elementHandler.getSelectedItemPath();
 
     $scope.createExeFile = function () {
@@ -17,7 +22,7 @@ IDE.controller('newExeFileCtrl' , function ($scope , $http , window , directoryS
             }
         ).then(function (response) {
                 if(response.data.type === 'success') {
-                    window.hide();
+                    FloatWindow.hide();
                     directoryStructure.refresh();
                 }
             } ,

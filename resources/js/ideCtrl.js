@@ -1,6 +1,7 @@
-import {IDE , ACIDE} from "./app";
+import IDE from "./app";
 
-IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure, storageHandler , terminalHandler) {
+IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure, storageHandler
+                                     , terminalHandler) {
     storageHandler.init();
     storageHandler.reset();
     $location.path('');
