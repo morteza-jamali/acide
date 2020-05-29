@@ -45744,6 +45744,16 @@ IDE.run(function ($rootScope, $templateCache) {
     $templateCache.removeAll();
   });
 });
+IDE.service('workerHandler', function () {
+  this.support = function () {
+    return typeof Worker !== "undefined";
+  };
+
+  this.init = function (file) {
+    if (!this.support()) return false;
+    return new Worker(file);
+  };
+});
 IDE.service('ACIDE', function () {
   this.getWebsiteUrl = function () {
     return _ACIDE.getWebsiteUrl();
@@ -47939,28 +47949,30 @@ _app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('pasteItemCtrl', functio
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('popupCtrl', function ($scope, FloatWindow, storageHandler) {
-  var storage = storageHandler.get('popup_window_storage');
-  FloatWindow.title('This is title');
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('popupCtrl', function ($scope, FloatWindow, storageHandler, workerHandler, ACIDE) {
+  console.log(ACIDE.getWebsiteUrl() + '/resources/js/popup.js');
+  workerHandler.init('http://localhost/acide/resources/js/app.js');
+  /*var storage = storageHandler.get('popup_window_storage');
+    FloatWindow.title('This is title');
   $scope.message = 'This is message';
   $scope.caption = 'This is caption';
   FloatWindow.show();
   FloatWindow.popUp(true);
   FloatWindow.changeProperty({
-    size: {
-      width: 600,
-      height: 150
-    },
-    resizable: false
+      size : {
+          width : 600 ,
+          height : 150
+      } ,
+      resizable : false
   });
+    $scope.cancelProc = function () {
+      try {
+          throw new Error('Whoops!')
+      } catch (e) {
+          console.error(e.name + ': ' + e.message)
+      }
+  };*/
 
-  $scope.cancelProc = function () {
-    try {
-      throw new Error('Whoops!');
-    } catch (e) {
-      console.error(e.name + ': ' + e.message);
-    }
-  };
   /*if(storage !== undefined) {
       FloatWindow.title(storage.title);
       $scope.message = storage.message;
@@ -47976,7 +47988,6 @@ _app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('popupCtrl', function ($
   } else {
       FloatWindow.path();
   }*/
-
 });
 
 /***/ }),

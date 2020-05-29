@@ -96,6 +96,18 @@ IDE.run(function($rootScope, $templateCache) {
     });
 });
 
+IDE.service('workerHandler' , function () {
+    this.support = function () {
+        return typeof(Worker) !== "undefined";
+    };
+
+    this.init = function (file) {
+        if(!this.support()) return false;
+
+        return new Worker(file);
+    };
+});
+
 IDE.service('ACIDE' , function () {
     this.getWebsiteUrl = function () {
         return _ACIDE.getWebsiteUrl();

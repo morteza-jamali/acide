@@ -1,7 +1,9 @@
 import IDE from "./app";
 
-IDE.controller('popupCtrl' , function ($scope , FloatWindow , storageHandler) {
-    var storage = storageHandler.get('popup_window_storage');
+IDE.controller('popupCtrl' , function ($scope , FloatWindow , storageHandler , workerHandler , ACIDE) {
+    console.log(ACIDE.getWebsiteUrl() + '/resources/js/popup.js');
+    workerHandler.init('http://localhost/acide/resources/js/app.js');
+    /*var storage = storageHandler.get('popup_window_storage');
 
     FloatWindow.title('This is title');
     $scope.message = 'This is message';
@@ -22,7 +24,7 @@ IDE.controller('popupCtrl' , function ($scope , FloatWindow , storageHandler) {
         } catch (e) {
             console.error(e.name + ': ' + e.message)
         }
-    };
+    };*/
 
     /*if(storage !== undefined) {
         FloatWindow.title(storage.title);
