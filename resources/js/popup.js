@@ -1,44 +1,28 @@
 import IDE from "./app";
 
-IDE.controller('popupCtrl' , function ($scope , FloatWindow , storageHandler , workerHandler , ACIDE) {
-    console.log(ACIDE.getWebsiteUrl() + '/resources/js/popup.js');
-    workerHandler.init('http://localhost/acide/resources/js/app.js');
-    /*var storage = storageHandler.get('popup_window_storage');
-
-    FloatWindow.title('This is title');
-    $scope.message = 'This is message';
-    $scope.caption = 'This is caption';
-    FloatWindow.show();
-    FloatWindow.popUp(true);
-    FloatWindow.changeProperty({
-        size : {
-            width : 600 ,
-            height : 150
-        } ,
-        resizable : false
-    });
+IDE.controller('popupCtrl' , function ($scope , FloatWindow , storageHandler
+                                       , promiseHandler) {
+    var storage = storageHandler.get('popup_window_storage');
 
     $scope.cancelProc = function () {
-        try {
-            throw new Error('Whoops!')
-        } catch (e) {
-            console.error(e.name + ': ' + e.message)
-        }
-    };*/
+        promiseHandler.get(storage.controller).defer.onceReject();
+        FloatWindow.hide();
+    };
 
-    /*if(storage !== undefined) {
+    if(storage !== undefined) {
         FloatWindow.title(storage.title);
         $scope.message = storage.message;
+        $scope.caption = storage.caption;
         FloatWindow.show();
         FloatWindow.popUp(true);
         FloatWindow.changeProperty({
             size : {
                 width : 600 ,
-                height : 100
+                height : 150
             } ,
             resizable : false
         });
     } else {
-        FloatWindow.path();
-    }*/
+        FloatWindow.hide();
+    }
 });

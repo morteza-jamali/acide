@@ -2,7 +2,9 @@ import IDE from "./app";
 import repositories from "./exportRepositories";
 
 IDE.controller('newProjectCtrl' , function ($ , $scope , $http , FloatWindow , directoryStructure
-                                            , Log , storageHandler , ACIDE) {
+                                            , Log , storageHandler , ACIDE , promiseHandler) {
+    var _controllerPromise = promiseHandler.init('newProjectCtrl');
+
     FloatWindow.title('New Project');
     FloatWindow.show();
     FloatWindow.changeProperty({
@@ -36,11 +38,16 @@ IDE.controller('newProjectCtrl' , function ($ , $scope , $http , FloatWindow , d
                 });
         } else if($scope.project_type == 2) {
             var url = $.$()('.new_project .repositories_list li.active').attr('data-url');
+
             storageHandler.set('popup_window_storage' , {
                 title : 'Downloading New Project' ,
-                message : 'Downloading from ' + url
+                message : 'Downloading from ' + url ,
+                caption : '' ,
+                controller : 'newProjectCtrl'
             });
+
             FloatWindow.path('popup');
+
             $http.post(
                 ACIDE.getFullRoute('NewProjectController@createFileProject') ,
                 {
@@ -48,6 +55,14 @@ IDE.controller('newProjectCtrl' , function ($ , $scope , $http , FloatWindow , d
                     url : url
                 }
             ).then(function (response) {
+                    _controllerPromise.defer.onceResolve(response);
+                } ,
+                function (response) {
+                    Log.report('New Project AJAX Error !');
+                });
+
+            _controllerPromise.promise
+                .then(function (response) {
                     if(response.data.message.project !== undefined && response.data.type === 'error') {
                         FloatWindow.path('newproject');
                         $scope.project_duplicated = false;
@@ -57,10 +72,8 @@ IDE.controller('newProjectCtrl' , function ($ , $scope , $http , FloatWindow , d
                         FloatWindow.hide();
                         directoryStructure.refresh();
                     }
-                } ,
-                function (response) {
-                    Log.report('New Project AJAX Error !');
-                });
+                })
+                .catch(function (error) {});
         }
     };
 

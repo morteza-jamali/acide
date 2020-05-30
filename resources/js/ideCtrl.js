@@ -1,11 +1,12 @@
 import IDE from "./app";
 
-IDE.controller('ideCtrl' , function ($scope , $location , directoryStructure, storageHandler
-                                     , terminalHandler) {
+IDE.controller('ideCtrl' , function ($scope , FloatWindow , directoryStructure, storageHandler
+                                     , terminalHandler , promiseHandler) {
     storageHandler.init();
     storageHandler.reset();
-    $location.path('');
+    FloatWindow.path();
     directoryStructure.refresh();
+    promiseHandler.reset();
 
     $scope.showTerminal = function () {
         terminalHandler.toggle();

@@ -45744,14 +45744,35 @@ IDE.run(function ($rootScope, $templateCache) {
     $templateCache.removeAll();
   });
 });
-IDE.service('workerHandler', function () {
-  this.support = function () {
-    return typeof Worker !== "undefined";
+IDE.service('promiseHandler', function ($rootScope, $q) {
+  this.reset = function () {
+    var controller = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+    if (controller === undefined) $rootScope.promises = undefined;else delete $rootScope.promises[controller];
   };
 
-  this.init = function (file) {
-    if (!this.support()) return false;
-    return new Worker(file);
+  this.init = function (controller) {
+    if ($rootScope.promises === undefined) $rootScope.promises = {};
+    var defer = $q.defer();
+
+    defer.onceReject = function (object) {
+      $rootScope.promises[controller].rejected = true;
+      defer.reject(object);
+    };
+
+    defer.onceResolve = function (object) {
+      if (!$rootScope.promises[controller].rejected) defer.resolve(object);
+    };
+
+    var _obj = {
+      defer: defer,
+      promise: defer.promise
+    };
+    $rootScope.promises[controller] = _obj;
+    return _obj;
+  };
+
+  this.get = function (controller) {
+    return $rootScope.promises !== undefined ? $rootScope.promises[controller] : null;
   };
 });
 IDE.service('ACIDE', function () {
@@ -47247,11 +47268,12 @@ var extensions = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('ideCtrl', function ($scope, $location, directoryStructure, storageHandler, terminalHandler) {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('ideCtrl', function ($scope, FloatWindow, directoryStructure, storageHandler, terminalHandler, promiseHandler) {
   storageHandler.init();
   storageHandler.reset();
-  $location.path('');
+  FloatWindow.path();
   directoryStructure.refresh();
+  promiseHandler.reset();
 
   $scope.showTerminal = function () {
     terminalHandler.toggle();
@@ -47759,7 +47781,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _exportRepositories__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./exportRepositories */ "./resources/js/exportRepositories.js");
 
 
-_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('newProjectCtrl', function ($, $scope, $http, FloatWindow, directoryStructure, Log, storageHandler, ACIDE) {
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('newProjectCtrl', function ($, $scope, $http, FloatWindow, directoryStructure, Log, storageHandler, ACIDE, promiseHandler) {
+  var _controllerPromise = promiseHandler.init('newProjectCtrl');
+
   FloatWindow.title('New Project');
   FloatWindow.show();
   FloatWindow.changeProperty({
@@ -47791,13 +47815,21 @@ _app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('newProjectCtrl', functi
       var url = $.$()('.new_project .repositories_list li.active').attr('data-url');
       storageHandler.set('popup_window_storage', {
         title: 'Downloading New Project',
-        message: 'Downloading from ' + url
+        message: 'Downloading from ' + url,
+        caption: '',
+        controller: 'newProjectCtrl'
       });
       FloatWindow.path('popup');
       $http.post(ACIDE.getFullRoute('NewProjectController@createFileProject'), {
         name: $scope.project_file_name,
         url: url
       }).then(function (response) {
+        _controllerPromise.defer.onceResolve(response);
+      }, function (response) {
+        Log.report('New Project AJAX Error !');
+      });
+
+      _controllerPromise.promise.then(function (response) {
         if (response.data.message.project !== undefined && response.data.type === 'error') {
           FloatWindow.path('newproject');
           $scope.project_duplicated = false;
@@ -47807,9 +47839,7 @@ _app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('newProjectCtrl', functi
           FloatWindow.hide();
           directoryStructure.refresh();
         }
-      }, function (response) {
-        Log.report('New Project AJAX Error !');
-      });
+      })["catch"](function (error) {});
     }
   };
 
@@ -47949,45 +47979,30 @@ _app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('pasteItemCtrl', functio
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app */ "./resources/js/app.js");
 
-_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('popupCtrl', function ($scope, FloatWindow, storageHandler, workerHandler, ACIDE) {
-  console.log(ACIDE.getWebsiteUrl() + '/resources/js/popup.js');
-  workerHandler.init('http://localhost/acide/resources/js/app.js');
-  /*var storage = storageHandler.get('popup_window_storage');
-    FloatWindow.title('This is title');
-  $scope.message = 'This is message';
-  $scope.caption = 'This is caption';
-  FloatWindow.show();
-  FloatWindow.popUp(true);
-  FloatWindow.changeProperty({
-      size : {
-          width : 600 ,
-          height : 150
-      } ,
-      resizable : false
-  });
-    $scope.cancelProc = function () {
-      try {
-          throw new Error('Whoops!')
-      } catch (e) {
-          console.error(e.name + ': ' + e.message)
-      }
-  };*/
+_app__WEBPACK_IMPORTED_MODULE_0__["default"].controller('popupCtrl', function ($scope, FloatWindow, storageHandler, promiseHandler) {
+  var storage = storageHandler.get('popup_window_storage');
 
-  /*if(storage !== undefined) {
-      FloatWindow.title(storage.title);
-      $scope.message = storage.message;
-      FloatWindow.show();
-      FloatWindow.popUp(true);
-      FloatWindow.changeProperty({
-          size : {
-              width : 600 ,
-              height : 100
-          } ,
-          resizable : false
-      });
+  $scope.cancelProc = function () {
+    promiseHandler.get(storage.controller).defer.onceReject();
+    FloatWindow.hide();
+  };
+
+  if (storage !== undefined) {
+    FloatWindow.title(storage.title);
+    $scope.message = storage.message;
+    $scope.caption = storage.caption;
+    FloatWindow.show();
+    FloatWindow.popUp(true);
+    FloatWindow.changeProperty({
+      size: {
+        width: 600,
+        height: 150
+      },
+      resizable: false
+    });
   } else {
-      FloatWindow.path();
-  }*/
+    FloatWindow.hide();
+  }
 });
 
 /***/ }),
