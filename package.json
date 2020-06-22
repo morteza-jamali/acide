@@ -4,29 +4,30 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.12.1",
-    "angular": "^1.7.9",
-    "angular-route": "^1.6.9",
+    "@fortawesome/fontawesome-free": "^5.13.1",
+    "angular": "^1.8.0",
+    "angular-route": "^1.8.0",
     "he": "^1.2.0",
     "husky": "^4.2.5",
-    "jquery": "^3.4.1",
-    "jquery.terminal": "^2.15.4",
-    "laravel-mix": "^5.0.2",
-    "laravel-mix-pug": "^0.3.0",
-    "metro4": "^4.3.6",
-    "simplebar": "^5.1.0",
-    "tabler-icons": "^1.5.1",
-    "uuid": "^7.0.2"
+    "jquery": "^3.5.1",
+    "jquery.terminal": "^2.17.2",
+    "metro4": "^4.3.8",
+    "simplebar": "^5.2.1",
+    "tabler-icons": "^1.10.0",
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
+    "laravel-mix": "^5.0.2",
+    "laravel-mix-pug": "^0.3.0",
+    "cross-env": "^7.0.2",
     "pug": "^2.0.4",
-    "resolve-url-loader": "^3.1.0",
-    "sass": "^1.26.5",
+    "resolve-url-loader": "^3.1.1",
+    "sass": "^1.26.8",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   },
   "scripts": {
-    "webpackCompile": "node_modules/.bin/webpack --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "webpackCompile": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "webpackWatch": "npm run webpackCompile -- --watch"
   },
   "repository": {

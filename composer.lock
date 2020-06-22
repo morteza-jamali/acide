@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/morteza-jamali/AC-FileManager.git",
-                "reference": "54e9aa738287d27bf33ac8911c1abe036f23359f"
+                "reference": "40a4d6c12a5c5591cde795aced518e73cbbab5ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/morteza-jamali/AC-FileManager/zipball/54e9aa738287d27bf33ac8911c1abe036f23359f",
-                "reference": "54e9aa738287d27bf33ac8911c1abe036f23359f",
+                "url": "https://api.github.com/repos/morteza-jamali/AC-FileManager/zipball/40a4d6c12a5c5591cde795aced518e73cbbab5ac",
+                "reference": "40a4d6c12a5c5591cde795aced518e73cbbab5ac",
                 "shasum": ""
             },
             "require": {
@@ -37,7 +37,7 @@
                 {
                     "name": "Morteza Jamali",
                     "email": "mortezajamali4241@gmail.com",
-                    "homepage": "https://abricoder.com",
+                    "homepage": "https://morteza-jamali.github.io",
                     "role": "Developer"
                 }
             ],
@@ -48,7 +48,7 @@
                 "acide",
                 "file manager"
             ],
-            "time": "2020-05-18T07:35:08+00:00"
+            "time": "2020-06-22T06:43:50+00:00"
         },
         {
             "name": "acide/core",
@@ -56,12 +56,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/morteza-jamali/acide-core.git",
-                "reference": "c7b2f4564ea1811c9e806c748228f6f58f4d494b"
+                "reference": "b75793fb15cc27af0ba637048674caeceb108194"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/morteza-jamali/acide-core/zipball/c7b2f4564ea1811c9e806c748228f6f58f4d494b",
-                "reference": "c7b2f4564ea1811c9e806c748228f6f58f4d494b",
+                "url": "https://api.github.com/repos/morteza-jamali/acide-core/zipball/b75793fb15cc27af0ba637048674caeceb108194",
+                "reference": "b75793fb15cc27af0ba637048674caeceb108194",
                 "shasum": ""
             },
             "require": {
@@ -78,7 +78,7 @@
                 {
                     "name": "Morteza Jamali",
                     "email": "mortezajamali4241@gmail.com",
-                    "homepage": "https://abricoder.com",
+                    "homepage": "https://morteza-jamali.github.io",
                     "role": "Developer"
                 }
             ],
@@ -88,7 +88,7 @@
                 "acide",
                 "core"
             ],
-            "time": "2020-05-24T19:00:22+00:00"
+            "time": "2020-06-22T06:13:11+00:00"
         },
         {
             "name": "cakephp/cache",
