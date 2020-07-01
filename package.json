@@ -2,7 +2,7 @@
   "name": "acide",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",
     "angular": "^1.8.0",
@@ -17,8 +17,6 @@
     "uuid": "^7.0.3"
   },
   "devDependencies": {
-    "laravel-mix": "^5.0.2",
-    "laravel-mix-pug": "^0.3.0",
     "cross-env": "^7.0.2",
     "pug": "^2.0.4",
     "resolve-url-loader": "^3.1.1",
@@ -27,8 +25,6 @@
     "vue-template-compiler": "^2.6.11"
   },
   "scripts": {
-    "webpackCompile": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "webpackWatch": "npm run webpackCompile -- --watch"
   },
   "repository": {
     "type": "git",
