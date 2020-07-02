@@ -6,6 +6,12 @@ import he from 'he/he';
 import SimpleBar from 'simplebar';
 import ContextMenus from "./exportContextMenu";
 import terminal from 'jquery.terminal/js/jquery.terminal';
+import angular from 'angular';
+import router from 'angular-route';
+import {routingConfig} from "./app.config";
+import Metro from 'metro4';
+import {Mousetrap} from './mousetrap.min';
+import editor from 'ace-builds';
 terminal(window, jQ);
 
 var _ACIDE = {
@@ -24,71 +30,9 @@ var _ACIDE = {
     }
 };
 
-var IDE = angular.module('ideApp' , ['ngRoute']);
-
-IDE.config(function($routeProvider) {
-    $routeProvider
-        .when("/newproject", {
-            templateUrl : _ACIDE.getTemplateURL('windows/html/new_project') ,
-            controller : 'newProjectCtrl'
-        })
-        .when('/newrecord' , {
-            templateUrl : _ACIDE.getTemplateURL('windows/html/new_record') ,
-            controller : 'newRecordCtrl'
-        })
-        .when('/closeproject' , {
-            templateUrl : _ACIDE.getTemplateURL('windows/html/close_project') ,
-            controller : 'closeProjectCtrl'
-        })
-        .when('/newfile' , {
-            templateUrl : _ACIDE.getTemplateURL('windows/html/new_file') ,
-            controller : 'newFileCtrl'
-        })
-        .when('/newexefile' , {
-            templateUrl : _ACIDE.getTemplateURL('windows/html/new_exe_file') ,
-            controller : 'newExeFileCtrl'
-        })
-        .when('/deleteitem' , {
-            template : '' ,
-            controller : 'deleteItemCtrl'
-        })
-        .when('/newdirectory' , {
-            templateUrl : _ACIDE.getTemplateURL('windows/html/new_directory') ,
-            controller : 'newDirectoryCtrl'
-        })
-        .when('/renamedirectory' , {
-            templateUrl : _ACIDE.getTemplateURL('windows/html/rename_directory') ,
-            controller : 'renameItemCtrl'
-        })
-        .when('/renamefile' , {
-            templateUrl : _ACIDE.getTemplateURL('windows/html/rename_file') ,
-            controller : 'renameItemCtrl'
-        })
-        .when('/cutitem' , {
-            template : '' ,
-            controller : 'cutItemCtrl'
-        })
-        .when('/copyitem' , {
-            template : '' ,
-            controller : 'copyItemCtrl'
-        })
-        .when('/pasteitem' , {
-            template : '' ,
-            controller : 'pasteItemCtrl'
-        })
-        .when('/runfile' , {
-            template : '' ,
-            controller : 'runFileCtrl'
-        })
-        .when('/downloaditem' , {
-            template : '' ,
-            controller : 'downloadItemCtrl'
-        })
-        .when('/popup' , {
-            templateUrl : _ACIDE.getTemplateURL('windows/html/popup') ,
-            controller : 'popupCtrl'
-        });
-});
+var IDE = angular
+            .module('ideApp' , [router])
+            .config(routingConfig);
 
 IDE.run(function($rootScope, $templateCache) {
     $rootScope.$on('$viewContentLoaded', function() {

@@ -16,8 +16,7 @@
                     'img' => URL::getBaseURL() . 'assets/img/'
                 ] ,
                 'scripts' => [
-                    'app' => URL::getBaseURL() . 'assets/js/app.js' ,
-                    'ace' => URL::getBaseURL() . 'resources/js/ace-builds/src/ace.js'
+                    'app' => URL::getBaseURL() . 'assets/js/app.js'
                 ] ,
                 'styles' => [
                     'app' => URL::getBaseURL() . 'assets/css/app.css' ,
