@@ -11,7 +11,8 @@ import router from 'angular-route';
 import {routingConfig} from "./app.config";
 import Metro from 'metro4';
 import {Mousetrap} from './mousetrap.min';
-import editor from 'ace-builds';
+import * as ace from 'ace-builds/src-noconflict/ace';
+import {controllersList} from "./app.controller";
 terminal(window, jQ);
 
 var _ACIDE = {
@@ -38,6 +39,10 @@ IDE.run(function($rootScope, $templateCache) {
     $rootScope.$on('$viewContentLoaded', function() {
         $templateCache.removeAll();
     });
+});
+
+controllersList.forEach(function (value) {
+    IDE.controller(value.name , value);
 });
 
 IDE.service('promiseHandler' , function ($rootScope , $q) {
@@ -698,4 +703,5 @@ IDE.service('terminalHandler' , function (UUID) {
     };
 });
 
-export default IDE;
+export {IDE , _ACIDE};
+

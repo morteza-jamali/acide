@@ -1,3 +1,5 @@
+import {_ACIDE} from "./app";
+
 export function routingConfig($routeProvider) {
     $routeProvider
         .when("/newproject", {

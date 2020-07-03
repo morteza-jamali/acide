@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",
+    "ace-builds": "^1.4.11",
     "angular": "^1.8.0",
     "angular-route": "^1.8.0",
     "he": "^1.2.0",
@@ -17,6 +18,7 @@
     "uuid": "^7.0.3"
   },
   "devDependencies": {
+    "@types/ace": "0.0.43",
     "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
     "html-webpack-plugin": "^4.3.0",

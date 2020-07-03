@@ -1,4 +1,4 @@
-import IDE from "./app";
+import {IDE} from "./app";
 
 IDE.controller('downloadItemCtrl' , function ($http , elementHandler , UUID , Log , ACIDE) {
     $http.post(

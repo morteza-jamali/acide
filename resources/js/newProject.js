@@ -1,4 +1,4 @@
-import IDE from "./app";
+import {IDE} from "./app";
 import repositories from "./exportRepositories";
 
 IDE.controller('newProjectCtrl' , function ($ , $scope , $http , FloatWindow , directoryStructure

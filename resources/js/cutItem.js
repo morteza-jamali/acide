@@ -1,4 +1,4 @@
-import IDE from "./app";
+import {IDE} from "./app";
 
 IDE.controller('cutItemCtrl' , function ($ , elementHandler , contextMenu , storageHandler) {
     $.$()('.directory-structure li').each(function() {

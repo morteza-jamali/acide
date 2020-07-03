@@ -1,4 +1,4 @@
-import IDE from "./app";
+import {IDE} from "./app";
 
 IDE.service('closeProjectHandler' , function ($) {
     var service_obj = this;

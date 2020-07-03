@@ -1,4 +1,4 @@
-import IDE from "./app";
+import {IDE} from "./app";
 
 IDE.controller('deleteItemCtrl' , function ($http , directoryStructure , elementHandler , Log , ACIDE) {
     $http.post(

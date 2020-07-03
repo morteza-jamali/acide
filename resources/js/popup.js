@@ -1,4 +1,4 @@
-import IDE from "./app";
+import {IDE} from "./app";
 
 IDE.controller('popupCtrl' , function ($scope , FloatWindow , storageHandler
                                        , promiseHandler) {

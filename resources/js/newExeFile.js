@@ -1,4 +1,4 @@
-import IDE from "./app";
+import {IDE} from "./app";
 
 IDE.controller('newExeFileCtrl' , function ($scope , $http , FloatWindow , directoryStructure
                                             , storageHandler , elementHandler , Log , ACIDE) {

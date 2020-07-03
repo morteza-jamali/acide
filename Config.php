@@ -16,7 +16,7 @@
                     'img' => URL::getBaseURL() . 'assets/img/'
                 ] ,
                 'scripts' => [
-                    'app' => URL::getBaseURL() . 'assets/js/app.js'
+                    'app' => URL::getBaseURL() . 'assets/js/app.bundle.js'
                 ] ,
                 'styles' => [
                     'app' => URL::getBaseURL() . 'assets/css/app.css' ,

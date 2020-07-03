@@ -1,4 +1,4 @@
-import IDE from "./app";
+import {IDE} from "./app";
 
 IDE.controller('pasteItemCtrl' , function ($http , directoryStructure , elementHandler , contextMenu
                                            , Log , storageHandler , ACIDE) {
