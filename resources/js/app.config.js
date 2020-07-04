@@ -1,4 +1,4 @@
-import {_ACIDE} from "./app";
+import {_ACIDE} from "./modules/acide.module";
 
 export function routingConfig($routeProvider) {
     $routeProvider
