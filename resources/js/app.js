@@ -5,6 +5,7 @@ import {routingConfig} from "./app.config";
 import {controllersList} from "./app.controller";
 import {servicesList} from "./app.service";
 import {modulesList} from "./app.module";
+import {directivesList} from "./app.directive";
 
 var IDE = angular
             .module('ideApp' , modulesList)
@@ -22,4 +23,8 @@ controllersList.forEach(function (value) {
 
 servicesList.forEach(function (value) {
     IDE.service(value.name , value);
+});
+
+directivesList.forEach(function (value) {
+    IDE.directive(value.name , value);
 });

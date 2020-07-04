@@ -1,4 +1,4 @@
-import {ContextMenus} from "../app.contextMenu";
+import {ContextMenus} from "../modules/contextMenu.module";
 
 export function contextMenu(j) {
     this.update = function (elm , obj) {

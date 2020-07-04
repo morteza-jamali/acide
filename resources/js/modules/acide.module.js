@@ -7,7 +7,7 @@ export const _ACIDE = {
         }
     } ,
     getTemplateURL : function (name) {
-        return this.getWebsiteUrl() + '/resources/views/' + name + '.html';
+        return this.getWebsiteUrl() + '/assets/html/' + name + '.html';
     } ,
     getFullRoute : function (controller) {
         return this.getWebsiteUrl() + '/controller/' + controller;

@@ -1,4 +1,4 @@
-import extensions from "../extensions";
+import {extensions} from "../modules/extensions.module";
 import he from "he";
 
 export function editorContent(editorHandler , j) {

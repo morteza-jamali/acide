@@ -1,4 +1,4 @@
-import extensions from "../extensions";
+import {extensions} from "../modules/extensions.module";
 
 export function directoryStructure($http , contextMenu , editorTabs , editorContent
     , simpleBar , editorTabsHandler , keyBinds , directoryHandler

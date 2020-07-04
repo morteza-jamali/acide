@@ -1,4 +1,4 @@
-import * as Mousetrap from "../mousetrap.min";
+import * as Mousetrap from "../modules/mousetrap.min";
 
 export function keyBinds() {
     this.init = function() {

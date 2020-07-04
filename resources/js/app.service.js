@@ -16,6 +16,7 @@ import {keyBinds} from "./services/keyBinds.service";
 import {storageHandler} from "./services/storageHandler.service";
 import {terminalHandler} from "./services/terminalHandler.service";
 import {directoryStructure} from "./services/directoryStructure.service";
+import {closeProjectHandler} from "./services/closeProjectHandler.service";
 
 export const servicesList = [
     promiseHandler ,
@@ -35,5 +36,6 @@ export const servicesList = [
     keyBinds ,
     storageHandler ,
     terminalHandler ,
-    directoryStructure
+    directoryStructure ,
+    closeProjectHandler
 ]
