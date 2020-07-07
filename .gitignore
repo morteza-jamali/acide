@@ -5,4 +5,4 @@ work/*
 !work/.gitkeep
 storage/tmp/*
 !storage/tmp/.gitkeep
-!phinx.php
+phinx.php
