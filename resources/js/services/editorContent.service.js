@@ -15,6 +15,7 @@ export function editorContent(editorHandler , j) {
     };
 
     this.append = function (slug , content , ext) {
+        content = content === undefined ? '' : content;
         var _founded = false;
         j._()('.code-editor .editor .child').each(function () {
             if(j._()(this).attr('id') === slug) {

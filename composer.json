@@ -6,9 +6,9 @@
         "league/url": "^3.3",
         "robmorgan/phinx": "^0.11.4",
         "illuminate/database": "^7.2",
-        "illuminate/events": "^7.2",
+        "illuminate/events": "^7.19",
         "rakit/validation": "^1.2",
-        "illuminate/console": "*",
+        "illuminate/console": "^7.19",
         "acide/acfilemanager" : "*",
         "nelexa/zip": "^3.3",
         "guzzlehttp/guzzle": "~6.0"

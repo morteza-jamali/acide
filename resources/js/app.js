@@ -11,6 +11,7 @@ var IDE = angular
             .module('ideApp' , modulesList)
             .config(routingConfig)
             .run(function($rootScope, $templateCache) {
+                ace.config.set('basePath', './node_modules/ace-builds/src-noconflict');
                 $rootScope.$on('$viewContentLoaded', function() {
                     $templateCache.removeAll();
                 });

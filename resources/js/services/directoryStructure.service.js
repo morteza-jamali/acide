@@ -109,7 +109,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                 }
             } ,
             function (response) {
-                Log.report('Directory structure AJAX Error !');
+                Log.report(response.data);
             });
     };
 }

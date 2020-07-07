@@ -1,20 +1,26 @@
 #!/usr/bin/env php
+
 <?php
+    if($argv[1] === 'init' && sizeof($argv) == 2) {
+        exec('composer require "illuminate/console"');
+        exec('composer require "illuminate/events"');
+    }
 
-require 'vendor/autoload.php';
+    require 'vendor/autoload.php';
 
-use Illuminate\Container\Container;
-use Illuminate\Events\Dispatcher;
-use Illuminate\Console\Application;
-use ACIDE\App\Commands\HelloWorld;
+    use Illuminate\Container\Container;
+    use Illuminate\Events\Dispatcher;
+    use Illuminate\Console\Application;
 
-$container = new Container;
-$events = new Dispatcher($container);
+    $container = new Container;
+    $events = new Dispatcher($container);
 
-$artisan = new Application($container, $events, 'Version 1');
-$artisan->setName('ACID-E Console Application');
+    $artisan = new Application($container, $events, 'Version 1');
+    $artisan->setName('ACID-E Console Application');
 
-// Bind a command
-$artisan->resolve(HelloWorld::class);
+    $artisan->resolve(ACIDE\App\Commands\Init::class);
+    $artisan->resolve(ACIDE\App\Commands\Drop::class);
+    $artisan->resolve(ACIDE\App\Commands\Upgrade::class);
 
-$artisan->run();
+    $artisan->run();
+?>

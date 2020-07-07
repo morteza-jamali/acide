@@ -6,20 +6,28 @@
 
     class Config extends AbstractConfig {
         protected function getDefaults() {
+            $base_url = '';
+            try {
+                $base_url = URL::getBaseURL();
+            } catch (\Exception $exception) {}
+
             return [
                 'path' => [
+                    'root' => __DIR__ . '/' ,
                     'views' => __DIR__ . '/resources/views/' ,
                     'work' => __DIR__ . '/work/' ,
-                    'tmp' => __DIR__ . '/storage/tmp/'
+                    'tmp' => __DIR__ . '/storage/tmp/' ,
+                    'vendor' => __DIR__ . '/vendor/' ,
+                    'node_modules' => __DIR__ . '/node_modules/'
                 ] ,
                 'url' => [
-                    'img' => URL::getBaseURL() . 'assets/img/'
+                    'img' => "{$base_url}assets/img/"
                 ] ,
                 'scripts' => [
-                    'app' => URL::getBaseURL() . 'assets/js/app.bundle.js'
+                    'app' => "{$base_url}assets/js/app.bundle.js"
                 ] ,
                 'styles' => [
-                    'app' => URL::getBaseURL() . 'assets/css/app.bundle.css'
+                    'app' => "{$base_url}assets/css/app.bundle.css"
                 ] ,
                 'namespaces' => [
                     'controller' => 'ACIDE\\App\\Controllers\\'
@@ -32,7 +40,8 @@
                     'password' => 'toor' ,
                     'charset' => 'utf8' ,
                     'collation' => 'utf8_unicode_ci' ,
-                    'prefix' => ''
+                    'prefix' => '' ,
+                    'port' => '3306'
                 ]
             ];
         }
