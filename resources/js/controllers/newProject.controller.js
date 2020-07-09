@@ -33,7 +33,7 @@ export function newProjectCtrl(j , $scope , $http , FloatWindow , directoryStruc
                     }
                 } ,
                 function (response) {
-                    Log.report('New Project AJAX Error !');
+                    Log.report(response);
                 });
         } else if($scope.project_type == 2) {
             var url = j._()('.new_project .repositories_list li.active').attr('data-url');
@@ -57,7 +57,7 @@ export function newProjectCtrl(j , $scope , $http , FloatWindow , directoryStruc
                     _controllerPromise.defer.onceResolve(response);
                 } ,
                 function (response) {
-                    Log.report('New Project AJAX Error !');
+                    Log.report(response);
                 });
 
             _controllerPromise.promise

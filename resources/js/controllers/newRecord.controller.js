@@ -23,7 +23,7 @@ export function newRecordCtrl($scope , $http , FloatWindow , directoryStructure
                 }
             } ,
             function (response) {
-                Log.report('New Record AJAX Error !');
+                Log.report(response);
             });
     };
 }

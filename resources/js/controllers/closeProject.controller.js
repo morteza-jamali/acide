@@ -27,7 +27,7 @@ export function closeProjectCtrl($scope , FloatWindow , $http , closeProjectHand
                     }
                 } ,
                 function (response) {
-                    Log.report('Close Project AJAX Error !');
+                    Log.report(response);
                 });
         }
     };
@@ -51,7 +51,7 @@ export function closeProjectCtrl($scope , FloatWindow , $http , closeProjectHand
                     }
                 } ,
                 function (response) {
-                    Log.report('Remove Project AJAX Error !');
+                    Log.report(response);
                 });
         }
     };
@@ -65,7 +65,7 @@ export function closeProjectCtrl($scope , FloatWindow , $http , closeProjectHand
                 }
             } ,
             function (response) {
-                Log.report('Close Project AJAX Error !');
+                Log.report(response);
             });
     };
 
@@ -84,7 +84,7 @@ export function closeProjectCtrl($scope , FloatWindow , $http , closeProjectHand
                 }
             } ,
             function (response) {
-                Log.report('Close Project AJAX Error !');
+                Log.report(response);
             });
     };
 

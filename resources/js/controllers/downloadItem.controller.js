@@ -6,6 +6,6 @@ export function downloadItemCtrl($http , elementHandler , UUID , Log , ACIDE) {
         }
     ).then(function (response) {} ,
         function (response) {
-            Log.report('Download Item AJAX Error !');
+            Log.report(response);
         });
 }

@@ -25,7 +25,7 @@ export function newFileCtrl($scope , $http , FloatWindow , directoryStructure
                 }
             } ,
             function (response) {
-                Log.report('New File AJAX Error !');
+                Log.report(response);
             });
     };
 }

@@ -72,7 +72,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                             '<i class="mif-chevron-thin-right mr-1"></i><i class="mif-chevron-thin-down mr-1"></i>' +
                                             '<img src="assets/img/icons/folder-custom.svg" class="mr-1">'
                                             + val + '</li><ul class="list-style-none mr-0 files d-none" data-path="'
-                                            + value + '\\' + val + '"></ul>';
+                                            + value + '/' + val + '"></ul>';
                                     }
                                 });
                                 j._()('.directory-structure ul.files').each(function () {
@@ -88,7 +88,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                             if (extensions[_icon] === undefined) {
                                                 _icon = 'file';
                                             }
-                                            if (value + '\\' + val === response.data.message.active_file[0].path &&
+                                            if (value + '/' + val === response.data.message.active_file[0].path &&
                                                 response.data.message.active_file[0].project === response.data.message.project.path) {
                                                 var _slug = j._()('.directory-structure .files li[data-name="' +
                                                     val + '"]').attr('data-slug');
@@ -109,7 +109,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                 }
             } ,
             function (response) {
-                Log.report(response.data);
+                Log.report(response);
             });
     };
 }

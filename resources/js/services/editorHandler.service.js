@@ -27,7 +27,7 @@ export function editorHandler($rootScope , $http , Log , ACIDE , j) {
                     $http.post(
                         ACIDE.getFullRoute('EditorController@saveFileContent') ,
                         {
-                            path : _elm.parent().attr('data-path') + '\\' + _elm.attr('data-name') ,
+                            path : _elm.parent().attr('data-path') + '/' + _elm.attr('data-name') ,
                             content : editor.getValue()
                         }
                     ).then(function (response) {
@@ -36,7 +36,7 @@ export function editorHandler($rootScope , $http , Log , ACIDE , j) {
                             j._()('.editor-tabs ul li.active span.name').removeClass('font-bold');
                         }
                     } , function (response) {
-                        Log.report('Editor saving AJAX error !');
+                        Log.report(response);
                     });
                 } else {
                     $http.post(
@@ -52,7 +52,7 @@ export function editorHandler($rootScope , $http , Log , ACIDE , j) {
                             j._()('.editor-tabs ul li.active span.name').removeClass('font-bold');
                         }
                     } , function (response) {
-                        Log.report('Editor saving AJAX error !');
+                        Log.report(response);
                     });
                 }
             },

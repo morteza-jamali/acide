@@ -23,7 +23,7 @@ export function renameItemCtrl($scope , $http , FloatWindow , directoryStructure
                 }
             } ,
             function (response) {
-                Log.report('New Item Name AJAX Error !');
+                Log.report(response);
             });
     };
 }

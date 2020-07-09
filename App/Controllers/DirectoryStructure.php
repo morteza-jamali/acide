@@ -286,13 +286,15 @@
                     $zipFile
                         ->addFile($this->request['path'])
                         ->outputAsAttachment(
-                            pathinfo(basename($this->request['path']) , PATHINFO_FILENAME) . '.zip'
+                            pathinfo(basename($this->request['path']) , PATHINFO_FILENAME) . '.zip' ,
+                            'application/zip'
                         );
                 } elseif (filetype($this->request['path']) === 'dir') {
                     $zipFile
                         ->addDirRecursive($this->request['path'])
                         ->outputAsAttachment(
-                            basename($this->request['path']) . '.zip'
+                            basename($this->request['path']) . '.zip' ,
+                            'application/zip'
                         );
                 }
             }

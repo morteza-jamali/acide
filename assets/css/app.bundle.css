@@ -68,6 +68,7 @@
 
 main, .container-fluid, body, html {
   height: 100%;
+  overflow: hidden !important;
 }
 
 .app-bar.thin-menu {

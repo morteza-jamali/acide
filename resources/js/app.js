@@ -9,7 +9,13 @@ import {directivesList} from "./app.directive";
 
 var IDE = angular
             .module('ideApp' , modulesList)
-            .config(routingConfig)
+            .config(function ($routeProvider) {
+                var _provider = $routeProvider;
+
+                Object.keys(routingConfig).forEach(function (value) {
+                    _provider = _provider.when('/' + value , routingConfig[value]);
+                });
+            })
             .run(function($rootScope, $templateCache) {
                 ace.config.set('basePath', './node_modules/ace-builds/src-noconflict');
                 $rootScope.$on('$viewContentLoaded', function() {

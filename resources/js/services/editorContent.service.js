@@ -1,7 +1,7 @@
 import {extensions} from "../modules/extensions.module";
 import he from "he";
 
-export function editorContent(editorHandler , j) {
+export function editorContent(editorHandler , j , simpleBar) {
     this.clean = function () {
         j._()('.code-editor .editor').empty();
     };
@@ -31,6 +31,10 @@ export function editorContent(editorHandler , j) {
             }
             j._()('.code-editor .editor').append('<div id="' + slug + '" class="w-100 h-100 active child">' + content + '</div>');
             editorHandler.init(slug , (extensions[ext] !== undefined && extensions[ext].mode !== '' ? extensions[ext].mode : 'plain_text'));
+            /*simpleBar.add('.editor #' + slug + ' .ace_scrollbar.ace_scrollbar-v' , {
+                forceVisible : 'y'
+            });*/
+            //simpleBar.add('.editor #' + slug + ' .ace_scrollbar.ace_scrollbar-h');
         } else {
             this.activate(slug);
         }

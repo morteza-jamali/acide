@@ -11,6 +11,6 @@ export function deleteItemCtrl($http , directoryStructure , elementHandler , Log
             }
         } ,
         function (response) {
-            Log.report('Delete Item AJAX Error !');
+            Log.report(response);
         });
 }

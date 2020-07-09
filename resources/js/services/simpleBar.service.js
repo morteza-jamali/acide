@@ -6,4 +6,8 @@ export function simpleBar(j) {
             new SimpleBar(j._()(this)[0]);
         });
     };
+
+    this.add = function (elm , option = {}) {
+        new SimpleBar(j._()(elm)[0] , option);
+    };
 }

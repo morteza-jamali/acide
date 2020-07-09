@@ -24,7 +24,7 @@ export function newDirectoryCtrl($scope , $http , FloatWindow , directoryStructu
                 }
             } ,
             function (response) {
-                Log.report('New Directory AJAX Error !');
+                Log.report(response);
             });
     };
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "869e8d47fe2d086b3bfb913739d56ce5",
+    "content-hash": "67b821e693658ff8a855e21a1938d7f0",
     "packages": [
         {
             "name": "acide/acfilemanager",
@@ -3465,7 +3465,9 @@
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-openssl": "^7.4"
+    },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
 }

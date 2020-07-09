@@ -41,6 +41,6 @@ export function pasteItemCtrl($http , directoryStructure , elementHandler , cont
             }
         } ,
         function (response) {
-            Log.report('Copy Or Cut Directory AJAX Error !');
+            Log.report(response);
         });
 }

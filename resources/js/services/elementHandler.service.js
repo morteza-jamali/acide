@@ -21,7 +21,7 @@ export function elementHandler(ACIDE , j) {
 
     this.getSelectedItemPath = function () {
         return this.getSelectedItemType() === 'file' ?
-            this.getParentDir().attr('data-path') + '\\' + this.getSelectedElm().attr('data-name') :
+            this.getParentDir().attr('data-path') + '/' + this.getSelectedElm().attr('data-name') :
             this.getSelectedDir().attr('data-path');
     };
 

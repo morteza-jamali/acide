@@ -25,7 +25,7 @@ export function newExeFileCtrl($scope , $http , FloatWindow , directoryStructure
                 }
             } ,
             function (response) {
-                Log.report('New Exe File AJAX Error !');
+                Log.report(response);
             });
     };
 }

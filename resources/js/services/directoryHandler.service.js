@@ -58,7 +58,7 @@ export function directoryHandler($http , editorTabs , editorContent , Log , ACID
                 editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));
                 editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-ext'));
             } , function (response) {
-                Log.report('Record AJAX error !');
+                Log.report(response);
             });
         });
         j._()(document).on('dblclick' , '.directory-structure .files li' , function () {
@@ -67,13 +67,13 @@ export function directoryHandler($http , editorTabs , editorContent , Log , ACID
                 $http.post(
                     ACIDE.getFullRoute('EditorController@getFileContent') ,
                     {
-                        path : _elm.parent().attr('data-path') + '\\' + _elm.attr('data-name')
+                        path : _elm.parent().attr('data-path') + '/' + _elm.attr('data-name')
                     }
                 ).then(function (response) {
                     editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));
                     editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-ext'));
                 } , function (response) {
-                    Log.report('File AJAX error !');
+                    Log.report(response);
                 });
             }
         });
