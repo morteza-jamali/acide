@@ -1,4 +1,18 @@
 export function directoryHandler($http , editorTabs , editorContent , Log , ACIDE , j) {
+    this.getItemIcon = function (mode) {
+        var _mode_array = mode.split('/');
+        var _icon = ACIDE.getIconURL(_mode_array[_mode_array.length - 1]);
+        var req = new XMLHttpRequest();
+
+        req.open('GET', _icon, false);
+        req.send(null);
+        if(req.getResponseHeader('A-Page-Type') === '404') {
+            _icon = ACIDE.getIconURL('file');
+        }
+
+        return _icon;
+    };
+
     this.reset = function() {
         var _selectors = {
             dblclick : {

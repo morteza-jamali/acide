@@ -1,4 +1,4 @@
-export function editorHandler($rootScope , $http , Log , ACIDE , j) {
+export function editorHandler($rootScope , $http , Log , ACIDE , j , ACE) {
     this.init = function (slug , mode) {
         var editor = ace.edit(slug);
         editor.setTheme("ace/theme/monokai");

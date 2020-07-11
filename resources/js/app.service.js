@@ -17,6 +17,7 @@ import {storageHandler} from "./services/storageHandler.service";
 import {terminalHandler} from "./services/terminalHandler.service";
 import {directoryStructure} from "./services/directoryStructure.service";
 import {closeProjectHandler} from "./services/closeProjectHandler.service";
+import {ACE} from "./services/ace.service";
 
 export const servicesList = [
     promiseHandler ,
@@ -37,5 +38,6 @@ export const servicesList = [
     storageHandler ,
     terminalHandler ,
     directoryStructure ,
-    closeProjectHandler
+    closeProjectHandler ,
+    ACE
 ]

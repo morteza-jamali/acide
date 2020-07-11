@@ -9,6 +9,10 @@ export function ACIDE() {
         return _ACIDE.getTemplateURL(name);
     };
 
+    this.getIconURL = function (name) {
+        return _ACIDE.getIconURL(name);
+    };
+
     this.getFullRoute = function (controller) {
         return _ACIDE.getFullRoute(controller);
     };

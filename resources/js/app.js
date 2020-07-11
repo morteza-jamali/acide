@@ -1,5 +1,4 @@
 import * as contextMenu from './modules/contextMenu.min';
-import * as ace from 'ace-builds/src-noconflict/ace';
 import angular from 'angular';
 import {routingConfig} from "./app.config";
 import {controllersList} from "./app.controller";
@@ -17,7 +16,6 @@ var IDE = angular
                 });
             })
             .run(function($rootScope, $templateCache) {
-                ace.config.set('basePath', './node_modules/ace-builds/src-noconflict');
                 $rootScope.$on('$viewContentLoaded', function() {
                     $templateCache.removeAll();
                 });

@@ -1,8 +1,6 @@
-import {extensions} from "../modules/extensions.module";
-
 export function directoryStructure($http , contextMenu , editorTabs , editorContent
     , simpleBar , editorTabsHandler , keyBinds , directoryHandler
-    , UUID , Log , ACIDE , j) {
+    , UUID , Log , ACIDE , j , ACE) {
     this.refresh = function () {
         $http.post(
             ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')
@@ -49,7 +47,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                         var _html = '<ul class="list-style-none m-0 h-100 simpleBar" style="overflow: auto"><li class="Directory pl-4 pt-1 d-flex" data-slug="' +
                             response.data.message.project.path + '">' +
                             '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name +
-                            '<span class="fg-darkGray ml-2">sources root ,' + response.data.message.project.path + '</span>' +
+                            '<span class="fg-darkGray ml-2">sources root , ' + response.data.message.project.path + '</span>' +
                             '</li><ul class="list-style-none pl-7 mr-0 files" data-path="' + response.data.message.project.path
                             + '"></ul></ul>';
                         j._()('.directory-structure').html(_html);
@@ -58,13 +56,9 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                 var _content = '';
                                 Object.keys(response.data.message.files[value]).forEach(function (val) {
                                     if(response.data.message.files[value][val] === 'file') {
-                                        var _icon = val.split('.').pop();
-                                        if (extensions[_icon] === undefined) {
-                                            _icon = 'file';
-                                        }
                                         _content += '<li class="pt-1 d-flex" data-name="' + val + '" data-slug="' +
                                             UUID.getUUID4() + '" data-ext="' + val.split('.').pop() + '">' +
-                                            '<img src="assets/img/icons/' + _icon + '.svg" class="mr-1"><span>'
+                                            '<img src="' + directoryHandler.getItemIcon(ACE.getMode(val)) + '" class="mr-1"><span>'
                                             + val + '</span></li>';
                                     }
                                     if(response.data.message.files[value][val] === 'directory') {
@@ -84,15 +78,11 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                 if(response.data.message.active_file.length) {
                                     Object.keys(response.data.message.files[value]).forEach(function (val) {
                                         if(response.data.message.files[value][val] === 'file') {
-                                            var _icon = val.split('.').pop();
-                                            if (extensions[_icon] === undefined) {
-                                                _icon = 'file';
-                                            }
                                             if (value + '/' + val === response.data.message.active_file[0].path &&
                                                 response.data.message.active_file[0].project === response.data.message.project.path) {
                                                 var _slug = j._()('.directory-structure .files li[data-name="' +
                                                     val + '"]').attr('data-slug');
-                                                editorTabs.append(val, 'assets/img/icons/' + _icon + '.svg', _slug);
+                                                editorTabs.append(val, directoryHandler.getItemIcon(ACE.getMode(val)) , _slug);
                                                 editorContent.append(_slug, response.data.message.active_file[0].content, val.split('.').pop());
                                             }
                                         }

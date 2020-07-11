@@ -1,6 +1,7 @@
 export function ideCtrl($scope , FloatWindow , directoryStructure, storageHandler
-                            , terminalHandler , promiseHandler) {
+                            , terminalHandler , promiseHandler , ACE) {
     storageHandler.init();
+    ACE.init();
     storageHandler.reset();
     FloatWindow.path();
     directoryStructure.refresh();
