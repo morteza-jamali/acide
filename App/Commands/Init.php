@@ -53,7 +53,6 @@
             ]; ?>";
             File::addFileContent(Config::get('path.vendor') . 'bin/phinx.php' , $content);
             exec('cd vendor/bin && phinx migrate -e development');
-            exec('composer install');
             exec('npm install');
             $this->comment('Application initialized successfully !');
         }

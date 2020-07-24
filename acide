@@ -1,9 +1,14 @@
 #!/usr/bin/env php
 
 <?php
-    if($argv[1] === 'init' && sizeof($argv) == 2) {
-        exec('composer require "illuminate/console"');
-        exec('composer require "illuminate/events"');
+    $composer_needle_array = [
+        'init' ,
+        'upgrade'
+    ];
+
+    if((!file_exists('./vendor/autoload.php') && sizeof($argv) === 1) ||
+        (sizeof($argv) == 2 && in_array($argv[1] , $composer_needle_array))) {
+        exec('composer install');
     }
 
     require 'vendor/autoload.php';
@@ -12,15 +17,19 @@
     use Illuminate\Events\Dispatcher;
     use Illuminate\Console\Application;
 
-    $container = new Container;
-    $events = new Dispatcher($container);
+    try {
+        $container = new Container;
+        $events = new Dispatcher($container);
 
-    $artisan = new Application($container, $events, 'Version 1');
-    $artisan->setName('ACID-E Console Application');
+        $artisan = new Application($container, $events, 'Version 1');
+        $artisan->setName('ACID-E Console Application');
 
-    $artisan->resolve(ACIDE\App\Commands\Init::class);
-    $artisan->resolve(ACIDE\App\Commands\Drop::class);
-    $artisan->resolve(ACIDE\App\Commands\Upgrade::class);
+        $artisan->resolve(ACIDE\App\Commands\Init::class);
+        $artisan->resolve(ACIDE\App\Commands\Drop::class);
+        $artisan->resolve(ACIDE\App\Commands\Upgrade::class);
 
-    $artisan->run();
+        $artisan->run();
+    } catch (Exception $exception) {
+        echo $exception->getMessage();
+    }
 ?>

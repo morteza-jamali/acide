@@ -10,9 +10,9 @@
         protected $description = 'Drop ACID-E application';
 
         public function handle() {
-            exec('php vendor/bin/phinx rollback -e development -t 0');
+            exec('cd vendor/bin && phinx rollback -e development -t 0');
             
-            File::deleteFile(Config::get('path.root') . 'phinx.php');
+            File::deleteFile(Config::get('path.vendor') . 'bin/phinx.php');
             File::emptyDirectory(File::cleanPath(Config::get('path.vendor')) , [
                 Config::get('path.vendor') . 'doctrine' ,
                 Config::get('path.vendor') . 'illuminate' ,
@@ -25,7 +25,8 @@
                 Config::get('path.vendor') . 'true' ,
                 Config::get('path.vendor') . 'voku' ,
                 Config::get('path.vendor') . 'bin' ,
-                Config::get('path.vendor') . 'composer'
+                Config::get('path.vendor') . 'composer' ,
+                Config::get('path.vendor') . 'autoload.php'
             ]);
             File::deleteDirectory(Config::get('path.node_modules'));
             File::emptyDirectory(Config::get('path.work'));
