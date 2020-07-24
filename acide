@@ -16,6 +16,9 @@
     use Illuminate\Container\Container;
     use Illuminate\Events\Dispatcher;
     use Illuminate\Console\Application;
+    use ACFileManager\Src\File;
+    use ACIDECore\App\StringFactory;
+    use ACIDECore\App\Config;
 
     try {
         $container = new Container;
@@ -24,9 +27,10 @@
         $artisan = new Application($container, $events, 'Version 1');
         $artisan->setName('ACID-E Console Application');
 
-        $artisan->resolve(ACIDE\App\Commands\Init::class);
-        $artisan->resolve(ACIDE\App\Commands\Drop::class);
-        $artisan->resolve(ACIDE\App\Commands\Upgrade::class);
+        foreach(File::getFiles(Config::get('path.command')) as $command) {
+            $command = StringFactory::lastReplace('.php' ,'' ,File::getBaseName($command));
+            $artisan->resolve(Config::get('namespaces.command') . $command);
+        }
 
         $artisan->run();
     } catch (Exception $exception) {

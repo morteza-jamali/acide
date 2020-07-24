@@ -18,7 +18,8 @@
                     'work' => __DIR__ . '/work/' ,
                     'tmp' => __DIR__ . '/storage/tmp/' ,
                     'vendor' => __DIR__ . '/vendor/' ,
-                    'node_modules' => __DIR__ . '/node_modules/'
+                    'node_modules' => __DIR__ . '/node_modules/' ,
+                    'command' => __DIR__ . '/App/Commands/'
                 ] ,
                 'url' => [
                     'img' => "{$base_url}assets/img/"
@@ -30,7 +31,8 @@
                     'app' => "{$base_url}assets/css/app.bundle.css"
                 ] ,
                 'namespaces' => [
-                    'controller' => 'ACIDE\\App\\Controllers\\'
+                    'controller' => 'ACIDE\\App\\Controllers\\' ,
+                    'command' => 'ACIDE\\App\\Commands\\'
                 ] ,
                 'database' => [
                     'driver' => 'mysql' ,
