@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "67b821e693658ff8a855e21a1938d7f0",
+    "content-hash": "afef0bc072da8d0b9553e86fb37b382c",
     "packages": [
         {
             "name": "acide/acfilemanager",
@@ -766,7 +766,7 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v7.19.0",
+            "version": "v7.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
@@ -973,7 +973,7 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v7.19.0",
+            "version": "v7.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",

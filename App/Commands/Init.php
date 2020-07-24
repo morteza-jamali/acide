@@ -15,8 +15,8 @@
         return
             [
                 'paths' => [
-                    'migrations' => 'database/migrations',
-                    'seeds' => 'database/seeds'
+                    'migrations' => '../../database/migrations',
+                    'seeds' => '../../database/seeds'
                 ],
                 'environments' => [
                     'default_migration_table' => 'phinxlog',
@@ -51,8 +51,8 @@
                 ],
                 'version_order' => 'creation'
             ]; ?>";
-            File::addFileContent(Config::get('path.root') . 'phinx.php' , $content);
-            exec('php vendor/bin/phinx migrate -e development');
+            File::addFileContent(Config::get('path.vendor') . 'bin/phinx.php' , $content);
+            exec('cd vendor/bin && phinx migrate -e development');
             exec('composer install');
             exec('npm install');
             $this->comment('Application initialized successfully !');
