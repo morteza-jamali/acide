@@ -56,10 +56,11 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                 var _content = '';
                                 Object.keys(response.data.message.files[value]).forEach(function (val) {
                                     if(response.data.message.files[value][val] === 'file') {
+                                        var _icon_id = UUID.getUUID4();
                                         _content += '<li class="pt-1 d-flex" data-name="' + val + '" data-slug="' +
                                             UUID.getUUID4() + '" data-ext="' + val.split('.').pop() + '">' +
-                                            '<img src="' + directoryHandler.getItemIcon(ACE.getMode(val)) + '" class="mr-1"><span>'
-                                            + val + '</span></li>';
+                                            '<img src="' + ACIDE.getIconURL('file') + directoryHandler.setItemIcon(ACE.getMode(val) , _icon_id) +
+                                            '" class="mr-1" data-icon-id="' + _icon_id + '"><span>' + val + '</span></li>';
                                     }
                                     if(response.data.message.files[value][val] === 'directory') {
                                         _content += '<li class="pt-1 dir d-flex" data-slug="' + UUID.getUUID4() + '">' +

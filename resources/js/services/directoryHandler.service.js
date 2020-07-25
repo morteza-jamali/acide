@@ -1,16 +1,19 @@
 export function directoryHandler($http , editorTabs , editorContent , Log , ACIDE , j) {
-    this.getItemIcon = function (mode) {
-        var _mode_array = mode.split('/');
-        var _icon = ACIDE.getIconURL(_mode_array[_mode_array.length - 1]);
-        var req = new XMLHttpRequest();
+    this.setItemIcon = function(mode , id) {
+        j._()('[data-icon-id="' + id + '"]').live('ready', function() {
+            console.log(j._()('[data-icon-id="' + id + '"]') + ' added to dom');
+        });
+        /*var _icon_url = ACIDE.getIconURL(mode.split('/')[mode.split('/').length - 1]);
+        var _icon_elm = j._()('[data-icon-id="' + id + '"]')[0];
+        $http.get(_icon_url)
+            .then(function (response) {
+                if(response.headers('A-Page-Type') !== '404') {
 
-        req.open('GET', _icon, false);
-        req.send(null);
-        if(req.getResponseHeader('A-Page-Type') === '404') {
-            _icon = ACIDE.getIconURL('file');
-        }
-
-        return _icon;
+                }
+            } , function (response) {
+                Log.report(response);
+            });*/
+        return '';
     };
 
     this.reset = function() {
