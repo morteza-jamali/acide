@@ -1,21 +1,4 @@
 export function directoryHandler($http , editorTabs , editorContent , Log , ACIDE , j) {
-    this.setItemIcon = function(mode , id) {
-        j._()('[data-icon-id="' + id + '"]').live('ready', function() {
-            console.log(j._()('[data-icon-id="' + id + '"]') + ' added to dom');
-        });
-        /*var _icon_url = ACIDE.getIconURL(mode.split('/')[mode.split('/').length - 1]);
-        var _icon_elm = j._()('[data-icon-id="' + id + '"]')[0];
-        $http.get(_icon_url)
-            .then(function (response) {
-                if(response.headers('A-Page-Type') !== '404') {
-
-                }
-            } , function (response) {
-                Log.report(response);
-            });*/
-        return '';
-    };
-
     this.reset = function() {
         var _selectors = {
             dblclick : {
