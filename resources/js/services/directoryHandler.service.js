@@ -71,7 +71,7 @@ export function directoryHandler($http , editorTabs , editorContent , Log , ACID
                     }
                 ).then(function (response) {
                     editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));
-                    editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-ext'));
+                    editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-name'));
                 } , function (response) {
                     Log.report(response);
                 });

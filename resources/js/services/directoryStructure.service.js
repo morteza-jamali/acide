@@ -66,8 +66,8 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                                     _icon_url = ACIDE.getIconURL('file');
                                                 }
                                                 _content += '<li class="pt-1 d-flex" data-name="' + val + '" data-slug="' +
-                                                    UUID.getUUID4() + '" data-ext="' + val.split('.').pop() + '">' +
-                                                    '<img src="' + _icon_url + '" class="mr-1"><span>' + val + '</span></li>';
+                                                    UUID.getUUID4() + '">' + '<img src="' + _icon_url +
+                                                    '" class="mr-1"><span>' + val + '</span></li>';
                                             }
                                             if(response.data.message.files[value][val] === 'directory') {
                                                 _content += '<li class="pt-1 dir d-flex" data-slug="' + UUID.getUUID4() + '">' +

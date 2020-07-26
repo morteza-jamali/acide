@@ -1,7 +1,6 @@
-import {extensions} from "../modules/extensions.module";
 import he from "he";
 
-export function editorContent(editorHandler , j , simpleBar) {
+export function editorContent(editorHandler , j , ACE , simpleBar) {
     this.clean = function () {
         j._()('.code-editor .editor').empty();
     };
@@ -14,8 +13,8 @@ export function editorContent(editorHandler , j , simpleBar) {
         j._()('.code-editor .editor .child[id="' + slug + '"]').addClass('active');
     };
 
-    this.append = function (slug , content , ext) {
-        content = content === undefined ? '' : content;
+    this.append = function (slug , content , name) {
+        content = content === undefined ? '' : he.encode(content);
         var _founded = false;
         j._()('.code-editor .editor .child').each(function () {
             if(j._()(this).attr('id') === slug) {
@@ -26,11 +25,8 @@ export function editorContent(editorHandler , j , simpleBar) {
             j._()('.code-editor .editor .child').each(function () {
                 j._()(this).removeClass('active');
             });
-            if(extensions[ext] !== undefined && extensions[ext].encode) {
-                content = he.encode(content);
-            }
             j._()('.code-editor .editor').append('<div id="' + slug + '" class="w-100 h-100 active child">' + content + '</div>');
-            editorHandler.init(slug , (extensions[ext] !== undefined && extensions[ext].mode !== '' ? extensions[ext].mode : 'plain_text'));
+            editorHandler.init(slug , ACE.getMode(name));
             /*simpleBar.add('.editor #' + slug + ' .ace_scrollbar.ace_scrollbar-v' , {
                 forceVisible : 'y'
             });*/

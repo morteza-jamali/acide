@@ -1,8 +1,8 @@
-export function editorHandler($rootScope , $http , Log , ACIDE , j , ACE) {
+export function editorHandler($rootScope , $http , Log , ACIDE , j) {
     this.init = function (slug , mode) {
         var editor = ace.edit(slug);
         editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/" + mode);
+        editor.session.setMode(mode);
         var _cursor_ = editor.selection.getCursor();
         $rootScope.cursor_row = ++_cursor_.row;
         $rootScope.cursor_col = ++_cursor_.column;
