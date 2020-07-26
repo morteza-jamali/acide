@@ -10,6 +10,7 @@ export function ACE() {
 
     this.getMode = function (path) {
         _this.mode_list = _this.mode_list === undefined ? ace.require("ace/ext/modelist") : _this.mode_list;
+        //console.log(_this.mode_list);
         return _this.mode_list.getModeForPath(path).mode;
     };
 }

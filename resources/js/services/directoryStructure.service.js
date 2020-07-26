@@ -1,7 +1,11 @@
 export function directoryStructure($http , contextMenu , editorTabs , editorContent
     , simpleBar , editorTabsHandler , keyBinds , directoryHandler
-    , UUID , Log , ACIDE , j , ACE) {
+    , UUID , Log , ACIDE , j , ACE , Path) {
     this.refresh = function () {
+        j._()('.directory-structure').html(
+            '<div class="px-15 h-100 d-flex flex-content-center flex-wrap">' +
+            '<div data-role="progress" data-type="line" data-small="true" class="border-radius-4"></div></div>'
+        );
         $http.post(
             ACIDE.getFullRoute('DirectoryStructure@getDirectoryStructure')
         ).then(function (response) {
@@ -45,11 +49,11 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
 
                     if(response.data.message.default === 'File') {
                         var _html = '<ul class="list-style-none m-0 h-100 simpleBar" style="overflow: auto"><li class="Directory pl-4 pt-1 d-flex" data-slug="' +
-                            response.data.message.project.path + '">' +
+                            Path.convertByOSType(response.data.message.project.path) + '">' +
                             '<img src="assets/img/icons/folder-custom.svg" class="mr-1">' + response.data.message.project.name +
-                            '<span class="fg-darkGray ml-2">sources root , ' + response.data.message.project.path + '</span>' +
-                            '</li><ul class="list-style-none pl-7 mr-0 files" data-path="' + response.data.message.project.path
-                            + '"></ul></ul>';
+                            '<span class="fg-darkGray ml-2">sources root , ' + Path.convertByOSType(response.data.message.project.path) +
+                            '</span>' + '</li><ul class="list-style-none pl-7 mr-0 files" data-path="' +
+                            Path.convertByOSType(response.data.message.project.path) + '"></ul></ul>';
                         j._()('.directory-structure').html(_html);
                         if (Object.keys(response.data.message.files).length > 0) {
                             Object.keys(response.data.message.files).forEach(function (value) {
@@ -74,7 +78,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                                     '<i class="mif-chevron-thin-right mr-1"></i><i class="mif-chevron-thin-down mr-1"></i>' +
                                                     '<img src="assets/img/icons/folder-custom.svg" class="mr-1">'
                                                     + val + '</li><ul class="list-style-none mr-0 files d-none" data-path="'
-                                                    + value + '/' + val + '"></ul>';
+                                                    + Path.joinPath([value , val]) + '"></ul>';
                                             }
                                             setDirectoryContent();
                                             openActiveFile();
@@ -85,7 +89,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
 
                                 var setDirectoryContent = function() {
                                     j._()('.directory-structure ul.files').each(function () {
-                                        if(j._()(this).attr('data-path') === value) {
+                                        if(j._()(this).attr('data-path') === Path.convertByOSType(value)) {
                                             j._()(this).html(_content);
                                         }
                                     });
