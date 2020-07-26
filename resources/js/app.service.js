@@ -20,6 +20,7 @@ import {closeProjectHandler} from "./services/closeProjectHandler.service";
 import {ACE} from "./services/ace.service";
 import {Path} from "./services/path.service";
 import {Platform} from "./services/platform.service";
+import {ProgressBar} from "./services/progress.service";
 
 export const servicesList = [
     promiseHandler ,
@@ -43,5 +44,6 @@ export const servicesList = [
     closeProjectHandler ,
     ACE ,
     Path ,
-    Platform
+    Platform ,
+    ProgressBar
 ]

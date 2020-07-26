@@ -42,7 +42,11 @@ html(lang="fa")
                         li: a(ng-click="showTerminal()") Terminal
                 div.thin-menu.fg-white#app-bar-3(data-role="appbar" data-expand-point="md")
                     .app-bar-menu.w-100
-                        li.ml-auto: a {{cursor_row}}:{{cursor_col}}
+                        .ml-auto.d-flex
+                            li.d-flex: .flex-self-center.border-radius-4.d-none(data-role="progress"
+                                data-value="1" data-small="true" data-position="bottom-app-bar"
+                                data-on-complete="$(this).addClass('d-none')")
+                            li.d-flex: a.flex-self-center {{cursor_row}}:{{cursor_col}}
                 script.
                     var customButtons = [
                         {

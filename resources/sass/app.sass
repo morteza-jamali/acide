@@ -182,11 +182,13 @@ main , .container-fluid , body , html
       height: 20px
   li.active
     border-bottom: 2px solid #2f82ff !important
-.progress.line
+[data-position="bottom-app-bar"]
+  width: 100px !important
+.progress
   background-color: rgba(255,255,255,0.3) !important
-  &:before
-    background-color: #ffffff !important
-    border-radius: 4px !important
+  &.line:before , .bar
+      background-color: #ffffff !important
+      border-radius: 4px !important
 .close-tab
   color: rgba(255,255,255,0.4) !important
   &:hover

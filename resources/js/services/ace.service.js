@@ -1,10 +1,12 @@
 import * as ace from 'ace-builds/src-noconflict/ace';
 import * as ace_mode_list from 'ace-builds/src-noconflict/ext-modelist';
 
-export function ACE() {
+export function ACE($rootScope) {
     var _this = this;
 
     this.init = function () {
+        $rootScope.cursor_row = 0;
+        $rootScope.cursor_col = 0;
         ace.config.set('basePath', './node_modules/ace-builds/src-noconflict');
     };
 

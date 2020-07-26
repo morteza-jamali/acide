@@ -1,6 +1,6 @@
 export function directoryStructure($http , contextMenu , editorTabs , editorContent
     , simpleBar , editorTabsHandler , keyBinds , directoryHandler
-    , UUID , Log , ACIDE , j , ACE , Path) {
+    , UUID , Log , ACIDE , j , ACE , Path , ProgressBar) {
     this.refresh = function () {
         j._()('.directory-structure').html(
             '<div class="px-15 h-100 d-flex flex-content-center flex-wrap">' +
@@ -57,7 +57,9 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                         j._()('.directory-structure').html(_html);
 
                         var _cache = {};
-                        var _files_array_length = Object.keys(response.data.message.files).length;
+                        var _files_array_length = 0;
+                        var _dir_files_object = {};
+                        var _bottom_progress_bar = ProgressBar.getObject('bottom-app-bar');
                         if (Object.keys(response.data.message.files).length > 0) {
                             Object.keys(response.data.message.files).forEach(function (value) {
                                 if(_cache[value] === undefined || _cache[value] === null) {
@@ -65,8 +67,12 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                         content : '' ,
                                         length : Object.keys(response.data.message.files[value]).length
                                     };
+                                    _dir_files_object[value] = {
+                                        length : _cache[value].length
+                                    };
                                 }
                                 Object.keys(response.data.message.files[value]).forEach(function (val) {
+                                    _files_array_length += 1;
                                     var _file_mode = ACE.getMode(val);
                                     var _icon_url = ACIDE.getIconURL(
                                         _file_mode.split('/')[_file_mode.split('/').length - 1]
@@ -98,6 +104,10 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                                     + Path.joinPath([_value , _val]) + '"></ul>';
                                             }
                                             if(_cache[_value].length === 0) {
+                                                _bottom_progress_bar.value(Math.round(
+                                                    parseInt(_bottom_progress_bar.value()) +
+                                                    ((_dir_files_object[_value].length * 100) / _files_array_length)
+                                                ));
                                                 setDirectoryContent(_value);
                                                 openActiveFile(_value);
                                             }
@@ -142,6 +152,9 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                     }
                                 };
                             });
+                        }
+                        if(_files_array_length !== 0) {
+                            _bottom_progress_bar.show();
                         }
                     }
                     contextMenu.init();
