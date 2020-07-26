@@ -55,52 +55,71 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                             '</span>' + '</li><ul class="list-style-none pl-7 mr-0 files" data-path="' +
                             Path.convertByOSType(response.data.message.project.path) + '"></ul></ul>';
                         j._()('.directory-structure').html(_html);
+
+                        var _cache = {};
+                        var _files_array_length = Object.keys(response.data.message.files).length;
                         if (Object.keys(response.data.message.files).length > 0) {
                             Object.keys(response.data.message.files).forEach(function (value) {
-                                var _content = '';
+                                if(_cache[value] === undefined || _cache[value] === null) {
+                                    _cache[value] = {
+                                        content : '' ,
+                                        length : Object.keys(response.data.message.files[value]).length
+                                    };
+                                }
                                 Object.keys(response.data.message.files[value]).forEach(function (val) {
                                     var _file_mode = ACE.getMode(val);
                                     var _icon_url = ACIDE.getIconURL(
                                         _file_mode.split('/')[_file_mode.split('/').length - 1]
                                     );
-                                    $http.get(_icon_url)
+                                    var _A_File_Path_Header = JSON.stringify({
+                                        value : value , val : val
+                                    });
+                                    $http.get(_icon_url , {
+                                        headers : { 'A-File-Path' : _A_File_Path_Header }
+                                    })
                                         .then(function (XHRResponse) {
-                                            if(response.data.message.files[value][val] === 'file') {
+                                            var _Request_Header = JSON.parse(XHRResponse.config.headers['A-File-Path']);
+                                            var _value = _Request_Header.value;
+                                            var _val = _Request_Header.val;
+                                            _cache[_value].length -= 1;
+                                            if(response.data.message.files[_value][_val] === 'file') {
                                                 if(XHRResponse.headers('A-Page-Type') === '404') {
                                                     _icon_url = ACIDE.getIconURL('file');
                                                 }
-                                                _content += '<li class="pt-1 d-flex" data-name="' + val + '" data-slug="' +
+                                                _cache[_value].content += '<li class="pt-1 d-flex" data-name="' + _val + '" data-slug="' +
                                                     UUID.getUUID4() + '">' + '<img src="' + _icon_url +
-                                                    '" class="mr-1"><span>' + val + '</span></li>';
+                                                    '" class="mr-1"><span>' + _val + '</span></li>';
                                             }
-                                            if(response.data.message.files[value][val] === 'directory') {
-                                                _content += '<li class="pt-1 dir d-flex" data-slug="' + UUID.getUUID4() + '">' +
+                                            if(response.data.message.files[_value][_val] === 'directory') {
+                                                _cache[_value].content += '<li class="pt-1 dir d-flex" data-slug="' + UUID.getUUID4() + '">' +
                                                     '<i class="mif-chevron-thin-right mr-1"></i><i class="mif-chevron-thin-down mr-1"></i>' +
                                                     '<img src="assets/img/icons/folder-custom.svg" class="mr-1">'
-                                                    + val + '</li><ul class="list-style-none mr-0 files d-none" data-path="'
-                                                    + Path.joinPath([value , val]) + '"></ul>';
+                                                    + _val + '</li><ul class="list-style-none mr-0 files d-none" data-path="'
+                                                    + Path.joinPath([_value , _val]) + '"></ul>';
                                             }
-                                            setDirectoryContent();
-                                            openActiveFile();
+                                            if(_cache[_value].length === 0) {
+                                                setDirectoryContent(_value);
+                                                openActiveFile(_value);
+                                            }
                                         } , function (XHRResponse) {
                                             Log.report(XHRResponse);
                                         });
                                 });
 
-                                var setDirectoryContent = function() {
+                                var setDirectoryContent = function(v) {
                                     j._()('.directory-structure ul.files').each(function () {
-                                        if(j._()(this).attr('data-path') === Path.convertByOSType(value)) {
-                                            j._()(this).html(_content);
+                                        if(j._()(this).attr('data-path') === Path.convertByOSType(v)) {
+                                            j._()(this).html(_cache[v].content);
                                         }
                                     });
                                 };
 
-                                var openActiveFile = function() {
+                                var openActiveFile = function(v) {
                                     if(response.data.message.active_file.length) {
-                                        Object.keys(response.data.message.files[value]).forEach(function (val) {
-                                            if(response.data.message.files[value][val] === 'file') {
-                                                if (value + '/' + val === response.data.message.active_file[0].path &&
-                                                    response.data.message.active_file[0].project === response.data.message.project.path) {
+                                        Object.keys(response.data.message.files[v]).forEach(function (val) {
+                                            if(response.data.message.files[v][val] === 'file') {
+                                                if (Path.joinPath([v , val]) === Path.convertByOSType(response.data.message.active_file[0].path) &&
+                                                    Path.convertByOSType(response.data.message.active_file[0].project) === Path.convertByOSType(response.data.message.project.path)) {
                                                     var _active_file_mode = ACE.getMode(val);
                                                     var _active_icon_url = ACIDE.getIconURL(
                                                         _active_file_mode.split('/')[_active_file_mode.split('/').length - 1]
