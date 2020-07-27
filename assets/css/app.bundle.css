@@ -276,6 +276,13 @@ main, .container-fluid, body, html {
   border-bottom: 2px solid #2f82ff !important;
 }
 
+.event-badge {
+  position: relative !important;
+  display: initial !important;
+  border-radius: 50px !important;
+  border-bottom-right-radius: 0 !important;
+}
+
 [data-position=bottom-app-bar] {
   width: 100px !important;
 }

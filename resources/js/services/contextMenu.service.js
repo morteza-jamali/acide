@@ -6,8 +6,8 @@ export function contextMenu(j) {
     };
 
     this.init = function () {
-        j._()('.directory-structure .database').contextMenu(ContextMenus.database_structure,{triggerOn:'contextmenu'});
-        j._()('.directory-structure .Directory , .directory-structure li.dir').contextMenu(ContextMenus.directory_structure,{triggerOn:'contextmenu'});
-        j._()('.directory-structure li:not(.dir):not(.Directory)').contextMenu(ContextMenus.file_structure,{triggerOn:'contextmenu'});
+        Object.keys(ContextMenus).forEach(function(value) {
+            j._()(value).contextMenu(ContextMenus[value],{triggerOn:'contextmenu'});
+        });
     };
 }

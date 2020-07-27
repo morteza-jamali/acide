@@ -38,8 +38,11 @@ html(lang="fa")
                             li.ml-auto: a(ng-click="minimizeTerminal()"): span.mif-minus
                     .terminal-body
                 div.thin-menu.fg-white.bottom-menu#app-bar-2(data-role="appbar" data-expand-point="md")
-                    .app-bar-menu
+                    .app-bar-menu.w-100
                         li: a(ng-click="showTerminal()") Terminal
+                        .ml-auto.d-flex
+                            li: span.badge.bg-red.fg-white.event-badge 4
+                            li: a Event Log
                 div.thin-menu.fg-white#app-bar-3(data-role="appbar" data-expand-point="md")
                     .app-bar-menu.w-100
                         .ml-auto.d-flex

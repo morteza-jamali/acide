@@ -13,6 +13,7 @@
     use ACIDECore\App\StringFactory;
     use PhpZip\ZipFile;
     use PhpZip\Exception\ZipException;
+    use ACIDECore\App\Config;
 
     class DirectoryStructure {
         private $request = null;
@@ -306,6 +307,26 @@
             }
 
             return (new Response())->success(['Zip' => 'created'])->returnMsg();
+        }
+
+        public function getModesStatus() {
+            $validator = new Validator();
+            $validation = $validator->validate($this->request , [
+                'modes' => 'required|array'
+            ]);
+
+            if($validation->fails()) {
+                $errors = $validation->errors();
+                return (new Response())->error($errors->toArray())->returnMsg();
+            }
+
+            $result = [];
+
+            foreach($this->request['modes'] as $mode) {
+                $result[$mode] = FileManager::exists(Config::get('path.icon') . $mode . '.svg');
+            }
+
+            return (new Response())->success([$result])->returnMsg();
         }
     }
 ?>

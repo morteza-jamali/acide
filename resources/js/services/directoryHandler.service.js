@@ -1,4 +1,4 @@
-export function directoryHandler($http , editorTabs , editorContent , Log , ACIDE , j) {
+export function directoryHandler($http , editorTabs , editorContent , Log , ACIDE , j , Path) {
     this.reset = function() {
         var _selectors = {
             dblclick : {
@@ -67,7 +67,7 @@ export function directoryHandler($http , editorTabs , editorContent , Log , ACID
                 $http.post(
                     ACIDE.getFullRoute('EditorController@getFileContent') ,
                     {
-                        path : _elm.parent().attr('data-path') + '/' + _elm.attr('data-name')
+                        path : Path.joinPath([_elm.parent().attr('data-path') , _elm.attr('data-name')])
                     }
                 ).then(function (response) {
                     editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));

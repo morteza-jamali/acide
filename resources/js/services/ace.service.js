@@ -8,11 +8,14 @@ export function ACE($rootScope) {
         $rootScope.cursor_row = 0;
         $rootScope.cursor_col = 0;
         ace.config.set('basePath', './node_modules/ace-builds/src-noconflict');
+        _this.mode_list = _this.mode_list === undefined ? ace.require("ace/ext/modelist") : _this.mode_list;
     };
 
     this.getMode = function (path) {
-        _this.mode_list = _this.mode_list === undefined ? ace.require("ace/ext/modelist") : _this.mode_list;
-        //console.log(_this.mode_list);
         return _this.mode_list.getModeForPath(path).mode;
+    };
+
+    this.getModesList = function() {
+        return _this.mode_list.modes;
     };
 }

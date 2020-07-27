@@ -1,5 +1,5 @@
 export const ContextMenus = {
-    database_structure : [{
+    '.directory-structure .database' : [{
         name: 'New',
         subMenu : [
             {
@@ -39,7 +39,7 @@ export const ContextMenus = {
             }
         ]
     }] ,
-    directory_structure : [{
+    '.directory-structure .Directory , .directory-structure li.dir' : [{
         name: 'New',
         subMenu : [
             {
@@ -156,7 +156,7 @@ export const ContextMenus = {
             window.location.hash = '#!deleteitem';
         }
     }] ,
-    file_structure : [
+    '.directory-structure li:not(.dir):not(.Directory)' : [
         {
             name: 'Cut' ,
             img : 'assets/img/tabler-icons/scissors.png' ,

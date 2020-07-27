@@ -1,4 +1,4 @@
-export function editorHandler($rootScope , $http , Log , ACIDE , j) {
+export function editorHandler($rootScope , $http , Log , ACIDE , j , Path) {
     this.init = function (slug , mode) {
         var editor = ace.edit(slug);
         editor.setTheme("ace/theme/monokai");
@@ -27,7 +27,7 @@ export function editorHandler($rootScope , $http , Log , ACIDE , j) {
                     $http.post(
                         ACIDE.getFullRoute('EditorController@saveFileContent') ,
                         {
-                            path : _elm.parent().attr('data-path') + '/' + _elm.attr('data-name') ,
+                            path : Path.joinPath([_elm.parent().attr('data-path') , _elm.attr('data-name')]) ,
                             content : editor.getValue()
                         }
                     ).then(function (response) {

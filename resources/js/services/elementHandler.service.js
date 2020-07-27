@@ -1,4 +1,4 @@
-export function elementHandler(ACIDE , j) {
+export function elementHandler(ACIDE , j , Path) {
     this.getSelectedElm = function () {
         return j._()('.directory-structure li.li-selected');
     };
@@ -21,7 +21,7 @@ export function elementHandler(ACIDE , j) {
 
     this.getSelectedItemPath = function () {
         return this.getSelectedItemType() === 'file' ?
-            this.getParentDir().attr('data-path') + '/' + this.getSelectedElm().attr('data-name') :
+            Path.joinPath([this.getParentDir().attr('data-path') , this.getSelectedElm().attr('data-name')]) :
             this.getSelectedDir().attr('data-path');
     };
 
