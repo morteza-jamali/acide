@@ -1,6 +1,8 @@
 export function directoryStructure($http , contextMenu , editorTabs , editorContent
     , simpleBar , editorTabsHandler , keyBinds , directoryHandler
     , UUID , Log , ACIDE , j , ACE , Path , ProgressBar) {
+    var _this = this;
+
     this.refresh = function () {
         j._()('.directory-structure').html(
             '<div class="px-15 h-100 d-flex flex-content-center flex-wrap">' +
@@ -60,6 +62,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                         var _files_array_length = 0;
                         var _dir_files_object = {};
                         var _bottom_progress_bar = ProgressBar.getObject('bottom-app-bar');
+                        var _item_array_length = Object.keys(response.data.message.files).length;
                         if (Object.keys(response.data.message.files).length > 0) {
                             Object.keys(response.data.message.files).forEach(function (value) {
                                 if(_cache[value] === undefined || _cache[value] === null) {
@@ -110,6 +113,10 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                                 ));
                                                 setDirectoryContent(_value);
                                                 openActiveFile(_value);
+                                                _item_array_length -= 1;
+                                                if(_item_array_length === 0) {
+                                                    doAfterIndexFinishing();
+                                                }
                                             }
                                         } , function (XHRResponse) {
                                             Log.report(XHRResponse);
@@ -122,6 +129,11 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                             j._()(this).html(_cache[v].content);
                                         }
                                     });
+                                    _this.fixOrder();
+                                };
+
+                                var doAfterIndexFinishing = function() {
+                                    _this.fixOrder();
                                 };
 
                                 var openActiveFile = function(v) {
@@ -167,5 +179,23 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
             function (response) {
                 Log.report(response);
             });
+    };
+
+    this.fixOrder = function() {
+        var _ul_files = j._()('.directory-structure ul.files');
+        _ul_files.each(function() {
+            if(j._()(this).prev().hasClass('Directory')) {
+                var _first_level_ul = this;
+                var getLastElm = function() {
+                    return j._()(_first_level_ul).children('li').last();
+                };
+
+                j._()(this).children('li').each(function() {
+                    if(!j._()(this).hasClass('dir')) {
+                        j._()(this).insertAfter(getLastElm());
+                    }
+                });
+            }
+        });
     };
 }
