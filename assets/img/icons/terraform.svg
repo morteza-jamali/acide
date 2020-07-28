@@ -1,12 +1,1 @@
-<svg version="1.1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-<g transform="translate(0,-97)">
-<g transform="matrix(.92881 0 0 .92881 176.53 38.352)" fill="#5c6bc0" stroke="#b0aff5" stroke-linejoin="round">
-<g stroke-width=".28834">
-<rect transform="matrix(.89541 .44525 0 1 0 0)" x="-203.8" y="170.95" width="64.714" height="51.88"/>
-<rect transform="matrix(.89541 .44525 0 1 0 0)" x="-124.37" y="171.04" width="64.714" height="51.88"/>
-<rect transform="matrix(.89541 .44525 0 1 0 0)" x="-124.37" y="236.09" width="64.714" height="51.88"/>
-</g>
-<rect transform="matrix(-.92328 .38413 0 1 0 0)" x="-19.172" y="128.27" width="62.76" height="51.88" stroke-width=".28395"/>
-</g>
-</g>
-</svg>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 199.72 180.81"><defs><style>.cls-1,.cls-2{fill:#5c6bc0;stroke:#b0aff5;stroke-linejoin:round;}.cls-1{stroke-width:0.29px;}.cls-2{stroke-width:0.28px;}</style></defs><polygon class="cls-1" points="0.14 0.14 57.87 28.85 57.87 80.53 0.14 51.83 0.14 0.14"/><polygon class="cls-1" points="71 35.47 128.73 64.17 128.73 115.86 71 87.15 71 35.47"/><polygon class="cls-1" points="71 100.27 128.73 128.98 128.73 180.66 71 151.96 71 100.27"/><polygon class="cls-2" points="199.58 40.69 141.85 64.71 141.85 116.39 199.58 92.37 199.58 40.69"/></svg>

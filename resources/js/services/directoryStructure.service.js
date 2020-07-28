@@ -88,7 +88,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                                                 var _slug = j._()('.directory-structure .files li[data-name="' +
                                                     val + '"]').attr('data-slug');
                                                 editorTabs.append(val, _this.getItemIconURL(val) , _slug);
-                                                editorContent.append(_slug, response.data.message.active_file[0].content, val.split('.').pop());
+                                                editorContent.append(_slug, response.data.message.active_file[0].content, val);
                                             }
                                         }
                                     });

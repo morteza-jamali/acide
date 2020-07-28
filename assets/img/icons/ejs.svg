@@ -1,7 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24" height="24" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
- <path d="m8.0455 4.8621-7.1379 7.1379 7.1379 7.1379 2.7098-2.6912-4.4468-4.4468 4.4468-4.4468z" fill="#ffca28" stroke-width="1.9084"/>
- <ellipse cx="14.543" cy="7.812" rx="2.1013" ry="2.7983" fill="none" stroke="#ffca28" stroke-width="1.455"/>
- <rect transform="matrix(.90513 .42513 -.46046 .88768 0 0)" x="20.228" y="-5.0095" width="1.6242" height="16.903" fill="#ffca28"/>
- <ellipse cx="20.35" cy="16.198" rx="2.1013" ry="2.7983" fill="none" stroke="#ffca28" stroke-width="1.455"/>
-</svg>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.7 16.74"><defs><style>.cls-1{fill:#ffca28;}.cls-2{fill:none;stroke:#ffca28;stroke-width:1.46px;}</style></defs><path class="cls-1" d="M7.94,4.39.32,12l7.62,7.61,2.89-2.87L6.08,12l4.75-4.74Z" transform="translate(-0.32 -3.63)"/><ellipse class="cls-2" cx="14.54" cy="3.9" rx="2.24" ry="2.98"/><polygon class="cls-1" points="21.02 0 22.59 0.74 14.29 16.74 12.72 16 21.02 0"/><ellipse class="cls-2" cx="20.74" cy="12.85" rx="2.24" ry="2.98"/></svg>
