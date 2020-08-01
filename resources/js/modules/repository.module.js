@@ -1,7 +1,7 @@
 export const repositories = {
     0 : {
         url : 'https://github.com/morteza-jamali/bootstrap-boilerplate/archive/master.zip' ,
-        img : 'assets/img/icons/bootstrap.svg' ,
+        img : 'https://raw.githubusercontent.com/morteza-jamali/bootstrap-boilerplate/master/bootstrap.svg' ,
         name : 'Bootstrap'
     } ,
     1 : {

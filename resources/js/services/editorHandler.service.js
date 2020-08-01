@@ -1,6 +1,8 @@
-export function editorHandler($rootScope , $http , Log , ACIDE , j , Path) {
+export function editorHandler($rootScope , $http , Log , ACIDE , j , Path , simpleBar) {
     this.init = function (slug , mode) {
         var editor = ace.edit(slug);
+        var _simpleBar_h = simpleBar.init('#' + slug + ' .ace_scrollbar.ace_scrollbar-h');
+        var _simpleBar_v = simpleBar.init('#' + slug + ' .ace_scrollbar.ace_scrollbar-v');
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode(mode);
         var _cursor_ = editor.selection.getCursor();
@@ -15,6 +17,18 @@ export function editorHandler($rootScope , $http , Log , ACIDE , j , Path) {
             $rootScope.cursor_row = ++_cursor.row;
             $rootScope.cursor_col = ++_cursor.column;
             $rootScope.$apply();
+        });
+        editor.session.on('changeScrollLeft' , function (e) {
+            _simpleBar_h.getScrollElement().scrollLeft = e;
+        });
+        editor.session.on('changeScrollTop' , function (e) {
+            _simpleBar_v.getScrollElement().scrollTop = e > 0 ? e : 0;
+        });
+        j._()(_simpleBar_h.getScrollElement()).on('scroll' , function(e) {
+            editor.session.setScrollLeft(j._()(this).scrollLeft());
+        });
+        j._()(_simpleBar_v.getScrollElement()).on('scroll' , function(e) {
+            editor.session.setScrollTop(j._()(this).scrollTop());
         });
         editor.commands.addCommand({
             name: 'myCommand',

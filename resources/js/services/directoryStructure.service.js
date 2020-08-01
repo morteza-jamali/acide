@@ -100,7 +100,7 @@ export function directoryStructure($http , contextMenu , editorTabs , editorCont
                     contextMenu.init();
                     editorTabsHandler.init();
                     directoryHandler.init();
-                    simpleBar.init();
+                    simpleBar.init('.simpleBar');
                     keyBinds.init();
                 }
             } ,

@@ -60,5 +60,9 @@ export const routingConfig = {
     popup : {
         templateUrl : _ACIDE.getTemplateURL('popup.pug') ,
         controller : 'popupCtrl'
+    } ,
+    closeide : {
+        templateUrl : _ACIDE.getTemplateURL('close_ide.pug') ,
+        controller : 'closeIDECtrl'
     }
 }

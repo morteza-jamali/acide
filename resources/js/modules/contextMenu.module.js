@@ -85,7 +85,7 @@ export const ContextMenus = {
             } ,
             {
                 name : 'JavaScript File' ,
-                img : 'assets/img/icons/js.svg' ,
+                img : 'assets/img/icons/javascript.svg' ,
                 fun : function () {
                     Metro.storage.setItem('new_file_type' , 'js');
                     Metro.storage.setItem('new_file_name' , 'JavaScript');
@@ -103,7 +103,7 @@ export const ContextMenus = {
             } ,
             {
                 name : 'Pug/Jade File' ,
-                img : 'assets/img/icons/pug.svg' ,
+                img : 'assets/img/icons/jade.svg' ,
                 fun : function () {
                     Metro.storage.setItem('new_file_type' , 'pug');
                     Metro.storage.setItem('new_file_name' , 'PUG/Jade');

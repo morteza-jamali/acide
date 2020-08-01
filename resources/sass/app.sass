@@ -3,6 +3,8 @@
 @import ~metro4/build/css/metro-all.min.css
 @import ~@fortawesome/fontawesome-free/css/all.min.css
 @import ../../assets/css/contextMenu.min.css
+@import ide_closed
+@import simpleBar
 
 =shadow($property)
   box-shadow: $property
@@ -256,3 +258,21 @@ li[data-text=""]
         border-bottom: 1px solid #d4d4d4
         .close-terminal
           color: rgba(255, 255, 255, 0.4)
+/* Editor SASS
+.ace_scrollbar-inner
+  cursor: default !important
+.ace_scroller
+  &.ace_scroll-left
+    box-shadow: none !important
+.ace_scrollbar
+  position: absolute !important
+  &.ace_scrollbar-v
+    width: 26px !important
+    right: -14px !important
+    .simplebar-track.simplebar-horizontal
+      display: none !important
+  &.ace_scrollbar-h
+    height: 26px !important
+    bottom: -18px !important
+    .simplebar-track.simplebar-vertical
+      display: none !important
