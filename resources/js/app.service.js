@@ -21,6 +21,7 @@ import {ACE} from "./services/ace.service";
 import {Path} from "./services/path.service";
 import {Platform} from "./services/platform.service";
 import {ProgressBar} from "./services/progress.service";
+import {splitter} from "./services/splitter.service";
 
 export const servicesList = [
     promiseHandler ,
@@ -45,5 +46,6 @@ export const servicesList = [
     ACE ,
     Path ,
     Platform ,
-    ProgressBar
+    ProgressBar ,
+    splitter
 ]

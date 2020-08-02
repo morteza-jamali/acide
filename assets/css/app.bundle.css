@@ -40,6 +40,10 @@
   background: #8c8c8c !important;
 }
 
+.gutter.gutter-horizontal {
+  cursor: col-resize !important;
+}
+
 .thin-menu, .directory-structure, .editor-tabs, a {
   cursor: default !important;
   -webkit-touch-callout: none !important;
@@ -266,6 +270,7 @@ main, .container-fluid, body, html {
 }
 
 .editor-tabs {
+  margin-left: -2px !important;
   background-color: #1c2731;
   border-left: 1px solid #172028;
 }
