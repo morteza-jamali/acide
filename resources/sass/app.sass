@@ -262,17 +262,20 @@ li[data-text=""]
 .ace_scrollbar-inner
   cursor: default !important
 .ace_scroller
+  right: 0 !important
   &.ace_scroll-left
     box-shadow: none !important
 .ace_scrollbar
-  position: absolute !important
   &.ace_scrollbar-v
+    margin-right: -14px !important
+    height: 100% !important
+    margin-left: auto !important
     width: 26px !important
-    right: -14px !important
     .simplebar-track.simplebar-horizontal
       display: none !important
   &.ace_scrollbar-h
     height: 26px !important
     bottom: -18px !important
+    position: absolute !important
     .simplebar-track.simplebar-vertical
       display: none !important

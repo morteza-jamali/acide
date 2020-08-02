@@ -22,7 +22,7 @@ export function editorHandler($rootScope , $http , Log , ACIDE , j , Path , simp
             _simpleBar_h.getScrollElement().scrollLeft = e;
         });
         editor.session.on('changeScrollTop' , function (e) {
-            _simpleBar_v.getScrollElement().scrollTop = e > 0 ? e : 0;
+            _simpleBar_v.getScrollElement().scrollTop = e;
         });
         j._()(_simpleBar_h.getScrollElement()).on('scroll' , function(e) {
             editor.session.setScrollLeft(j._()(this).scrollLeft());
