@@ -79,7 +79,10 @@ main , .container-fluid , body , html
       left: 0
       right: 0
       bottom: 0
+      img
+        max-width: 50%
       &.active
+        background-color: #131a20 !important
         z-index: 999999 !important
 .ace-monokai
   background-color: #131a20 !important
@@ -127,6 +130,7 @@ main , .container-fluid , body , html
   background-color: #1c2731
   li
     min-width: 300px
+    position: relative !important
   li:not(.Directory)
     span
       white-space: nowrap !important
@@ -138,8 +142,15 @@ main , .container-fluid , body , html
       display: none
     i.mif-chevron-thin-down
       display: inline-block !important
-  li.li-selected
+  li.li-selected::after
+    content: ''
     background-color: #117ae3 !important
+    position: absolute
+    top: 0
+    bottom: 0
+    right: 0
+    left: -100%
+    z-index: -1
   .database.collapsed:before , .Directory.collapsed:before
     content: "\e69b" !important
   .database:before , .Directory:before

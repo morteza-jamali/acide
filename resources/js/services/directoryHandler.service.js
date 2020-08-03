@@ -64,17 +64,22 @@ export function directoryHandler($http , editorTabs , editorContent , Log , ACID
         j._()(document).on('dblclick' , '.directory-structure .files li' , function () {
             if(!j._()(this).hasClass('dir')) {
                 var _elm = j._()(this);
-                $http.post(
-                    ACIDE.getFullRoute('EditorController@getFileContent') ,
-                    {
-                        path : Path.joinPath([_elm.parent().attr('data-path') , _elm.attr('data-name')])
-                    }
-                ).then(function (response) {
+                if(!/^.+(jpg|jpeg|png|gif)$/.test(_elm.attr('data-name'))) {
+                    $http.post(
+                        ACIDE.getFullRoute('EditorController@getFileContent') ,
+                        {
+                            path : Path.joinPath([_elm.parent().attr('data-path') , _elm.attr('data-name')])
+                        }
+                    ).then(function (response) {
+                        editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));
+                        editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-name'));
+                    } , function (response) {
+                        Log.report(response);
+                    });
+                } else {
                     editorTabs.append(_elm.attr('data-name') , _elm.find('img').attr('src') , _elm.attr('data-slug'));
-                    editorContent.append(_elm.attr('data-slug') , response.data.message.content , _elm.attr('data-name'));
-                } , function (response) {
-                    Log.report(response);
-                });
+                    editorContent.append(_elm.attr('data-slug') , '' , _elm.attr('data-name'));
+                }
             }
         });
     };

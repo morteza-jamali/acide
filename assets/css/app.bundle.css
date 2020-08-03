@@ -131,7 +131,11 @@ main, .container-fluid, body, html {
   right: 0;
   bottom: 0;
 }
+.code-editor .editor .child img {
+  max-width: 50%;
+}
 .code-editor .editor .child.active {
+  background-color: #131a20 !important;
   z-index: 999999 !important;
 }
 
@@ -206,6 +210,7 @@ main, .container-fluid, body, html {
 }
 .directory-structure li {
   min-width: 300px;
+  position: relative !important;
 }
 .directory-structure li:not(.Directory) span {
   white-space: nowrap !important;
@@ -219,8 +224,15 @@ main, .container-fluid, body, html {
 .directory-structure li.dir.collapsed i.mif-chevron-thin-down {
   display: inline-block !important;
 }
-.directory-structure li.li-selected {
+.directory-structure li.li-selected::after {
+  content: "";
   background-color: #117ae3 !important;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: -100%;
+  z-index: -1;
 }
 .directory-structure .database.collapsed:before, .directory-structure .Directory.collapsed:before {
   content: "" !important;
