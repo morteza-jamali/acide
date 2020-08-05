@@ -250,6 +250,8 @@ main, .container-fluid, body, html {
   width: 20px;
   margin-bottom: 3px;
   height: 20px;
+  min-width: 20px;
+  min-height: 20px;
 }
 
 .iw-cm-arrow-right {

@@ -12,7 +12,8 @@
         "acide/acfilemanager" : "*",
         "nelexa/zip": "^3.3",
         "guzzlehttp/guzzle": "~6.0",
-        "ext-openssl": "^7.4"
+        "ext-openssl": "^7.4",
+        "ramsey/uuid": "^4.1"
     } ,
     "autoload": {
         "psr-4": {

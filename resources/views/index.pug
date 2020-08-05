@@ -50,7 +50,8 @@ html(lang="fa")
                             li.d-flex: .flex-self-center.border-radius-4.d-none(data-role="progress"
                                 data-value="1" data-small="true" data-position="bottom-app-bar"
                                 data-on-complete="$(this).addClass('d-none')")
-                            li.d-flex: a.flex-self-center {{cursor_row}}:{{cursor_col}}
+                            li.d-flex(ng-hide="cursor_row === 0 && cursor_col === 0")
+                                a.flex-self-center {{cursor_row}}:{{cursor_col}}
                 script.
                     var customButtons = [
                         {
