@@ -4,7 +4,6 @@
     use ACIDECore\App\Response;
     use ACIDECore\App\Database;
     use ACIDE\App\Models\DatabaseProject;
-    use GuzzleHttp\Exception\GuzzleException;
     use Rakit\Validation\Validator;
     use ACIDE\App\Models\Record;
     use ACIDE\App\Models\Setting;
@@ -12,10 +11,9 @@
     use ACIDE\App\Models\File;
     use ACFileManager\Src\File as FileManager;
     use ACIDECore\App\Config;
-    use GuzzleHttp\Client;
-    use GuzzleHttp\Psr7;
     use PhpZip\ZipFile;
     use PhpZip\Exception\ZipException;
+    use ACIDECore\App\File as ACIDEFile;
 
     class NewProjectController {
         private $request = null;
@@ -230,15 +228,7 @@
             ]);
 
             if(isset($this->request['url']) && !empty($this->request['url'])) {
-                try {
-                    $client = new Client();
-                    $resource = fopen(Config::get('path.tmp') . md5($this->request['url']) . '.zip', 'w');
-                    $stream = Psr7\stream_for($resource);
-                    $client->request('GET', $this->request['url'] , ['save_to' => $stream]);
-                    fclose($resource);
-                } catch (GuzzleException $ex) {
-                    echo $ex->getMessage();
-                }
+                ACIDEFile::download($this->request['url'] , Config::get('path.tmp') . md5($this->request['url']) . '.zip');
 
                 $zipFile = new ZipFile();
 

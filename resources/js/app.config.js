@@ -64,5 +64,9 @@ export const routingConfig = {
     closeide : {
         templateUrl : _ACIDE.getTemplateURL('close_ide.pug') ,
         controller : 'closeIDECtrl'
+    } ,
+    checkforupdates : {
+        template : '' ,
+        controller : 'ideUpdateCtrl'
     }
 }

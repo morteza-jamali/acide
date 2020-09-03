@@ -1,23 +1,22 @@
-import Metro from "metro4";
-
-export function storageHandler() {
+export function storageHandler(M) {
     var _this = this;
+    var _Metro = M.getObject();
 
     this.init = function () {
-        Metro.storage.setKey('ACIDE');
+        _Metro.storage.setKey('ACIDE');
     };
 
     this.set = function (key , data) {
-        Metro.storage.setItem(key , data);
+        _Metro.storage.setItem(key , data);
     };
 
     this.get = function (key) {
-        return Metro.storage.getItem(key);
+        return _Metro.storage.getItem(key);
     };
 
     this.reset = function (key = undefined) {
         if(key !== undefined) {
-            Metro.storage.delItem(key);
+            _Metro.storage.delItem(key);
         } else {
             var _keys = [
                 'new_file_type' ,

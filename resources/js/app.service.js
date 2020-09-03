@@ -22,6 +22,8 @@ import {Path} from "./services/path.service";
 import {Platform} from "./services/platform.service";
 import {ProgressBar} from "./services/progress.service";
 import {splitter} from "./services/splitter.service";
+import {Notify} from "./services/notify.service";
+import {M} from "./services/metro.service";
 
 export const servicesList = [
     promiseHandler ,
@@ -47,5 +49,7 @@ export const servicesList = [
     Path ,
     Platform ,
     ProgressBar ,
-    splitter
+    splitter ,
+    Notify ,
+    M
 ]

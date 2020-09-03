@@ -20,7 +20,8 @@
                     'vendor' => __DIR__ . '/vendor/' ,
                     'node_modules' => __DIR__ . '/node_modules/' ,
                     'command' => __DIR__ . '/App/Commands/' ,
-                    'icon' => __DIR__ . '/assets/img/icons/'
+                    'icon' => __DIR__ . '/assets/img/icons/' ,
+                    'modules' => __DIR__ . '/resources/js/modules/'
                 ] ,
                 'url' => [
                     'img' => "{$base_url}assets/img/"

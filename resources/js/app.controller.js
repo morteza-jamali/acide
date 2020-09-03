@@ -14,6 +14,7 @@ import {popupCtrl} from "./controllers/popup.controller";
 import {renameItemCtrl} from "./controllers/renameItem.controller";
 import {runFileCtrl} from "./controllers/runFile.controller";
 import {closeIDECtrl} from "./controllers/closeIDE.controller";
+import {ideUpdateCtrl} from "./controllers/ideUpdate.controller";
 
 export const controllersList = [
     ideCtrl ,
@@ -31,5 +32,6 @@ export const controllersList = [
     popupCtrl ,
     renameItemCtrl ,
     runFileCtrl ,
-    closeIDECtrl
+    closeIDECtrl ,
+    ideUpdateCtrl
 ]
