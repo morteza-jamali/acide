@@ -1,1 +1,1 @@
-### ACID-E - Smart IDE for PHP servers
+### ACID-E: Smart PHP IDE
