@@ -42,10 +42,6 @@
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/morteza-jamali/acide.git"
-  },
   "keywords": [
     "acide",
     "ac-ide",
@@ -55,14 +51,5 @@
     "react",
     "vscode"
   ],
-  "author": {
-    "name": "Morteza Jamali",
-    "email": "mortezajamali4241@gmail.com",
-    "url": "https://morteza-jamali.github.io"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/morteza-jamali/acide/issues"
-  },
-  "homepage": "https://github.com/morteza-jamali/acide#readme"
+  "license": "MIT"
 }
