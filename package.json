@@ -23,14 +23,17 @@
     "update": "nx migrate latest",
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "artisan": "cd apps/acide && php artisan"
   },
   "private": true,
   "dependencies": {
     "core-js": "^3.6.5",
     "document-register-element": "1.13.1",
+    "next": "10.1.3",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "regenerator-runtime": "0.13.7",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
@@ -43,6 +46,7 @@
     "@nrwl/eslint-plugin-nx": "11.5.2",
     "@nrwl/jest": "11.5.2",
     "@nrwl/linter": "11.5.2",
+    "@nrwl/next": "^12.0.8",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/react": "11.5.2",
     "@nrwl/tao": "11.5.2",
@@ -66,9 +70,36 @@
     "eslint-plugin-react": "7.21.5",
     "eslint-plugin-react-hooks": "4.2.0",
     "jest": "26.2.2",
+    "node-sass": "5.0.0",
     "prettier": "2.2.1",
     "ts-jest": "26.4.0",
     "ts-node": "~9.1.1",
     "typescript": "~4.0.3"
-  }
+  },
+  "description": "ACID-E php IDE monorepo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morteza-jamali/acide.git"
+  },
+  "keywords": [
+    "acide",
+    "ide",
+    "acid-e",
+    "moraj",
+    "morajlab",
+    "monorepo",
+    "php",
+    "php-ide",
+    "nx",
+    "editor"
+  ],
+  "author": {
+    "name": "Morteza Jamali",
+    "email": "mortezajamali4241@gmail.com",
+    "url": "https://moraj.ir"
+  },
+  "bugs": {
+    "url": "https://github.com/morteza-jamali/acide/issues"
+  },
+  "homepage": "https://github.com/morteza-jamali/acide#readme"
 }
