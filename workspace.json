@@ -28,15 +28,22 @@
       "targets": {
         "build": {
           "executor": "@nrwl/web:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/acide",
-            "index": "apps/acide/src/index.html",
-            "main": "apps/acide/src/main.tsx",
+            "index": "apps/acide/resources/views/app.blade.php",
+            "main": "apps/acide/src/index.tsx",
             "polyfills": "apps/acide/src/polyfills.ts",
             "tsConfig": "apps/acide/tsconfig.app.json",
-            "assets": ["apps/acide/src/favicon.ico", "apps/acide/src/assets"],
-            "styles": ["apps/acide/src/styles.scss"],
+            "assets": [
+              "apps/acide/src/favicon.ico",
+              "apps/acide/src/assets"
+            ],
+            "styles": [
+              "apps/acide/src/styles.scss"
+            ],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -79,12 +86,16 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/acide/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "apps/acide/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/acide"],
+          "outputs": [
+            "coverage/apps/acide"
+          ],
           "options": {
             "jestConfig": "apps/acide/jest.config.js",
             "passWithNoTests": true
@@ -113,7 +124,34 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/acide-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/acide-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      }
+    },
+    "app-ui": {
+      "root": "libs/app-ui",
+      "sourceRoot": "libs/app-ui/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/app-ui/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/app-ui"
+          ],
+          "options": {
+            "jestConfig": "libs/app-ui/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
