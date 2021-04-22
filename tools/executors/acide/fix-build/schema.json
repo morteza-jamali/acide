@@ -7,11 +7,30 @@
       "type": "string",
       "description": "build output path"
     },
-    "replaceFiles": {
+    "fileReplacements": {
       "type": "array",
       "description": "replace files",
       "items": {
-        "$ref": "#/definitions/replaceFiles"
+        "$ref": "#/definitions/fileReplacements"
+      }
+    }
+  },
+  "definitions": {
+    "fileReplacements": {
+      "type": "object",
+      "required": [
+        "src",
+        "dest"
+      ],
+      "properties": {
+        "src": {
+          "type": "string",
+          "description": "source file"
+        },
+        "dest": {
+          "type": "string",
+          "description": "destination file"
+        }
       }
     }
   }

@@ -36,14 +36,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-function default_1(_options) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            return [2 /*return*/, new Promise(function (res) {
-                    console.log(_options);
-                    res({ success: true });
-                })];
-        });
+var fs_1 = require("fs");
+var output_1 = require("@nrwl/cli/lib/output");
+exports["default"] = (function (_options) { return __awaiter(void 0, void 0, void 0, function () {
+    var _error;
+    var _a;
+    return __generator(this, function (_b) {
+        try {
+            (_a = _options.fileReplacements) === null || _a === void 0 ? void 0 : _a.forEach(function (_a) {
+                var src = _a.src, dest = _a.dest;
+                return fs_1.renameSync(src, dest);
+            });
+            output_1.output.success({ title: 'fix-build task executed successfully !' });
+        }
+        catch (error) {
+            _error = error;
+            output_1.output.error({
+                title: 'fix-build error',
+                bodyLines: [error.message]
+            });
+        }
+        return [2 /*return*/, new Promise(function (res) {
+                res({ success: !_error });
+            })];
     });
-}
-exports["default"] = default_1;
+}); });

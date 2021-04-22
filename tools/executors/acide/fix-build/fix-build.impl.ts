@@ -1,14 +1,30 @@
+import { renameSync } from 'fs';
+import { output } from '@nrwl/cli/lib/output';
+
 interface Options {
-  outputPath: string;
-  replaceFiles: { src: string; dest: string }[];
+  outputPath?: string;
+  fileReplacements?: { src: string; dest: string }[];
 }
 
-export default async function (
-  _options: Options
-): Promise<{ success: boolean }> {
+export default async (_options: Options): Promise<{ success: boolean }> => {
+  let _error: Error;
+
+  try {
+    _options.fileReplacements?.forEach(({ src, dest }) =>
+      renameSync(src, dest)
+    );
+
+    output.success({ title: 'fix-build task executed successfully !' });
+  } catch (error) {
+    _error = error;
+
+    output.error({
+      title: 'fix-build error',
+      bodyLines: [error.message],
+    });
+  }
+
   return new Promise<{ success: boolean }>((res) => {
-    console.log(_options);
-
-    res({ success: true });
+    res({ success: !_error });
   });
-}
+};

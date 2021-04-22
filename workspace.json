@@ -220,11 +220,10 @@
         "fix-build": {
           "executor": "./tools/executors/acide:fix-build",
           "options": {
-            "outputPath": "apps/ide/public",
-            "replaceFiles": [
+            "fileReplacements": [
               {
                 "src": "apps/ide/public/app.blade.php",
-                "dest": "apps/ide/resources/app.blade.php"
+                "dest": "apps/ide/resources/views/app.blade.php"
               }
             ]
           }
