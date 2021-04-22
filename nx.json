@@ -1,18 +1,13 @@
 {
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
-  "affected": {
-    "defaultBase": "master"
-  },
+  "affected": { "defaultBase": "master" },
   "npmScope": "acide",
   "tasksRunnerOptions": {
     "default": {
@@ -26,22 +21,10 @@
     }
   },
   "projects": {
-    "acide": {
-      "tags": []
-    },
-    "acide-e2e": {
-      "tags": [],
-      "implicitDependencies": ["acide"]
-    },
-    "app-ui": {
-      "tags": []
-    },
-    "website": {
-      "tags": []
-    },
-    "website-e2e": {
-      "tags": [],
-      "implicitDependencies": ["website"]
-    }
+    "app-ui": { "tags": [] },
+    "website": { "tags": [] },
+    "website-e2e": { "tags": [], "implicitDependencies": ["website"] },
+    "ide": { "tags": [] },
+    "ide-e2e": { "tags": [], "implicitDependencies": ["ide"] }
   }
 }
