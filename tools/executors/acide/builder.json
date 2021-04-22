@@ -1,0 +1,9 @@
+{
+  "builders": {
+    "fix-build": {
+      "implementation": "./fix-build/fix-build.impl",
+      "schema": "./fix-build/schema.json",
+      "description": "Fix ACID-E monorepo build problems"
+    }
+  }
+}

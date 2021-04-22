@@ -147,7 +147,8 @@
             "{options.outputPath}"
           ],
           "options": {
-            "outputPath": "dist/apps/ide",
+            "outputPath": "apps/ide/public",
+            "deleteOutputPath": false,
             "index": "apps/ide/resources/views/app.blade.php",
             "main": "apps/ide/src/main.tsx",
             "polyfills": "apps/ide/src/polyfills.ts",
@@ -214,6 +215,18 @@
           "options": {
             "jestConfig": "apps/ide/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "fix-build": {
+          "executor": "./tools/executors/acide:fix-build",
+          "options": {
+            "outputPath": "apps/ide/public",
+            "replaceFiles": [
+              {
+                "src": "apps/ide/public/app.blade.php",
+                "dest": "apps/ide/resources/app.blade.php"
+              }
+            ]
           }
         }
       }
