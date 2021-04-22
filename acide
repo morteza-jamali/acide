@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Illuminate\Container\Container;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Console\Application;
+
+$container = new Container;
+$events = new Dispatcher($container);
+
+$artisan = new Application($container, $events, '1.0.0');
+$artisan->setName('ACID-E Monorepo CLI');
+
+$commands = [Install::class, Preview::class];
+
+foreach ($commands as $class) {
+  $artisan->resolve($class);
+}
+
+$artisan->run();

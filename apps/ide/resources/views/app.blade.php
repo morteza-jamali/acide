@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<script src="runtime.f2b1d04a8354e7b025bc.js" defer></script><script src="polyfills.js" defer></script><script src="styles.js" defer></script><script src="vendor.js" defer></script><script src="main.js" defer></script><!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>

@@ -1,5 +1,19 @@
 {
   "name": "acide/monorepo",
+  "description": "ACID-E - Smart PHP IDE",
+  "type": "project",
+  "keywords": [
+    "php",
+    "ide",
+    "vscode",
+    "acide",
+    "acid-e",
+    "typescript",
+    "react",
+    "editor",
+    "laravel"
+  ],
+  "license": "MIT",
   "require": {
     "beyondcode/laravel-websockets": "^1.11",
     "fideloper/proxy": "^4.4",
@@ -23,7 +37,10 @@
       "App\\": "apps/ide/app/",
       "Database\\Factories\\": "apps/ide/database/factories/",
       "Database\\Seeders\\": "apps/ide/database/seeders/"
-    }
+    },
+    "classmap": [
+      "libs/monorepo-commands"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

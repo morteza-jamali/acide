@@ -25,6 +25,7 @@
     "website": { "tags": [] },
     "website-e2e": { "tags": [], "implicitDependencies": ["website"] },
     "ide": { "tags": [] },
-    "ide-e2e": { "tags": [], "implicitDependencies": ["ide"] }
+    "ide-e2e": { "tags": [], "implicitDependencies": ["ide"] },
+    "morajlab.fluent-app-ui-kit": { "tags": [] }
   }
 }

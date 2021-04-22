@@ -33,7 +33,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const App = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "File name");
+const App = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore reiciendis iure consequatur, temporibus excepturi quisquam a dolores numquam dolore, explicabo consequuntur, amet quod soluta aut in perspiciatis? A, nisi cumque?");
 
 const RenderUI = element => {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.StrictMode, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null)), element);

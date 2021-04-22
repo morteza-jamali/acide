@@ -149,6 +149,7 @@
           "options": {
             "outputPath": "apps/ide/public",
             "deleteOutputPath": false,
+            "outputHashing": "all",
             "index": "apps/ide/resources/views/app.blade.php",
             "main": "apps/ide/src/main.tsx",
             "polyfills": "apps/ide/src/polyfills.ts",
@@ -257,6 +258,63 @@
           }
         }
       }
+    },
+    "morajlab.fluent-app-ui-kit": {
+      "root": "libs/morajlab.fluent-app-ui-kit",
+      "sourceRoot": "libs/morajlab.fluent-app-ui-kit/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/morajlab.fluent-app-ui-kit/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/morajlab.fluent-app-ui-kit"
+          ],
+          "options": {
+            "jestConfig": "libs/morajlab.fluent-app-ui-kit/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "teambit.workspace/workspace": {
+    "name": "fluent-app-ui-kit",
+    "icon": "https://static.bit.dev/bit-logo.svg",
+    "defaultDirectory": "libs/{scope}/{name}",
+    "defaultScope": "morajlab.fluent-app-ui-kit"
+  },
+  "teambit.dependencies/dependency-resolver": {
+    "packageManager": "teambit.dependencies/pnpm",
+    "policy": {
+      "dependencies": {
+        "@testing-library/react": "11.1.2"
+      },
+      "peerDependencies": {
+        "@fluentui/react": "latest",
+        "@uifabric/icons": "latest",
+        "@uifabric/react-hooks": "latest",
+        "react": "17.0.1",
+        "react-dom": "17.0.1",
+        "camel-case": "^4.1.2"
+      }
+    },
+    "packageManagerArgs": [],
+    "devFilePatterns": [
+      "**/*.spec.ts"
+    ],
+    "strictPeerDependencies": true
+  },
+  "teambit.workspace/variants": {
+    "*": {
+      "teambit.react/react": {}
     }
   }
 }
