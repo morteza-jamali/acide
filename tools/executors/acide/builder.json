@@ -4,6 +4,16 @@
       "implementation": "./fix-build/fix-build.impl",
       "schema": "./fix-build/schema.json",
       "description": "Fix ACID-E monorepo build problems"
+    },
+    "next-build": {
+      "implementation": "./next/build/build.impl",
+      "schema": "./next/build/schema.json",
+      "description": "Build a Next.js app"
+    },
+    "next-export": {
+      "implementation": "./next/export/export.impl",
+      "schema": "./next/export/schema.json",
+      "description": "Export a Next.js app. The exported application is located at dist/$outputPath/exported."
     }
   }
 }

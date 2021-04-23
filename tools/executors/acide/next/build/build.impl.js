@@ -36,29 +36,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs_1 = require("fs");
-var output_1 = require("@nrwl/cli/lib/output");
-exports.default = (function (_options) { return __awaiter(void 0, void 0, void 0, function () {
-    var _error;
-    var _a;
-    return __generator(this, function (_b) {
-        try {
-            (_a = _options.fileReplacements) === null || _a === void 0 ? void 0 : _a.forEach(function (_a) {
-                var src = _a.src, dest = _a.dest;
-                return fs_1.renameSync(src, dest);
-            });
-            output_1.output.success({ title: 'fix-build task executed successfully !' });
-        }
-        catch (error) {
-            _error = error;
-            output_1.output.error({
-                title: 'fix-build error',
-                bodyLines: [error.message],
-            });
-        }
-        return [2 /*return*/, new Promise(function (res) {
-                res({ success: !_error });
-            })];
+var build_1 = require("next/dist/build");
+var constants_1 = require("next/dist/next-server/lib/constants");
+var path_1 = require("path");
+var fs_extra_1 = require("fs-extra");
+var config_1 = require("@nrwl/next/src/utils/config");
+var create_package_json_1 = require("@nrwl/next/src/executors/build/lib/create-package-json");
+var create_next_config_file_1 = require("@nrwl/next/src/executors/build/lib/create-next-config-file");
+var fileutils_1 = require("@nrwl/workspace/src/utilities/fileutils");
+try {
+    require('dotenv').config();
+}
+catch (e) { }
+function buildExecutor(options, context) {
+    return __awaiter(this, void 0, void 0, function () {
+        var root, config;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    root = path_1.resolve(context.root, options.root);
+                    return [4 /*yield*/, config_1.prepareConfig(constants_1.PHASE_PRODUCTION_BUILD, options, context)];
+                case 1:
+                    config = _a.sent();
+                    return [4 /*yield*/, build_1.default(root, config)];
+                case 2:
+                    _a.sent();
+                    if (!fileutils_1.directoryExists(options.outputPath)) {
+                        fs_extra_1.mkdir(options.outputPath);
+                    }
+                    create_package_json_1.createPackageJson(options, context);
+                    create_next_config_file_1.createNextConfigFile(options, context);
+                    fs_extra_1.copySync(path_1.join(root, 'public'), path_1.join(options.outputPath, 'public'));
+                    return [2 /*return*/, { success: true }];
+            }
+        });
     });
-}); });
-//# sourceMappingURL=fix-build.impl.js.map
+}
+exports.default = buildExecutor;
+//# sourceMappingURL=build.impl.js.map

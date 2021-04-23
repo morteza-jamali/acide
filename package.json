@@ -7,7 +7,7 @@
     "start": "nx serve",
     "build": "nx build",
     "build:ide": "npm run build ide && npm run nx run ide:fix-build",
-    "build:executors": "npx tsc tools/executors/acide/fix-build/fix-build.impl.ts",
+    "build:tools": "npm run tsc -- --project ./tools/tsconfig.tools.json",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
@@ -26,7 +26,8 @@
     "workspace-generator": "nx workspace-generator",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "artisan": "cd apps/ide && php artisan"
+    "artisan": "cd apps/ide && php artisan",
+    "tsc": "./node_modules/.bin/tsc"
   },
   "private": true,
   "dependencies": {

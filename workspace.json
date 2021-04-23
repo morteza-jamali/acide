@@ -57,7 +57,7 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/next:build",
+          "executor": "./tools/executors/acide:next-build",
           "outputs": [
             "{options.outputPath}"
           ],
@@ -83,7 +83,7 @@
           }
         },
         "export": {
-          "executor": "@nrwl/next:export",
+          "executor": "./tools/executors/acide:next-export",
           "options": {
             "buildTarget": "website:build:production"
           }
