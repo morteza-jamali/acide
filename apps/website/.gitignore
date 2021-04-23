@@ -1,7 +1,8 @@
 /node_modules
-/public/hot
-/public/storage
-/storage/*.key
+public/**
+!public/index.php
+!public/.htaccess
+!public/Procfile
 /vendor
 /storage/views/*.php
 .env
