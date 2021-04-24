@@ -1,4 +1,4 @@
-import React from "react";
+import React, { HTMLAttributes, FunctionComponent } from 'react';
 import {
   CommandBar,
   IButtonStyles,
@@ -7,18 +7,18 @@ import {
   ICommandBarStyles,
   IIconStyles,
   IContextualMenuProps,
-} from "@fluentui/react";
-import { camelCase } from "camel-case";
+} from '@fluentui/react';
+import { camelCase } from 'camel-case';
 
 const titleBarDefaultStyle: ICommandBarStyles = {
   root: {
-    backgroundColor: "rgb(51, 51, 51)",
+    backgroundColor: 'rgb(51, 51, 51)',
     padding: 0,
-    "& button, & a": {
-      backgroundColor: "inherit",
+    '& button, & a': {
+      backgroundColor: 'inherit',
     },
-    "& i, & button, & a": {
-      color: "rgb(204, 204, 204)",
+    '& i, & button, & a': {
+      color: 'rgb(204, 204, 204)',
     },
   },
 };
@@ -32,7 +32,7 @@ export interface ITitleBarItemProps extends Partial<ICommandBarItemProps> {
   subMenuItems?: ITitleBarItem[];
 }
 
-export interface ITitleBarProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ITitleBarProps extends HTMLAttributes<HTMLDivElement> {
   items: ITitleBarItemProps[];
 }
 
@@ -43,7 +43,7 @@ const fixSubMenuItemProps = (items: ITitleBarItem[]): IContextualMenuItem[] => {
 
   return items.map((item) => {
     item.key = `${camelCase(item.text)}Key`;
-    item.iconProps = { iconName: "CheckMark" };
+    item.iconProps = { iconName: 'CheckMark' };
 
     return item as IContextualMenuItem;
   }) as IContextualMenuItem[];
@@ -61,7 +61,7 @@ const fixSubMenuProps = (item: ITitleBarItemProps): IContextualMenuProps => {
 
     item.subMenuProps.items = subMenuItems;
     item.subMenuProps.className = `${
-      item.subMenuProps.className ?? ""
+      item.subMenuProps.className ?? ''
     } subMenuContainer`.trim();
   }
 
@@ -80,20 +80,20 @@ const fixItemProps = (items: ITitleBarItemProps[]): ICommandBarItemProps[] =>
 
 const getButtonStyle = (): IButtonStyles => {
   let style: IButtonStyles = {
-    menuIcon: { display: "none" },
+    menuIcon: { display: 'none' },
   };
 
   let sameRootProps: string[] = [
-    "rootHovered",
-    "rootFocused",
-    "rootExpandedHovered",
-    "rootPressed",
+    'rootHovered',
+    'rootFocused',
+    'rootExpandedHovered',
+    'rootPressed',
   ];
 
   sameRootProps.forEach((prop) => {
     style[prop] = {
-      backgroundColor: "rgba(255,255,255,0.2)",
-      color: "rgb(204, 204, 204)",
+      backgroundColor: 'rgba(255,255,255,0.2)',
+      color: 'rgb(204, 204, 204)',
     };
   });
 
@@ -102,48 +102,48 @@ const getButtonStyle = (): IButtonStyles => {
 
 const farItemsIconsDefaultStyle: IIconStyles = {
   root: {
-    color: "rgb(204, 204, 204) !important",
+    color: 'rgb(204, 204, 204) !important',
   },
 };
 
 const farItems: ICommandBarItemProps[] = [
   {
-    key: "minimizeKey",
-    text: "Minimize",
-    ariaLabel: "Minimize",
+    key: 'minimizeKey',
+    text: 'Minimize',
+    ariaLabel: 'Minimize',
     iconOnly: true,
     iconProps: {
-      iconName: "ChromeMinimize",
+      iconName: 'ChromeMinimize',
       styles: farItemsIconsDefaultStyle,
     },
     buttonStyles: getButtonStyle(),
   },
   {
-    key: "maximizeKey",
-    text: "Maximize",
-    ariaLabel: "Maximize",
+    key: 'maximizeKey',
+    text: 'Maximize',
+    ariaLabel: 'Maximize',
     iconOnly: true,
     iconProps: {
-      iconName: "ArrangeBringForward",
+      iconName: 'ArrangeBringForward',
       styles: farItemsIconsDefaultStyle,
     },
     buttonStyles: getButtonStyle(),
   },
   {
-    key: "closeKey",
-    text: "Close",
-    ariaLabel: "Close",
+    key: 'closeKey',
+    text: 'Close',
+    ariaLabel: 'Close',
     iconOnly: true,
-    iconProps: { iconName: "ChromeClose", styles: farItemsIconsDefaultStyle },
+    iconProps: { iconName: 'ChromeClose', styles: farItemsIconsDefaultStyle },
     buttonStyles: {
       rootHovered: {
-        backgroundColor: "red",
+        backgroundColor: 'red',
       },
     },
   },
 ];
 
-export const Titlebar: React.FunctionComponent<ITitleBarProps> = ({
+export const TitleBar: FunctionComponent<ITitleBarProps> = ({
   items,
   ...rest
 }) => (

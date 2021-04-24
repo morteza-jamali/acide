@@ -1,30 +1,29 @@
-import React from "react";
-import { Titlebar } from "./titlebar";
-import type { ITitleBarItemProps } from "./titlebar";
+import React from 'react';
+import { TitleBar, ITitleBarItemProps } from '.';
 
 const items: ITitleBarItemProps[] = [
   {
-    text: "New",
+    text: 'New',
     subMenuItems: [
       {
-        text: "First item",
+        text: 'First item',
       },
       {
-        text: "Second Item",
+        text: 'Second Item',
       },
       {
-        text: "Third Item",
+        text: 'Third Item',
       },
     ],
   },
   {
-    text: "File",
+    text: 'File',
   },
   {
-    text: "Help",
+    text: 'Help',
   },
 ];
 
 export const BasicTitlebar = () => {
-  return <Titlebar items={items} />;
+  return <TitleBar items={items} />;
 };

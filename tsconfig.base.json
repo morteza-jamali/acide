@@ -17,7 +17,7 @@
     "paths": {
       "@acide/app-ui": ["libs/app-ui/src/index.ts"],
       "@acide/morajlab.fluent-app-ui-kit": [
-        "libs/morajlab.fluent-app-ui-kit/src/index.ts"
+        "libs/morajlab.fluent-app-ui-kit/index.ts"
       ]
     }
   },

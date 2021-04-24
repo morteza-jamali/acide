@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, initializeIcons } from "./icon";
+import { Icon, initializeIcons } from ".";
 
 initializeIcons();
 

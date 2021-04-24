@@ -3,14 +3,15 @@
   "teambit.workspace/workspace": {
     "name": "fluent-app-ui-kit",
     "icon": "https://static.bit.dev/bit-logo.svg",
-    "defaultDirectory": "libs/{scope}/{name}",
-    "defaultScope": "morajlab.fluent-app-ui-kit"
+    "defaultDirectory": "{scope}/{name}",
+    "defaultScope": "libs/morajlab.fluent-app-ui-kit"
   },
   "teambit.dependencies/dependency-resolver": {
     "packageManager": "teambit.dependencies/pnpm",
     "policy": {
       "dependencies": {
-        "@testing-library/react": "11.1.2"
+        "@testing-library/react": "11.1.2",
+        "@interactjs/types": "^1.10.11"
       },
       "peerDependencies": {
         "@fluentui/react": "latest",
@@ -18,7 +19,8 @@
         "@uifabric/react-hooks": "latest",
         "react": "17.0.1",
         "react-dom": "17.0.1",
-        "camel-case": "^4.1.2"
+        "camel-case": "^4.1.2",
+        "interactjs": "^1.10.11"
       }
     },
     "packageManagerArgs": [],

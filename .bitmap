@@ -19,5 +19,11 @@
         "mainFile": "index.ts",
         "rootDir": "libs/morajlab.fluent-app-ui-kit/titlebar"
     },
+    "window": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "libs/morajlab.fluent-app-ui-kit/window"
+    },
     "version": "1.0.48"
 }
