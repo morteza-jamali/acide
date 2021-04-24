@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
+    "bvm": "./node_modules/.bin/bvm",
     "start": "nx serve",
     "build": "nx build",
     "build:ide": "npm run build ide && npm run nx run ide:fix-build",
@@ -32,6 +33,10 @@
   },
   "private": true,
   "dependencies": {
+    "@fluentui/react": "^8.12.0",
+    "@uifabric/icons": "^7.5.23",
+    "@uifabric/react-hooks": "^7.14.0",
+    "camel-case": "^4.1.2",
     "core-js": "^3.6.5",
     "document-register-element": "1.13.1",
     "glob": "^7.1.6",
@@ -115,5 +120,10 @@
   "bugs": {
     "url": "https://github.com/morteza-jamali/acide/issues"
   },
-  "homepage": "https://github.com/morteza-jamali/acide#readme"
+  "homepage": "https://github.com/morteza-jamali/acide#readme",
+  "bit": {
+    "env": {},
+    "componentsDefaultDirectory": "components/{name}",
+    "packageManager": "npm"
+  }
 }

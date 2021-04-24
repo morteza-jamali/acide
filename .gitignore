@@ -4,6 +4,8 @@
 /dist
 /tmp
 /out-tsc
+/public
+/tools/**/*.js*
 
 # dependencies
 /node_modules
@@ -38,5 +40,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-/tools/**/*.js*
