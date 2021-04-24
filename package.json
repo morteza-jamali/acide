@@ -8,6 +8,7 @@
     "build": "nx build",
     "build:ide": "npm run build ide && npm run nx run ide:fix-build",
     "build:tools": "npm run tsc -- --project ./tools/tsconfig.tools.json",
+    "publish:website": "npm run nx run website:build && npm run nx run website:export",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",

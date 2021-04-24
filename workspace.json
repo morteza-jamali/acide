@@ -116,7 +116,7 @@
         "first-export": {
           "executor": "./tools/executors/acide:next-export",
           "options": {
-            "buildTarget": "website:build:production",
+            "buildTarget": "website:first-build:production",
             "outputPath": "apps/website/public"
           }
         },

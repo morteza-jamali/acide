@@ -5,7 +5,6 @@ import {
   runExecutor,
 } from '@nrwl/devkit';
 import exportApp from 'next/dist/export';
-import fixBuildExecutor from '../../fix-build/fix-build.impl';
 import { PHASE_EXPORT } from 'next/dist/next-server/lib/constants';
 import { resolve } from 'path';
 import { prepareConfig } from '@nrwl/next/src/utils/config';
@@ -53,14 +52,24 @@ export default async function exportExecutor(
     config
   );
 
-  return options.outputPath
-    ? await fixBuildExecutor({
+  if (options.outputPath) {
+    const fixBuild = await runExecutor(
+      { project: buildTarget.project, target: 'fix-build' },
+      {
         fileReplacements: [
           {
             src: `${buildOptions.outputPath}/exported`,
             dest: options.outputPath,
           },
         ],
-      })
-    : { success: true };
+      },
+      context
+    );
+
+    for await (const result of fixBuild) {
+      return result;
+    }
+  }
+
+  return { success: true };
 }
