@@ -1,9 +1,9 @@
 /node_modules
-public/**
-!public/index.php
-!public/.htaccess
-!public/robots.txt
-!public/web.config
+/public/*
+!/public/index.php
+!/public/.htaccess
+!/public/robots.txt
+!/public/web.config
 /storage/*.key
 /vendor
 .env
@@ -14,3 +14,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/resources/views/*.php

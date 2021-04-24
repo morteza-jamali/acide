@@ -13,7 +13,7 @@ $events = new Dispatcher($container);
 $artisan = new Application($container, $events, '1.0.0');
 $artisan->setName('ACID-E Monorepo CLI');
 
-$commands = [Install::class, Preview::class];
+$commands = [Install::class, Preview::class, Make::class];
 
 foreach ($commands as $class) {
   $artisan->resolve($class);

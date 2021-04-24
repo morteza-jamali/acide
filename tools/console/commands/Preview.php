@@ -9,9 +9,9 @@ class Preview extends Command
 
   public function handle()
   {
-    $ide_directory = dirname(__DIR__) . '/apps/ide';
+    $root = dirname(dirname(dirname(__DIR__)));
+    $website_directory = $root . '/apps/website';
 
-    exec('cd ' . $ide_directory . ' && php artisan serve');
-    exec('npm run build ide -- --watch');
+    exec('cd ' . $website_directory .  '/public && php -S localhost:8000');
   }
 }
