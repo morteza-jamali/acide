@@ -14,7 +14,7 @@ class Install extends Command
     $vendors = ['apps/ide/vendor', 'apps/website/vendor'];
 
     // Install node modules
-    exec('npm install');
+    exec('npm install && npm run build:tools');
 
     // Link apps vendors autoload.php
     $filesystem = new Filesystem;

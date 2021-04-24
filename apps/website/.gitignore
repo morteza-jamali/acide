@@ -1,11 +1,11 @@
 /node_modules
 /public/*
-!public/storage
-!public/index.php
-!public/home.blade.php
-!public/.htaccess
-!public/Procfile
-!public/favicon.ico
+!/public/storage
+!/public/index.php
+!/public/home.blade.php
+!/public/.htaccess
+!/public/Procfile
+!/public/favicon.ico
 /vendor
 .env
 .phpunit.result.cache

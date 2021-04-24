@@ -3,10 +3,6 @@
   "type": "object",
   "cli": "nx",
   "properties": {
-    "outputPath": {
-      "type": "string",
-      "description": "Build output path"
-    },
     "fileReplacements": {
       "type": "array",
       "description": "Replace files",
