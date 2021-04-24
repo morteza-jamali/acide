@@ -56,7 +56,28 @@
       "sourceRoot": "apps/website",
       "projectType": "application",
       "targets": {
+        "pre-build": {
+          "executor": "./tools/executors/acide:fix-build",
+          "options": {
+            "clearDirectory": [
+              {
+                "path": "apps/website/public",
+                "gitignore": "apps/website/.gitignore"
+              }
+            ]
+          }
+        },
         "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm run nx run website:pre-build && npm run nx run website:first-build"
+              }
+            ]
+          }
+        },
+        "first-build": {
           "executor": "./tools/executors/acide:next-build",
           "outputs": [
             "{options.outputPath}"
@@ -83,9 +104,20 @@
           }
         },
         "export": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm run nx run website:first-export && npm run nx run website:fix-build"
+              }
+            ]
+          }
+        },
+        "first-export": {
           "executor": "./tools/executors/acide:next-export",
           "options": {
-            "buildTarget": "website:build:production"
+            "buildTarget": "website:build:production",
+            "outputPath": "apps/website/public"
           }
         },
         "test": {
@@ -103,6 +135,17 @@
           "options": {
             "lintFilePatterns": [
               "apps/website/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "fix-build": {
+          "executor": "./tools/executors/acide:fix-build",
+          "options": {
+            "fileReplacements": [
+              {
+                "src": "apps/website/public/index.html",
+                "dest": "apps/website/public/home.blade.php"
+              }
             ]
           }
         }

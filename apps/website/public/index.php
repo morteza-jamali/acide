@@ -1,6 +1,6 @@
 <?php
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/vendor/autoload.php';
+require_once  dirname(__DIR__) . '/vendor/autoload.php';
 
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
@@ -35,8 +35,8 @@ $container->instance(Application::class, $container);
 
 // Configuration
 // Note that you can set several directories where your templates are located
-$pathsToTemplates = [dirname(__DIR__) . '/pages'];
-$pathToCompiledTemplates = dirname(__DIR__) . '/storage/views';
+$pathsToTemplates = [__DIR__];
+$pathToCompiledTemplates = __DIR__ . '/storage/views';
 
 // Dependencies
 $filesystem = new Filesystem;

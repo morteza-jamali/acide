@@ -36,16 +36,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs_1 = require("fs");
+var fs_extra_1 = require("fs-extra");
 var output_1 = require("@nrwl/cli/lib/output");
+var parse_gitignore_1 = require("parse-gitignore");
+var glob_gitignore_1 = require("glob-gitignore");
+var rimraf_1 = require("rimraf");
 exports.default = (function (_options) { return __awaiter(void 0, void 0, void 0, function () {
     var _error;
-    var _a;
-    return __generator(this, function (_b) {
+    var _a, _b;
+    return __generator(this, function (_c) {
         try {
-            (_a = _options.fileReplacements) === null || _a === void 0 ? void 0 : _a.forEach(function (_a) {
+            (_a = _options.clearDirectory) === null || _a === void 0 ? void 0 : _a.forEach(function (_a) {
+                var path = _a.path, gitignore = _a.gitignore;
+                /*rimraf_1.sync(glob_gitignore_1.sync(path + "/**", {
+                    ignore: parse_gitignore_1.parse(fs_extra_1.readFileSync(gitignore)).patterns,
+                }));*/
+                console.log(glob_gitignore_1.sync(path + '/**/*', {
+                  ignore: parse_gitignore_1.parse(fs_extra_1.readFileSync(gitignore)).patterns.map(function (value) {
+                    return path + '/' + value;
+                  }),
+              }));
+            });
+            (_b = _options.fileReplacements) === null || _b === void 0 ? void 0 : _b.forEach(function (_a) {
                 var src = _a.src, dest = _a.dest;
-                return fs_1.renameSync(src, dest);
+                return fs_extra_1.moveSync(src, dest, { overwrite: true });
             });
             output_1.output.success({ title: 'fix-build task executed successfully !' });
         }

@@ -1,11 +1,8 @@
 import { ExecutorContext } from '@nrwl/devkit';
-
 import build from 'next/dist/build';
 import { PHASE_PRODUCTION_BUILD } from 'next/dist/next-server/lib/constants';
-
 import { join, resolve } from 'path';
 import { copySync, mkdir } from 'fs-extra';
-
 import { prepareConfig } from '@nrwl/next/src/utils/config';
 import { NextBuildBuilderOptions } from '@nrwl/next/src/utils/types';
 import { createPackageJson } from '@nrwl/next/src/executors/build/lib/create-package-json';

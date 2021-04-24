@@ -5,13 +5,20 @@
   "properties": {
     "outputPath": {
       "type": "string",
-      "description": "build output path"
+      "description": "Build output path"
     },
     "fileReplacements": {
       "type": "array",
-      "description": "replace files",
+      "description": "Replace files",
       "items": {
         "$ref": "#/definitions/fileReplacements"
+      }
+    },
+    "clearDirectory": {
+      "type": "array",
+      "description": "Clear a directory by .gitignore pattern",
+      "items": {
+        "$ref": "#/definitions/clearDirectory"
       }
     }
   },
@@ -25,11 +32,28 @@
       "properties": {
         "src": {
           "type": "string",
-          "description": "source file"
+          "description": "Source file"
         },
         "dest": {
           "type": "string",
-          "description": "destination file"
+          "description": "Destination file"
+        }
+      }
+    },
+    "clearDirectory": {
+      "type": "object",
+      "required": [
+        "path",
+        "gitignore"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Destination directory path"
+        },
+        "gitignore": {
+          "type": "string",
+          "description": ".gitignore file path"
         }
       }
     }

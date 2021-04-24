@@ -39,7 +39,7 @@
       "Database\\Seeders\\": "apps/ide/database/seeders/"
     },
     "classmap": [
-      "libs/monorepo-commands"
+      "tools/console/commands"
     ]
   },
   "autoload-dev": {

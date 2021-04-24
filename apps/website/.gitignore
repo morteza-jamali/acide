@@ -1,10 +1,12 @@
 /node_modules
-public/**
+/public/*
+!public/storage
 !public/index.php
+!public/home.blade.php
 !public/.htaccess
 !public/Procfile
+!public/favicon.ico
 /vendor
-/storage/views/*.php
 .env
 .phpunit.result.cache
 npm-debug.log

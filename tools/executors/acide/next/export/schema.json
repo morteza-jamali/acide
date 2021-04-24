@@ -8,6 +8,10 @@
       "type": "string",
       "description": "Target which builds the application"
     },
+    "outputPath": {
+      "type": "string",
+      "description": "The output path of the generated files."
+    },
     "silent": {
       "type": "boolean",
       "description": "Hide progress or not (default is false)",

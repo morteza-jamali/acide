@@ -45,6 +45,7 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var devkit_1 = require("@nrwl/devkit");
 var export_1 = require("next/dist/export");
+var fix_build_impl_1 = require("../../fix-build/fix-build.impl");
 var constants_1 = require("next/dist/next-server/lib/constants");
 var path_1 = require("path");
 var config_1 = require("@nrwl/next/src/utils/config");
@@ -55,40 +56,40 @@ catch (e) { }
 function exportExecutor(options, context) {
     var e_1, _a;
     return __awaiter(this, void 0, void 0, function () {
-        var buildTarget, build, build_1, build_1_1, result, e_1_1, buildOptions, root, config;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var buildTarget, build, build_1, build_1_1, result, e_1_1, buildOptions, root, config, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     buildTarget = devkit_1.parseTargetString(options.buildTarget);
                     return [4 /*yield*/, devkit_1.runExecutor(buildTarget, {}, context)];
                 case 1:
-                    build = _b.sent();
-                    _b.label = 2;
+                    build = _c.sent();
+                    _c.label = 2;
                 case 2:
-                    _b.trys.push([2, 7, 8, 13]);
+                    _c.trys.push([2, 7, 8, 13]);
                     build_1 = __asyncValues(build);
-                    _b.label = 3;
+                    _c.label = 3;
                 case 3: return [4 /*yield*/, build_1.next()];
                 case 4:
-                    if (!(build_1_1 = _b.sent(), !build_1_1.done)) return [3 /*break*/, 6];
+                    if (!(build_1_1 = _c.sent(), !build_1_1.done)) return [3 /*break*/, 6];
                     result = build_1_1.value;
                     if (!result.success) {
                         return [2 /*return*/, result];
                     }
-                    _b.label = 5;
+                    _c.label = 5;
                 case 5: return [3 /*break*/, 3];
                 case 6: return [3 /*break*/, 13];
                 case 7:
-                    e_1_1 = _b.sent();
+                    e_1_1 = _c.sent();
                     e_1 = { error: e_1_1 };
                     return [3 /*break*/, 13];
                 case 8:
-                    _b.trys.push([8, , 11, 12]);
+                    _c.trys.push([8, , 11, 12]);
                     if (!(build_1_1 && !build_1_1.done && (_a = build_1.return))) return [3 /*break*/, 10];
                     return [4 /*yield*/, _a.call(build_1)];
                 case 9:
-                    _b.sent();
-                    _b.label = 10;
+                    _c.sent();
+                    _c.label = 10;
                 case 10: return [3 /*break*/, 12];
                 case 11:
                     if (e_1) throw e_1.error;
@@ -99,7 +100,7 @@ function exportExecutor(options, context) {
                     root = path_1.resolve(context.root, buildOptions.root);
                     return [4 /*yield*/, config_1.prepareConfig(constants_1.PHASE_EXPORT, buildOptions, context)];
                 case 14:
-                    config = _b.sent();
+                    config = _c.sent();
                     return [4 /*yield*/, export_1.default(root, {
                             statusMessage: 'Exporting',
                             silent: options.silent,
@@ -107,8 +108,23 @@ function exportExecutor(options, context) {
                             outdir: buildOptions.outputPath + "/exported",
                         }, config)];
                 case 15:
-                    _b.sent();
-                    return [2 /*return*/, { success: true }];
+                    _c.sent();
+                    if (!options.outputPath) return [3 /*break*/, 17];
+                    return [4 /*yield*/, fix_build_impl_1.default({
+                            fileReplacements: [
+                                {
+                                    src: buildOptions.outputPath + "/exported",
+                                    dest: options.outputPath,
+                                },
+                            ],
+                        })];
+                case 16:
+                    _b = _c.sent();
+                    return [3 /*break*/, 18];
+                case 17:
+                    _b = { success: true };
+                    _c.label = 18;
+                case 18: return [2 /*return*/, _b];
             }
         });
     });

@@ -5,6 +5,7 @@ import {
   runExecutor,
 } from '@nrwl/devkit';
 import exportApp from 'next/dist/export';
+import fixBuildExecutor from '../../fix-build/fix-build.impl';
 import { PHASE_EXPORT } from 'next/dist/next-server/lib/constants';
 import { resolve } from 'path';
 import { prepareConfig } from '@nrwl/next/src/utils/config';
@@ -13,12 +14,16 @@ import {
   NextExportBuilderOptions,
 } from '@nrwl/next/src/utils/types';
 
+interface Options extends NextExportBuilderOptions {
+  outputPath?: string;
+}
+
 try {
   require('dotenv').config();
 } catch (e) {}
 
 export default async function exportExecutor(
-  options: NextExportBuilderOptions,
+  options: Options,
   context: ExecutorContext
 ) {
   const buildTarget = parseTargetString(options.buildTarget);
@@ -48,5 +53,14 @@ export default async function exportExecutor(
     config
   );
 
-  return { success: true };
+  return options.outputPath
+    ? await fixBuildExecutor({
+        fileReplacements: [
+          {
+            src: `${buildOptions.outputPath}/exported`,
+            dest: options.outputPath,
+          },
+        ],
+      })
+    : { success: true };
 }
