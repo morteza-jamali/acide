@@ -1,6 +1,6 @@
 import React from 'react';
-import { Window } from './window';
+import { Window } from '.';
 
 export const BasicWindow = () => (
-  <Window text="hello from Window" />
+  <Window/>
 );
